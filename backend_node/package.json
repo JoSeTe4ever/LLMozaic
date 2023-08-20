@@ -1,0 +1,20 @@
+{
+  "name": "nylas-send-read-emails-node",
+  "version": "0.1.0",
+  "description": "Demo using the Nylas Node SDK and ExpressJS.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Nylas Team",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.14.0",
+    "nylas": "6.8.0",
+    "request": "^2.74.0",
+    "uuid": "^8.3.2"
+  }
+}
