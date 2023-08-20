@@ -23,5 +23,4 @@ pip install pillow
 - Define several tools actions in LangChain (e.g. translate, summarize, check my calendar for free spots and send-email with meeting proposals, etc.)
 
 
-viajeroeneltiempo84@gmail.com  
-tangoycash32!
+viajeroeneltiempo84@gmail.com
