@@ -1,0 +1,25 @@
+{
+  "name": "nylas-send-read-emails-react",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "vite --port 3000 --open",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@nylas/nylas-react": "^0.1.0",
+    "dompurify": "^2.3.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "sass": "^1.55.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "@vitejs/plugin-react": "^2.1.0",
+    "prop-types": "^15.8.1",
+    "vite": "^3.1.0"
+  }
+}

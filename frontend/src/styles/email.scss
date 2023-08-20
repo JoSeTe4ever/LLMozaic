@@ -1,0 +1,522 @@
+@import './base.scss';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Source+Sans+Pro&display=swap');
+
+.email-app {
+  width: 100%;
+  height: 100%;
+  display: none;
+  gap: $spacing-48;
+}
+
+.email-list-view {
+  flex: 1 0;
+  height: 100%;
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-flow: column;
+  gap: $spacing-8;
+  background-color: $color-white;
+
+  p {
+    margin: 0;
+  }
+
+  .title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: $spacing-12;
+
+    .title {
+      color: $color-grey-900;
+      font-weight: 600;
+      font-size: $fs-22;
+      line-height: 1.25;
+    }
+  }
+
+  .email-list-container {
+    overflow: hidden;
+
+    ul.email-list {
+      width: 100%;
+      height: 100%;
+      overflow-y: scroll;
+      padding: 0 $spacing-16 0 0;
+      box-sizing: content-box;
+      display: flex;
+      flex-flow: column;
+      gap: $spacing-8;
+    }
+
+    li.email-preview-container {
+      position: relative;
+      background-color: $color-white;
+      border: 1.5px solid $color-blue-100;
+      border-radius: $spacing-16;
+      padding: $spacing-16 $spacing-24;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: $spacing-16;
+      transition: all 200ms ease-out;
+
+      &:hover,
+      &.selected {
+        background-color: $color-blue-100;
+        border: 1.5px solid $color-blue-700;
+      }
+
+      .email-content {
+        min-width: 0;
+        .sender {
+          color: $color-grey-900;
+          font-weight: 600;
+          font-size: $fs-14;
+          line-height: 1.5;
+
+          .message-count {
+            color: $color-grey-800;
+            font-weight: 400;
+            font-size: $fs-14;
+            line-height: 1.5;
+            margin-left: $spacing-8;
+          }
+        }
+        .subject {
+          color: $color-grey-900;
+          font-weight: 600;
+          font-size: $fs-14;
+          line-height: 1.5;
+        }
+        .snippet {
+          font-weight: 400;
+          font-size: $fs-14;
+          line-height: 1.5;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .subject-container {
+          display: flex;
+          gap: $spacing-8;
+        }
+      }
+
+      .email-info {
+        display: flex;
+        align-items: center;
+        gap: $spacing-4;
+        flex-shrink: 0;
+        .time {
+          font-weight: 400;
+          font-size: $fs-14;
+          line-height: 1.5;
+        }
+      }
+    }
+  }
+}
+
+.email-detail-view {
+  flex: 1 0;
+  min-width: 0;
+
+  .selected {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: $spacing-8;
+    width: 100%;
+    height: 100%;
+  }
+
+  h3.title {
+    margin-top: $spacing-32;
+    color: $color-grey-900;
+    font-weight: 600;
+    font-size: $fs-16;
+    line-height: 1.5;
+  }
+
+  .label-container {
+    display: flex;
+    align-items: center;
+    gap: $spacing-8;
+
+    .label {
+      font-weight: 400;
+      font-size: $fs-12;
+      line-height: 1.5;
+      padding: 0 $spacing-4;
+      border-radius: $spacing-4;
+      background-color: $color-blue-50;
+
+      &.important {
+        background-color: $color-yellow-300;
+      }
+    }
+  }
+
+  .message-list {
+    overflow-y: auto;
+    width: 100%;
+    padding-right: $spacing-8;
+
+    .message-container {
+      position: relative;
+      width: 100%;
+      padding-top: $spacing-24;
+      cursor: pointer;
+
+      .loading-icon {
+        margin-top: $spacing-16;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        svg {
+          margin-right: $spacing-8;
+          animation: syncing-rotate 1.2s linear infinite;
+        }
+      }
+
+      @keyframes syncing-rotate {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      p.snippet {
+        font-weight: 400;
+        font-size: $fs-14;
+        line-height: 1.5;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .message-border {
+        padding-top: 6px;
+        width: 100%;
+        height: 20px;
+        border-bottom: 1px solid $color-blue-100;
+        text-align: center;
+
+        span {
+          color: $color-blue-500;
+          font-weight: 400;
+          font-size: $fs-12;
+          line-height: 1.5;
+          background-color: $color-white;
+          padding: 0 $spacing-8;
+
+          transition: all 100ms ease-out;
+        }
+
+        &:hover span {
+          color: $color-blue-900;
+        }
+      }
+    }
+
+    .message-container:last-child {
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+  }
+
+  .email-info {
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    font-weight: 400;
+    font-size: $fs-14;
+    line-height: 1.5;
+
+    .sender-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+
+      .sender {
+        display: flex;
+        align-items: center;
+        gap: $spacing-8;
+
+        .sender-name {
+          color: $color-grey-900;
+          font-weight: 600;
+        }
+      }
+    }
+
+    .receiver-container {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      align-self: flex-start;
+
+      button.collapse-button {
+        margin-left: $spacing-4;
+        border-radius: $spacing-4;
+        padding: $spacing-8 $spacing-4;
+        border: none;
+        background-color: transparent;
+
+        .collapse-icon {
+          transition: all 100ms ease-out;
+          &.open {
+            transform: rotate(180deg);
+          }
+        }
+      }
+
+      &:hover button.collapse-button {
+        background-color: $color-blue-100;
+      }
+    }
+
+    .participants-container {
+      width: 100%;
+      padding: $spacing-16 $spacing-32;
+      border: 1px solid $color-blue-100;
+      border-radius: $spacing-16;
+      margin-top: $spacing-16;
+
+      gap: $spacing-8;
+      display: grid;
+      grid-template: 1fr auto / auto 1fr;
+
+      .participants-title {
+        display: flex;
+        align-items: flex-start;
+        color: $color-grey-900;
+        font-weight: 600;
+        font-size: $fs-14;
+        line-height: 1.5;
+      }
+
+      .participants-list {
+        display: flex;
+        flex-flow: column;
+        align-items: flex-start;
+        gap: $spacing-4;
+      }
+    }
+  }
+
+  .email-body {
+    width: 100%;
+    min-height: 0;
+    margin-top: $spacing-16;
+    display: flex;
+    flex-flow: column;
+    gap: $spacing-16;
+    cursor: default;
+
+    .email-body-html {
+      word-break: break-word;
+      font-weight: 400;
+      font-size: $fs-16;
+      line-height: 1.5;
+    }
+
+    .attachment-container {
+      .attachment-title {
+        display: flex;
+        align-items: center;
+        gap: $spacing-8;
+        padding-right: $spacing-12;
+        font-weight: 400;
+        font-size: $fs-12;
+        line-height: 1.5;
+
+        .line {
+          border-top: 1px solid $color-blue-100;
+          width: 100%;
+        }
+      }
+      .attachment-files {
+        margin-top: $spacing-8;
+        display: flex;
+        align-items: center;
+        gap: $spacing-16;
+
+        .attachment {
+          color: $color-blue-500;
+          font-weight: 400;
+          font-size: $fs-14;
+          line-height: 1.5;
+          display: flex;
+          align-items: center;
+          gap: $spacing-2;
+          cursor: pointer;
+          transition: all 200ms ease-out;
+          &:hover {
+            color: $color-blue-900;
+          }
+        }
+      }
+    }
+
+    .actions-container {
+      display: flex;
+      align-items: center;
+      gap: $spacing-8;
+    }
+  }
+
+  .empty-email {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    gap: $spacing-8;
+    font-weight: 400;
+    font-size: $fs-14;
+    line-height: 1.5;
+  }
+}
+
+.email-compose-view {
+  flex: 1 0;
+  min-width: 0;
+  display: flex;
+  flex-flow: column;
+
+  h3.title {
+    padding: $spacing-16;
+    color: $color-grey-900;
+    font-weight: 600;
+    font-size: $fs-16;
+    line-height: 1.25;
+  }
+
+  .input-container {
+    display: grid;
+    align-items: center;
+    grid-template-columns: max-content auto;
+    grid-template-rows: 1fr auto 1fr auto;
+
+    label.input-label {
+      padding-left: $spacing-16;
+      font-weight: 400;
+      font-size: $fs-14;
+      line-height: 1.5;
+    }
+
+    input {
+      padding: $spacing-12 $spacing-16;
+      border: 0;
+      outline: 0;
+      font-weight: 400;
+      font-size: $fs-16;
+      line-height: 1.5;
+
+      &::placeholder {
+        color: $color-grey-700;
+        font-weight: 400;
+        font-size: $fs-14;
+      }
+    }
+
+    .line {
+      grid-column: 1/ -1;
+      height: 0;
+      border-bottom: 1px solid $color-blue-100;
+      width: 100%;
+    }
+  }
+
+  textarea.message-body {
+    padding: $spacing-16;
+    border: 0;
+    outline: 0;
+    font-weight: 400;
+    font-size: $fs-16;
+    line-height: 1.5;
+    resize: none;
+
+    &::placeholder {
+      color: $color-grey-700;
+      font-weight: 400;
+      font-size: $fs-14;
+    }
+  }
+
+  .composer-button-group {
+    display: flex;
+    align-items: center;
+    gap: $spacing-8;
+    justify-content: space-between;
+  }
+
+  &.small {
+    border: 1px solid $color-blue-100;
+    border-radius: $spacing-16;
+    .input-container {
+      overflow: visible;
+      grid-template-rows: 1fr;
+      padding-right: $spacing-16;
+      border-bottom: 1px solid $color-blue-100;
+
+      input {
+        padding-right: 0;
+      }
+    }
+
+    textarea.message-body {
+      margin-bottom: $spacing-16;
+    }
+    .composer-button-group {
+      padding: $spacing-16;
+    }
+  }
+}
+
+.loading-text {
+  width: 100%;
+  align-self: center;
+  text-align: center;
+  color: $color-grey-900;
+  font-weight: 600;
+  font-size: $fs-22;
+  line-height: 1.25;
+}
+
+.mobile-warning {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  gap: $spacing-32;
+
+  h2 {
+    color: $color-grey-900;
+    font-weight: 600;
+    font-size: $fs-22;
+    line-height: 1.25;
+  }
+
+  p {
+    font-weight: 600;
+    font-size: $fs-16;
+    line-height: 1.5;
+  }
+}
+
+@media #{$desktop} {
+  .email-app {
+    display: flex;
+  }
+}
