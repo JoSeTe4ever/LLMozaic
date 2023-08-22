@@ -18,3 +18,4 @@ websocket-client==0.59.0 ; python_version >= '2.6' and python_version not in '3.
 werkzeug==2.2.2 ; python_version >= '3.7'
 langchain
 openai
+requests
