@@ -43,7 +43,7 @@ source env/bin/activate
 **Windows (PowerShell)**
 
 ```bash
-python3 -m venv env
+python3 -m venv environment
 .\env\Scripts\activate.bat
 ```
 

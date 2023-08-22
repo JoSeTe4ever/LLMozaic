@@ -287,3 +287,73 @@ def send_email():
     # Return the sent message object
     return message
 
+@flask_app.route('/nylas/create-events', methods=['POST'])
+@is_authenticated
+def create_events():
+    # Creates an event in the authenticated user's calendar.
+    request_body = request.get_json()
+
+    calendar_id = request_body['calendarId']
+    title = request_body['title']
+    description = request_body['description']
+    start_time = request_body['startTime']
+    end_time = request_body['endTime']
+    participants = request_body['participants']
+
+    if not calendar_id or not title or not start_time or not end_time:
+        return 'Missing required fields: calendarId, title, starTime or endTime', 400
+
+    event = nylas.events.create()
+
+    event.title = title
+    event.description = description
+    event.when = {
+        'start_time': start_time,
+        'end_time': end_time,
+    }
+    event.calendar_id = calendar_id
+    if participants:
+        event.participants = [{"email": email}
+                              for email in participants.split(", ")]
+
+    event.save(notify_participants=True)
+
+    return event.as_json(enforce_read_only=False)
+
+
+@flask_app.route('/nylas/read-events', methods=['GET'])
+@is_authenticated
+def read_events():
+    # Retrieves all events from a calendar.
+    calendar_id = request.args.get('calendarId')
+    starts_after = request.args.get('startsAfter')
+    ends_before = request.args.get('endsBefore')
+    limit = request.args.get('limit')
+
+    # Use the SDK method chaining to retrieve all events from the given calendar
+    # where() sets the query parameters for the request
+    # all() executes the request and return the results
+    res = nylas.events.where(
+        calendar_id=calendar_id,
+        starts_after=starts_after,
+        ends_before=ends_before,
+        limit=int(limit)
+    ).all()
+
+    # enforce_read_only=False is used to return the full event objects
+    res_json = [item.as_json(enforce_read_only=False) for item in res]
+
+    return res_json
+
+
+
+@flask_app.route('/nylas/read-calendars', methods=['GET'])
+@is_authenticated
+def read_calendars():
+    # Retrieves all calendars for the authenticated user.
+    res = nylas.calendars.all()
+
+    # enforce_read_only=False is used to return the full calendar objects
+    res_json = [item.as_json(enforce_read_only=False) for item in res]
+
+    return res_json
