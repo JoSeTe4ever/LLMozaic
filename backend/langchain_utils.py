@@ -35,11 +35,13 @@ class SendEmailToolWithTemplate(BaseTool):
     chain = LLMChain(llm=openAILLM, prompt=json_prompt);
 
     def _run(self, to: str, sender: str, topic: str ) -> str:
+        
         url = 'http://localhost:9000/nylas/send-email'
         jsonString = self.chain.run({"topicEmail": topic, "toEmail": to, "bodyEmail": "This is the body of the email", "fromEmail": sender})
         jsonObject = json.loads(jsonString)
         print('objeto a enviar', jsonObject)
-        headers = {'Authorization': '93765df7-9d23-45e1-901d-4b41a34e2a56'}
+        NYLAS_RUNTIME_AUTH_KEY = os.getenv("NYLAS_RUNTIME_AUTH_KEY");
+        headers = {'Authorization': NYLAS_RUNTIME_AUTH_KEY}
         response = requests.post(url, json=jsonObject, headers = headers)
         print('response', response)
         return "Sending email"
