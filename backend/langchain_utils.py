@@ -7,7 +7,7 @@ from langchain.tools import BaseTool
 import requests
 import dotenv
 import os
-
+import json
 
 class SendEmailToolWithTemplate(BaseTool):
     name = "send_email_with_template"
@@ -36,9 +36,11 @@ class SendEmailToolWithTemplate(BaseTool):
 
     def _run(self, to: str, sender: str, topic: str ) -> str:
         url = 'http://localhost:9000/nylas/send-email'
-        jsonObject = self.chain.run({"topicEmail": topic, "toEmail": to, "bodyEmail": "This is the body of the email", "fromEmail": sender})
+        jsonString = self.chain.run({"topicEmail": topic, "toEmail": to, "bodyEmail": "This is the body of the email", "fromEmail": sender})
+        jsonObject = json.loads(jsonString)
         print('objeto a enviar', jsonObject)
-        response = requests.post(url, json=jsonObject)
+        headers = {'Authorization': '93765df7-9d23-45e1-901d-4b41a34e2a56'}
+        response = requests.post(url, json=jsonObject, headers = headers)
         print('response', response)
         return "Sending email"
     
