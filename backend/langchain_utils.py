@@ -4,33 +4,24 @@ from langchain import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
 from langchain.tools import BaseTool
+import requests
 import dotenv
 import os
-
-# CUSTOM TOOLS
-class SendEmailTool(BaseTool):
-    name = "send_email"
-    description = "Send an email to someone"
-
-    def _run(self, to: str, sender: str, topic: str ) -> str:
-        print("""Sending email to {text}""")
-        return "Sending email to {text}"
-    
-    async def _arun() -> str:
-        return "Sending email to {text}"
-
+import json
 
 class SendEmailToolWithTemplate(BaseTool):
-    name = "create_an_appointment"
+    name = "send_email_with_template"
     description = "Create an appoiment with someone"
 
     json_object_template= """
     Create a json object that looks like this
     {{
-        subject: {topicEmail},
-        to: {toEmail},
-        body: {bodyEmail},
-        from: {fromEmail}
+        "object":"draft",
+        "subject": "{topicEmail}",
+        "to": "{toEmail}",
+        "body": "{bodyEmail}",
+        "from": "{fromEmail}",
+        isOpen": true
     }}
     """
 
@@ -44,8 +35,16 @@ class SendEmailToolWithTemplate(BaseTool):
     chain = LLMChain(llm=openAILLM, prompt=json_prompt);
 
     def _run(self, to: str, sender: str, topic: str ) -> str:
-        print(self.chain.run({"topicEmail": topic, "toEmail": to, "bodyEmail": "This is the body of the email", "fromEmail": sender}))
-        return "Sending email to {text}"
+        
+        url = 'http://localhost:9000/nylas/send-email'
+        jsonString = self.chain.run({"topicEmail": topic, "toEmail": to, "bodyEmail": "This is the body of the email", "fromEmail": sender})
+        jsonObject = json.loads(jsonString)
+        print('objeto a enviar', jsonObject)
+        NYLAS_RUNTIME_AUTH_KEY = os.getenv("NYLAS_RUNTIME_AUTH_KEY");
+        headers = {'Authorization': NYLAS_RUNTIME_AUTH_KEY}
+        response = requests.post(url, json=jsonObject, headers = headers)
+        print('response', response)
+        return "Sending email"
     
     async def _arun() -> str:
         return "Sending email to {text}"
