@@ -14,7 +14,7 @@ class SendEmailToolWithTemplate(BaseTool):
     description = "Create an appoiment with someone"
 
     json_object_template= """
-    Create a json object that looks like this
+    Create a json object that looks like this if there is only one to field value
     {{
         "object":"draft",
         "subject": "{topicEmail}",
@@ -34,7 +34,7 @@ class SendEmailToolWithTemplate(BaseTool):
     # what is always running the model is a chain
     chain = LLMChain(llm=openAILLM, prompt=json_prompt);
 
-    def _run(self, to: str, sender: str, topic: str ) -> str:
+    def _run(self, to, sender: str, topic: str ) -> str:
         
         url = 'http://localhost:9000/nylas/send-email'
         jsonString = self.chain.run({"topicEmail": topic, "toEmail": to, "bodyEmail": "This is the body of the email", "fromEmail": sender})
@@ -53,9 +53,7 @@ class SendEmailToolWithTemplate(BaseTool):
 
 dotenv.load_dotenv()
 OPEN_API_KEY = os.getenv("OPEN_API_KEY");
-
 openAILLM = ChatOpenAI(openai_api_key=OPEN_API_KEY, temperature=0, model_name="gpt-3.5-turbo")
-
 agent = initialize_agent(tools=[SendEmailToolWithTemplate()], llm=openAILLM, agent="structured-chat-zero-shot-react-description", verbose=True)
 
 
