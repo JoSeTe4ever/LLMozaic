@@ -10,9 +10,51 @@ import os
 import json
 
 
-class SendEmailToolWithTemplate(BaseTool):
+
+class GetContacts(BaseTool):
+    name = "get_contacts"
+    description = "Useful for when you need to recieve the information of all the contacts in json format"
+
+    dotenv.load_dotenv()
+    NYLAS_RUNTIME_AUTH_KEY = os.getenv("NYLAS_RUNTIME_AUTH_KEY")
+
+    def _run(self) -> str:
+        url = 'http://localhost:9000/nylas/contacts'
+        
+        # Configura encabezados y envía la solicitud
+        headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
+        response = requests.get(url, headers=headers)
+        return response.json();
+
+    async def _arun(self) -> str:
+        headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
+        reponse = await requests.get(url, headers=headers);
+        return reponse.json();
+
+class ReadEmails(BaseTool):
+    name = "read_emails"
+    description = "Useful for when you need to recieve or to read the latest emails from your inbox in json format"
+
+    dotenv.load_dotenv()
+    NYLAS_RUNTIME_AUTH_KEY = os.getenv("NYLAS_RUNTIME_AUTH_KEY")
+
+    def _run(self) -> str:
+        url = 'http://localhost:9000/nylas/read-emails'
+        
+        # Configura encabezados y envía la solicitud
+        headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
+        response = requests.get(url, headers=headers)
+        return response.json();
+
+    async def _arun(self) -> str:
+        headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
+        reponse = await requests.get(url, headers=headers);
+        return reponse.json();
+
+
+class SendEmail(BaseTool):
     name = "send_email_with_template"
-    description = "Send an email to someone email address"
+    description = "Useful for when you need to send an email to one person or several people"
 
     # Plantilla JSON para el prompt
     json_object_template = """

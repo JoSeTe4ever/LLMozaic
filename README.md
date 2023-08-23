@@ -22,6 +22,7 @@ pip install pillow
 - https://raw.githubusercontent.com/tjperry07/spec-testing/master/api.yaml  NYLAS OPEN API DEF
 - https://www.geeksforgeeks.org/build-chatbot-webapp-with-langchain/ tutorial para leer. Básicamente es eso lo que queremos.
 - https://github.com/langchain-ai/langchain/issues/4884 Para ver código Langchain un poco más avanzado.
+- https://blog.langchain.dev/structured-tools/ hay que leer esto
 
 
 viajeroeneltiempo84@gmail.com

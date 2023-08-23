@@ -155,7 +155,7 @@ app.post('/nylas/create-events', isAuthenticated, express.json(), (req, res) =>
 
 // Add route for getting all contacts
 app.get('/nylas/contacts', isAuthenticated, express.json(), (req, res) =>
-  route.createEvents(req, res)
+  route.getAllContacts(req, res)
 );
 
 
