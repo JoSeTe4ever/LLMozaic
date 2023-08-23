@@ -138,5 +138,27 @@ app.get('/nylas/file', isAuthenticated, async (req, res) => {
   route.getFile(req, res);
 });
 
+// Add route for getting 20 latest calendar events
+app.get('/nylas/read-events', isAuthenticated, (req, res) =>
+  route.readEvents(req, res)
+);
+
+// Add route for getting 20 latest calendar events
+app.get('/nylas/read-calendars', isAuthenticated, (req, res) =>
+  route.readCalendars(req, res)
+);
+
+// Add route for creating calendar events
+app.post('/nylas/create-events', isAuthenticated, express.json(), (req, res) =>
+  route.createEvents(req, res)
+);
+
+// Add route for getting all contacts
+app.get('/nylas/contacts', isAuthenticated, express.json(), (req, res) =>
+  route.createEvents(req, res)
+);
+
+
+
 // Start listening on port 9000
 app.listen(port, () => console.log('App listening on port ' + port));

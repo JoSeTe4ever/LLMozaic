@@ -19,6 +19,9 @@ pip install pillow
 
 - https://medium.com/devgauge/create-your-own-custom-tailored-ai-powered-personal-assistant-using-langchainagentfactory-8573cc2f67bc
 - Define several tools actions in LangChain (e.g. translate, summarize, check my calendar for free spots and send-email with meeting proposals, etc.)
+- https://raw.githubusercontent.com/tjperry07/spec-testing/master/api.yaml  NYLAS OPEN API DEF
+- https://www.geeksforgeeks.org/build-chatbot-webapp-with-langchain/ tutorial para leer. Básicamente es eso lo que queremos.
+- https://github.com/langchain-ai/langchain/issues/4884 Para ver código Langchain un poco más avanzado.
 
 
 viajeroeneltiempo84@gmail.com
@@ -26,3 +29,9 @@ viajeroeneltiempo84@gmail.com
 ##TODO
 
 - [ ] Set the authorization header in the request dynamically from the frontend.
+
+
+## PROMPT EXAMPLES: 
+
+- Summarize the last email I received regarding Silicon Valley Bank. Send the summary to the #test-zapier channel in slack.
+- Send a happy birthday email to my friend John Doe with a picture of a cake.
