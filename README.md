@@ -23,6 +23,9 @@ pip install pillow
 - https://www.geeksforgeeks.org/build-chatbot-webapp-with-langchain/ tutorial para leer. Básicamente es eso lo que queremos.
 - https://github.com/langchain-ai/langchain/issues/4884 Para ver código Langchain un poco más avanzado.
 - https://blog.langchain.dev/structured-tools/ hay que leer esto
+- https://developer.nylas.com/docs/calendar/parse-contacts-from-events/
+- https://github.com/zahidkhawaja/langchain-chat-nextjs para el frontend
+
 
 
 viajeroeneltiempo84@gmail.com
