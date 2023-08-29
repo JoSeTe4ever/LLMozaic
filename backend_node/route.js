@@ -1,5 +1,5 @@
-const { default: Draft } = require('nylas/lib/models/draft');
-const Nylas = require('nylas');
+const { default: Draft } = require("nylas/lib/models/draft");
+const Nylas = require("nylas");
 
 exports.sendEmail = async (req, res) => {
   const user = res.locals.user;
@@ -56,7 +56,7 @@ exports.getFile = async (req, res) => {
 exports.readEvents = async (req, res) => {
   const user = res.locals.user;
 
-  const { calendarId, startsAfter, endsBefore, limit } = req.query;
+  const { calendarId, startsAfter, endsBefore, limit } = req.body;
 
   const events = await Nylas.with(user.accessToken)
     .events.list({
@@ -86,10 +86,12 @@ exports.createEvents = async (req, res) => {
   const { calendarId, title, description, startTime, endTime, participants } =
     req.body;
 
+  console.log(JSON.stringify(req.body));
+
   if (!calendarId || !title || !startTime || !endTime) {
     return res.status(400).json({
       message:
-        'Missing required fields: calendarId, title, starTime or endTime',
+        "Missing required fields: calendarId, title, starTime or endTime",
     });
   }
 
@@ -117,9 +119,19 @@ exports.createEvents = async (req, res) => {
 exports.getAllContacts = async (req, res) => {
   const user = res.locals.user;
 
-  const calendars = await Nylas.with(user.accessToken)
+  const contacts = await Nylas.with(user.accessToken)
     .contacts.list()
     .then((contacts) => contacts);
 
-  return res.json(calendars);
+  return res.json(contacts);
+};
+
+exports.getContactById = async (req, res) => {
+  const user = res.locals.user;
+
+  const contact = await Nylas.with(user.accessToken)
+    .contacts.find(id)
+    .then((contact) => contact);
+
+  return res.json(contact);
 };

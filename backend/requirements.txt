@@ -19,3 +19,4 @@ werkzeug==2.2.2 ; python_version >= '3.7'
 langchain
 openai
 requests
+tiktoken

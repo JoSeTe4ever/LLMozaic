@@ -27,6 +27,8 @@ pip install pillow
 - https://github.com/zahidkhawaja/langchain-chat-nextjs para el frontend
 - Langsmith para hacer testing y debugging de la applicacion 
 - https://blog.langchain.dev/conversational-retrieval-agents/
+- https://www.pinecone.io/learn/series/langchain/langchain-agents/
+- https://www.kaggle.com/code/robalaban/using-langchain-to-query-google-calendar-events/notebook
 
 viajeroeneltiempo84@gmail.com
 
@@ -39,3 +41,9 @@ viajeroeneltiempo84@gmail.com
 
 - Summarize the last email I received regarding Silicon Valley Bank. Send the summary to the #test-zapier channel in slack.
 - Send a happy birthday email to my friend John Doe with a picture of a cake.
+
+
+- read my last email
+- respond to this email sender saying that XXX
+- When is the best time to schedule a one hour workout
+- Get all my events from now until next week (or next month)

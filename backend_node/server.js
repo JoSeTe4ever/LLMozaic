@@ -74,7 +74,7 @@ app.post("/nylas/generate-auth-url", express.json(), async (req, res) => {
       Scope.EmailModify,
       Scope.EmailSend,
       Scope.Calendar,
-      Scope.Contacts
+      Scope.Contacts,
     ],
   });
 
@@ -144,7 +144,7 @@ app.get("/nylas/file", isAuthenticated, async (req, res) => {
 });
 
 // Add route for getting 20 latest calendar events
-app.get("/nylas/read-events", isAuthenticated, (req, res) =>
+app.post("/nylas/read-events", isAuthenticated, express.json(), (req, res) =>
   route.readEvents(req, res)
 );
 
@@ -161,6 +161,10 @@ app.post("/nylas/create-events", isAuthenticated, express.json(), (req, res) =>
 // Add route for getting all contacts
 app.get("/nylas/contacts", isAuthenticated, express.json(), (req, res) =>
   route.getAllContacts(req, res)
+);
+
+app.get("/nylas/contacts/{id}", isAuthenticated, express.json(), (req, res) =>
+  route.getContactById(req, res)
 );
 
 // Start listening on port 9000
