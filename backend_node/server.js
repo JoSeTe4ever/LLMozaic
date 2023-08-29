@@ -1,13 +1,13 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const mockDb = require('./utils/mock-db');
-const route = require('./route');
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const mockDb = require("./utils/mock-db");
+const route = require("./route");
 
-const Nylas = require('nylas');
-const { WebhookTriggers } = require('nylas/lib/models/webhook');
-const { Scope } = require('nylas/lib/models/connect');
-const { openWebhookTunnel } = require('nylas/lib/services/tunnel');
+const Nylas = require("nylas");
+const { WebhookTriggers } = require("nylas/lib/models/webhook");
+const { Scope } = require("nylas/lib/models/connect");
+const { openWebhookTunnel } = require("nylas/lib/services/tunnel");
 
 dotenv.config();
 
@@ -34,7 +34,7 @@ Nylas.application({
   redirectUris: [CLIENT_URI],
 }).then((applicationDetails) => {
   console.log(
-    'Application registered. Application Details: ',
+    "Application registered. Application Details: ",
     JSON.stringify(applicationDetails)
   );
 });
@@ -46,31 +46,36 @@ openWebhookTunnel({
     switch (delta.type) {
       case WebhookTriggers.MessageCreated:
         console.log(
-          'Webhook trigger received, message created. Details: ',
+          "Webhook trigger received, message created. Details: ",
           JSON.stringify(delta.objectData, undefined, 2)
         );
         break;
       case WebhookTriggers.AccountConnected:
         console.log(
-          'Webhook trigger received, account connected. Details: ',
+          "Webhook trigger received, account connected. Details: ",
           JSON.stringify(delta.objectData, undefined, 2)
         );
         break;
     }
   },
 }).then((webhookDetails) => {
-  console.log('Webhook tunnel registered. Webhook ID: ' + webhookDetails.id);
+  console.log("Webhook tunnel registered. Webhook ID: " + webhookDetails.id);
 });
 
 // '/nylas/generate-auth-url': This route builds the URL for
 // authenticating users to your Nylas application via Hosted Authentication
-app.post('/nylas/generate-auth-url', express.json(), async (req, res) => {
+app.post("/nylas/generate-auth-url", express.json(), async (req, res) => {
   const { body } = req;
 
   const authUrl = Nylas.urlForAuthentication({
     loginHint: body.email_address,
-    redirectURI: (CLIENT_URI || '') + body.success_url,
-    scopes: [Scope.EmailModify, Scope.EmailSend],
+    redirectURI: (CLIENT_URI || "") + body.success_url,
+    scopes: [
+      Scope.EmailModify,
+      Scope.EmailSend,
+      Scope.Calendar,
+      Scope.Contacts,
+    ],
   });
 
   return res.send(authUrl);
@@ -79,7 +84,7 @@ app.post('/nylas/generate-auth-url', express.json(), async (req, res) => {
 // '/nylas/exchange-mailbox-token': This route exchanges an authorization
 // code for an access token
 // and sends the details of the authenticated user to the client
-app.post('/nylas/exchange-mailbox-token', express.json(), async (req, res) => {
+app.post("/nylas/exchange-mailbox-token", express.json(), async (req, res) => {
   const body = req.body;
 
   const { accessToken, emailAddress } = await Nylas.exchangeCodeForToken(
@@ -87,7 +92,7 @@ app.post('/nylas/exchange-mailbox-token', express.json(), async (req, res) => {
   );
 
   // Normally store the access token in the DB
-  console.log('Access Token was generated for: ' + emailAddress);
+  console.log("Access Token was generated for: " + emailAddress);
 
   // Replace this mock code with your actual database operations
   const user = await mockDb.createOrUpdateUser(emailAddress, {
@@ -105,14 +110,14 @@ app.post('/nylas/exchange-mailbox-token', express.json(), async (req, res) => {
 // Middleware to check if the user is authenticated
 async function isAuthenticated(req, res, next) {
   if (!req.headers.authorization) {
-    return res.status(401).json('Unauthorized');
+    return res.status(401).json("Unauthorized");
   }
 
   // Query our mock db to retrieve the stored user access token
   const user = await mockDb.findUser(req.headers.authorization);
 
   if (!user) {
-    return res.status(401).json('Unauthorized');
+    return res.status(401).json("Unauthorized");
   }
 
   // Add the user to the response locals
@@ -122,43 +127,41 @@ async function isAuthenticated(req, res, next) {
 }
 
 // Handle routes
-app.post('/nylas/send-email', isAuthenticated, express.json(), (req, res) =>
+app.post("/nylas/send-email", isAuthenticated, express.json(), (req, res) =>
   route.sendEmail(req, res)
 );
 
-app.get('/nylas/read-emails', isAuthenticated, (req, res) =>
+app.get("/nylas/read-emails", isAuthenticated, (req, res) =>
   route.readEmails(req, res)
 );
 
-app.get('/nylas/message', isAuthenticated, async (req, res) => {
+app.get("/nylas/message", isAuthenticated, async (req, res) => {
   route.getMessage(req, res);
 });
 
-app.get('/nylas/file', isAuthenticated, async (req, res) => {
+app.get("/nylas/file", isAuthenticated, async (req, res) => {
   route.getFile(req, res);
 });
 
 // Add route for getting 20 latest calendar events
-app.get('/nylas/read-events', isAuthenticated, (req, res) =>
+app.get("/nylas/read-events", isAuthenticated, (req, res) =>
   route.readEvents(req, res)
 );
 
 // Add route for getting 20 latest calendar events
-app.get('/nylas/read-calendars', isAuthenticated, (req, res) =>
+app.get("/nylas/read-calendars", isAuthenticated, (req, res) =>
   route.readCalendars(req, res)
 );
 
 // Add route for creating calendar events
-app.post('/nylas/create-events', isAuthenticated, express.json(), (req, res) =>
+app.post("/nylas/create-events", isAuthenticated, express.json(), (req, res) =>
   route.createEvents(req, res)
 );
 
 // Add route for getting all contacts
-app.get('/nylas/contacts', isAuthenticated, express.json(), (req, res) =>
+app.get("/nylas/contacts", isAuthenticated, express.json(), (req, res) =>
   route.getAllContacts(req, res)
 );
 
-
-
 // Start listening on port 9000
-app.listen(port, () => console.log('App listening on port ' + port));
+app.listen(port, () => console.log("App listening on port " + port));

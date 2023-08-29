@@ -1,0 +1,565 @@
+@import './base.scss';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Source+Sans+Pro&display=swap');
+
+.calendar-app {
+  width: 100%;
+  height: 100%;
+  display: none;
+  gap: calc(#{$spacing-32} + #{$spacing-8});
+  color: $color-grey-900;
+}
+
+.hide {
+  display: none;
+}
+
+.scroll-shadow {
+  position: sticky;
+  height: 10px;
+  width: calc(100% - #{$spacing-12});
+  transition: opacity 200ms ease-out;
+  opacity: 1;
+
+  &.top {
+    top: 0;
+    -webkit-box-shadow: inset 0 5px 10px -10px #000000;
+    -moz-box-shadow: inset 0 5px 10px -10px #000000;
+    box-shadow: inset 0 5px 10px -10px #000000;
+    z-index: 1;
+  }
+
+  &.bottom {
+    bottom: 0;
+    -webkit-box-shadow: inset 0 -5px 10px -10px #000000;
+    -moz-box-shadow: inset 0 -5px 10px -10px #000000;
+    box-shadow: inset 0 -5px 10px -10px #000000;
+  }
+
+  &.hidden {
+    opacity: 0;
+  }
+}
+
+.scrollbar {
+  scrollbar-face-color: #d9d9d9; /* Firefox 63 compatibility */
+  scrollbar-track-color: transparent; /* Firefox 63 compatibility */
+  scrollbar-color: #d9d9d9 transparent;
+
+  &::-webkit-scrollbar {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-track {
+    margin: -1px 0px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #d9d9d9;
+    border: 3px solid transparent;
+    border-radius: $spacing-8;
+    background-clip: content-box;
+  }
+  .title {
+    @include font-style('Strong L');
+    padding-bottom: $spacing-16;
+  }
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+a {
+  color: $color-blue-500;
+  text-decoration: none;
+}
+
+.event-list-view {
+  flex: 1 0;
+  height: 100%;
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-flow: column;
+  gap: $spacing-8;
+  background-color: $color-white;
+  padding-top: $spacing-4;
+
+  .event-header {
+    display: flex;
+    margin-right: $spacing-28;
+    padding-bottom: $spacing-28;
+    border-bottom: 1px solid $color-grey-400;
+    justify-content: space-between;
+    align-items: center;
+
+    .title {
+      color: $color-grey-900;
+      font-weight: 600;
+      font-size: $fs-22;
+      line-height: 1.25;
+    }
+
+    .create-event {
+      @include font-style('Link M');
+    }
+  }
+
+  .event-list-container {
+    flex: 1;
+    overflow-y: scroll;
+    width: 100%;
+    margin-top: $spacing-12;
+
+    ul.event-list {
+      padding: 0 $spacing-12 0 0;
+      box-sizing: content-box;
+      display: flex;
+      flex-flow: column;
+      gap: $spacing-8;
+    }
+
+    li.event-preview-container {
+      position: relative;
+      background-color: $color-blue-50;
+      border-radius: $spacing-16;
+      padding: $spacing-16;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: $spacing-16;
+      transition: all 200ms ease-out;
+      box-sizing: border-box;
+      border: 2px solid transparent;
+
+      &:hover {
+        border: 2px solid $color-blue-500;
+      }
+
+      &.active {
+        background-color: $color-blue-500;
+
+        * {
+          color: $color-white !important;
+        }
+
+        .event-content .summary {
+          border-left-color: $color-white;
+        }
+      }
+
+      .event-content {
+        display: flex;
+        width: 100%;
+
+        .date {
+          width: $spacing-32;
+          margin: 0 $spacing-24 0 $spacing-16;
+          text-align: center;
+
+          .day {
+            @include font-style('Heading L');
+          }
+
+          .month {
+            @include font-style('Heading S');
+          }
+        }
+
+        .summary {
+          flex: 1;
+          padding-left: $spacing-24;
+          border-left: 1px solid $color-grey-200;
+          min-width: 0;
+
+          .title {
+            @include font-style('Heading M');
+          }
+
+          .time {
+            @include font-style('Body M');
+            color: $color-grey-800;
+          }
+        }
+        .sender {
+          color: $color-grey-900;
+          font-weight: 600;
+          font-size: $fs-14;
+          line-height: 1.5;
+        }
+        .subject {
+          color: $color-grey-900;
+          font-weight: 600;
+          font-size: $fs-14;
+          line-height: 1.5;
+        }
+        .subject-container {
+          display: flex;
+          gap: $spacing-8;
+        }
+      }
+
+      .event-info {
+        flex-shrink: 0;
+        .time {
+          font-weight: 400;
+          font-size: $fs-14;
+          line-height: 1.5;
+        }
+      }
+    }
+  }
+}
+
+.event-detail-view {
+  flex: 1 0;
+  min-width: 0;
+
+  .selected {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 100%;
+
+    .details {
+      display: flex;
+      flex-flow: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: $spacing-8;
+      width: 100%;
+      padding-bottom: $spacing-24;
+      border-bottom: 1px solid $color-grey-400;
+
+      .event-detail {
+        width: 100%;
+        display: flex;
+
+        p,
+        span {
+          @include font-style('Body L');
+
+          &.location {
+            flex: 1;
+          }
+
+          &.title {
+            @include font-style('Heading L');
+            flex: 1;
+          }
+        }
+      }
+    }
+
+    .description-container {
+      overflow-y: scroll;
+      width: calc(100% + #{$spacing-16});
+
+      .title {
+        padding-top: $spacing-24;
+      }
+
+      .conferencing-details {
+        p.title {
+          padding-bottom: calc(#{$spacing-8} - (#{$spacing-4} / 2));
+        }
+
+        p:not(.title) {
+          padding: $spacing-4 0;
+        }
+
+        .dial-in {
+          display: flex;
+          gap: $spacing-4;
+          padding: $spacing-4 0;
+        }
+
+        p.meeting-link {
+          display: flex;
+          gap: $spacing-4;
+        }
+
+        a.external-link {
+          flex: 1;
+          display: flex;
+          gap: $spacing-8;
+          align-items: center;
+        }
+      }
+
+      &::-webkit-scrollbar-track {
+        margin-top: $spacing-32;
+      }
+    }
+  }
+
+  .email-info {
+    width: 100%;
+    margin-top: $spacing-24;
+    display: flex;
+    flex-flow: column;
+    font-weight: 400;
+    font-size: $fs-14;
+    line-height: 1.5;
+
+    .sender-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+
+      .sender {
+        display: flex;
+        align-items: center;
+        gap: $spacing-8;
+
+        .sender-name {
+          color: $color-grey-900;
+          font-weight: 600;
+        }
+      }
+    }
+
+    .receiver-container {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      button.collapse-button {
+        margin-left: $spacing-4;
+        border-radius: $spacing-4;
+        padding: $spacing-8 $spacing-4;
+        border: none;
+        background-color: transparent;
+
+        .collapse-icon {
+          transition: all 100ms ease-out;
+          &.open {
+            transform: rotate(180deg);
+          }
+        }
+      }
+
+      &:hover button.collapse-button {
+        background-color: $color-blue-100;
+      }
+    }
+
+    .participants-container {
+      width: 100%;
+      padding: $spacing-16 $spacing-32;
+      border: 1px solid $color-blue-100;
+      border-radius: $spacing-16;
+      margin-top: $spacing-16;
+
+      gap: $spacing-8;
+      display: grid;
+      grid-template: 1fr auto / auto 1fr;
+
+      .participants-title {
+        display: flex;
+        align-items: flex-start;
+        color: $color-grey-900;
+        font-weight: 600;
+        font-size: $fs-14;
+        line-height: 1.5;
+      }
+
+      .participants-list {
+        display: flex;
+        flex-flow: column;
+        align-items: flex-start;
+        gap: $spacing-4;
+      }
+    }
+  }
+
+  .email-body {
+    width: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    margin-top: $spacing-16;
+
+    .email-body-text {
+      word-break: break-word;
+      font-weight: 400;
+      font-size: $fs-16;
+      line-height: 1.5;
+    }
+  }
+
+  .empty-event {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    gap: $spacing-8;
+    font-weight: 400;
+    font-size: $fs-14;
+    line-height: 1.5;
+  }
+}
+
+.create-event-view {
+  flex: 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+
+  .header {
+    display: flex;
+    padding: calc(#{$spacing-4} / 2) 0 $spacing-12;
+    justify-content: space-between;
+    border-bottom: 1px solid $color-grey-400;
+
+    .title {
+      @include font-style('Heading L');
+    }
+    .button-container {
+      display: flex;
+      gap: $spacing-12;
+
+      button {
+        @include font-style('Link M');
+        &.blue {
+          background-color: $color-blue-500;
+          color: $color-white;
+
+          &:hover,
+          &:focus {
+            background-color: $color-blue-700;
+          }
+
+          &:active {
+            background-color: $color-blue-900;
+          }
+        }
+
+        &.outline {
+          background-color: transparent;
+          color: $color-grey-800;
+          outline: 1px solid $color-grey-400;
+
+          &:hover,
+          &:focus {
+            outline: 1px solid $color-blue-900;
+          }
+
+          &:active {
+            outline: 2px solid $color-blue-900;
+          }
+        }
+      }
+    }
+  }
+
+  form {
+    flex: 1;
+    padding-top: $spacing-24;
+    width: calc(100% + #{$spacing-16});
+    display: flex;
+    flex-flow: column;
+    gap: $spacing-24;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar-track {
+      margin-top: $spacing-32;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: calc(#{$spacing-48} + #{$spacing-8});
+
+      .field-container {
+        flex: 1;
+        label {
+          @include font-style('Body S');
+        }
+        input {
+          width: 100%;
+          outline: none;
+          border: 1px solid $color-grey-400;
+          color: $color-grey-900;
+          border-radius: 16px;
+          padding: $spacing-8 $spacing-16;
+          font-size: $fs-16;
+          font-weight: 400;
+          line-height: 1.5;
+        }
+
+        textarea {
+          width: 100%;
+          outline: none;
+          border: 1px solid $color-grey-400;
+          color: $color-grey-900;
+          border-radius: 16px;
+          padding: $spacing-8 $spacing-16;
+          font-size: $fs-16;
+          font-weight: 400;
+          line-height: 1.5;
+          resize: vertical;
+
+          &::placeholder {
+            color: $color-grey-700;
+          }
+        }
+
+        input[type='datetime-local']::-webkit-calendar-picker-indicator {
+          color: rgba(0, 0, 0, 0);
+          opacity: 1;
+          display: block;
+          background: url('../components/icons/date-input-icon.svg') no-repeat;
+        }
+
+        .note {
+          @include font-style('Body S');
+          color: $color-grey-700;
+        }
+      }
+    }
+  }
+}
+
+.loading-text {
+  width: 100%;
+  align-self: center;
+  text-align: center;
+  color: $color-grey-900;
+  font-weight: 600;
+  font-size: $fs-22;
+  line-height: 1.25;
+}
+
+.mobile-warning {
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  gap: $spacing-32;
+
+  h2 {
+    color: $color-grey-900;
+    font-weight: 600;
+    font-size: $fs-22;
+    line-height: 1.25;
+  }
+
+  p {
+    font-weight: 600;
+    font-size: $fs-16;
+    line-height: 1.5;
+  }
+}
+
+@media #{$desktop} {
+  .calendar-app {
+    display: flex;
+  }
+}
