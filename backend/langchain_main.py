@@ -1,6 +1,6 @@
 from langchain.agents import initialize_agent, load_tools
 from langchain.chat_models import ChatOpenAI
-from langchain_tools import SendEmail, ReadEmails, GetContacts
+from langchain_tools import SendEmail, ReadEmails, GetContacts, GetEvents, GetCalendars
 from langchain.prompts import MessagesPlaceholder
 from langchain.memory import ConversationBufferMemory
 
@@ -16,9 +16,12 @@ chat_history = MessagesPlaceholder(variable_name="chat_history")
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
 
-agent = initialize_agent(tools=[SendEmail(), ReadEmails(), GetContacts()], llm=openAILLM, agent="structured-chat-zero-shot-react-description", agent_kwargs={
+agent = initialize_agent(tools=[SendEmail(), ReadEmails(), GetContacts(), GetEvents(), GetCalendars()] , llm=openAILLM, 
+        agent="structured-chat-zero-shot-react-description", agent_kwargs={
         "memory_prompts": [chat_history],
-        "input_variables": ["input", "agent_scratchpad", "chat_history"]}, memory=memory, verbose=True)
+        "input_variables": ["input", "agent_scratchpad", "chat_history"]},
+        memory=memory,
+        verbose=True)
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@ from langchain.llms import OpenAI
 from langchain import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
-from langchain.tools import BaseTool
+from langchain.tools import BaseTool, StructuredTool
 
 import requests
 import dotenv
@@ -10,6 +10,46 @@ import os
 import json
 
 
+class GetEvents(BaseTool):
+    name = "get_events"
+    description = "Useful for when you need to recieve the information of all the events"
+
+    dotenv.load_dotenv()
+    NYLAS_RUNTIME_AUTH_KEY = os.getenv("NYLAS_RUNTIME_AUTH_KEY")
+
+    def _run(self) -> str:
+        url = 'http://localhost:9000/nylas/read-events'
+        
+        # Configura encabezados y envía la solicitud
+        headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
+        response = requests.get(url, headers=headers)
+        return response.json();
+
+    async def _arun(self) -> str:
+        headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
+        reponse = await requests.get(url, headers=headers);
+        return reponse.json();
+
+
+class GetCalendars(BaseTool):
+    name = "get_calendars"
+    description = "Useful for when you need to recieve the information of the calendars in json format"
+
+    dotenv.load_dotenv()
+    NYLAS_RUNTIME_AUTH_KEY = os.getenv("NYLAS_RUNTIME_AUTH_KEY")
+
+    def _run(self) -> str:
+        url = 'http://localhost:9000/nylas/read-calendars'
+        
+        # Configura encabezados y envía la solicitud
+        headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
+        response = requests.get(url, headers=headers)
+        return response.json();
+
+    async def _arun(self) -> str:
+        headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
+        reponse = await requests.get(url, headers=headers);
+        return reponse.json();
 
 class GetContacts(BaseTool):
     name = "get_contacts"
@@ -54,7 +94,7 @@ class ReadEmails(BaseTool):
 
 class SendEmail(BaseTool):
     name = "send_email_with_template"
-    description = "Useful for when you need to send an email to one person or several people"
+    description = "Useful for when you need to send an email to one person or several people. It calls POST /nylas/send-email with a proper JSON object." 
 
     # Plantilla JSON para el prompt
     json_object_template = """

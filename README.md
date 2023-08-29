@@ -25,15 +25,15 @@ pip install pillow
 - https://blog.langchain.dev/structured-tools/ hay que leer esto
 - https://developer.nylas.com/docs/calendar/parse-contacts-from-events/
 - https://github.com/zahidkhawaja/langchain-chat-nextjs para el frontend
-
-
+- Langsmith para hacer testing y debugging de la applicacion 
+- https://blog.langchain.dev/conversational-retrieval-agents/
 
 viajeroeneltiempo84@gmail.com
 
 ##TODO
 
 - [ ] Set the authorization header in the request dynamically from the frontend.
-
+- [] This model's maximum context length is 4097 tokens. However, your messages resulted in 4827 tokens. Please reduce the length of the messages. Langchain https://www.reddit.com/r/LangChain/comments/13rmn5u/maximum_context_length_is_4097_tokens/
 
 ## PROMPT EXAMPLES: 
 

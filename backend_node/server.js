@@ -74,7 +74,7 @@ app.post("/nylas/generate-auth-url", express.json(), async (req, res) => {
       Scope.EmailModify,
       Scope.EmailSend,
       Scope.Calendar,
-      Scope.Contacts,
+      Scope.Contacts
     ],
   });
 
