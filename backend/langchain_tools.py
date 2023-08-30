@@ -33,15 +33,12 @@ class CreateModifyDeleteEvents(BaseTool):
 
         json_data = {
             "title": eventSummary,
-            "when": {
-                "start_time": startsTimestamp,
-                "end_time": endsTimestamp
-            },
-            "calendar_id": calendarId,
+            "startTime": startsTimestamp,
+            "endTime": endsTimestamp,
+            "calendarId": calendarId,
             "location": location,
-            "participants": [participants]
+            "participants": participants
         }
-
         # Configura encabezados y envía la solicitud
         headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
         response = requests.post(url, json=json_data, headers=headers)

@@ -1,4 +1,6 @@
 const { default: Draft } = require("nylas/lib/models/draft");
+const { default: Event } = require('nylas/lib/models/event');
+
 const Nylas = require("nylas");
 
 exports.sendEmail = async (req, res) => {
@@ -86,12 +88,10 @@ exports.createEvents = async (req, res) => {
   const { calendarId, title, description, startTime, endTime, participants } =
     req.body;
 
-  console.log(JSON.stringify(req.body));
-
   if (!calendarId || !title || !startTime || !endTime) {
     return res.status(400).json({
       message:
-        "Missing required fields: calendarId, title, starTime or endTime",
+        'Missing required fields: calendarId, title, starTime or endTime',
     });
   }
 
@@ -115,6 +115,7 @@ exports.createEvents = async (req, res) => {
 
   return res.json(event);
 };
+
 
 exports.getAllContacts = async (req, res) => {
   const user = res.locals.user;
