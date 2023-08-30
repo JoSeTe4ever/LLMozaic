@@ -105,13 +105,9 @@ exports.createEvents = async (req, res) => {
   event.when.startTime = startTime;
   event.when.endTime = endTime;
 
-  if (participants) {
-    event.participants = participants
-      .split(/s*,s*/)
-      .map((email) => ({ email }));
+  if (Array.isArray(participants)) {
+    event.save();
   }
-
-  event.save();
 
   return res.json(event);
 };
