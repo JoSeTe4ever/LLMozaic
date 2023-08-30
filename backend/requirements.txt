@@ -20,3 +20,5 @@ langchain
 openai
 requests
 tiktoken
+Flask 
+websockets

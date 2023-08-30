@@ -41,8 +41,6 @@ viajeroeneltiempo84@gmail.com
 
 - Summarize the last email I received regarding Silicon Valley Bank. Send the summary to the #test-zapier channel in slack.
 - Send a happy birthday email to my friend John Doe with a picture of a cake.
-
-
 - read my last email
 - respond to this email sender saying that XXX
 - When is the best time to schedule a one hour workout

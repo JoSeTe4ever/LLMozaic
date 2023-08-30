@@ -15,6 +15,7 @@ downloads/
 frontend/node_modules/
 backend_node/node_modules/
 frontend_calendar/node_modules/
+frontend_chat/node_modules/
 eggs/
 .eggs/
 lib/

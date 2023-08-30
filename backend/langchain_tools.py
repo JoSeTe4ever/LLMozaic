@@ -53,7 +53,6 @@ class CreateModifyDeleteEvents(BaseTool):
         return reponse.json();
 
 
-
 class DateTimestamp(BaseTool):
     name = "date_timestamp"
     description = """useful for when you need to obtain timestamp from dates. This tool is usefull for obtainint the todays timestamp if the param days is 0. 

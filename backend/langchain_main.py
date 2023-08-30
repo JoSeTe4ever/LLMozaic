@@ -24,8 +24,11 @@ agent = initialize_agent(tools=[SendEmail(), ReadEmails(), GetContacts(), GetEve
         verbose=True)
 
 
-if __name__ == "__main__":
-    
+def message(user_input: str):
+    return agent.run(user_input)
+
+# process_data.py
+def main():
     while True:
         # prompt the user for input
         user_input = input(">>> ")
@@ -37,3 +40,6 @@ if __name__ == "__main__":
         # otherwise, print the user input
         else:
             print(user_input)
+
+if __name__ == "__main__":
+    main()
