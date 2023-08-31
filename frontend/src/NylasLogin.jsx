@@ -21,6 +21,7 @@ const NylasLogin = ({ email, setEmail }) => {
   return (
     <section className="login">
       <form onSubmit={loginUser}>
+        <img src='/Mosaic.jpeg' alt='logo' width='200' height='200' />
         <input
           required
           type="email"

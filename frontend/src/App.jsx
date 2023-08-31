@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNylas } from '@nylas/nylas-react';
 import NylasLogin from './NylasLogin';
 import Layout from './components/Layout';
-import EmailApp from './EmailApp';
+import Chat from './Chat';
 
 function App() {
   const nylas = useNylas();
@@ -95,7 +95,7 @@ function App() {
       disconnectUser={disconnectUser}
       refresh={refresh}
       isLoading={isLoading}
-      title="Email sample app"
+      title=""
       toastNotification={toastNotification}
       setToastNotification={setToastNotification}
     >
@@ -103,15 +103,7 @@ function App() {
         <NylasLogin email={userEmail} setEmail={setUserEmail} />
       ) : (
         <div className="app-card">
-          <EmailApp
-            userEmail={userEmail}
-            emails={emails}
-            isLoading={isLoading}
-            serverBaseUrl={SERVER_URI}
-            userId={userId}
-            reloadEmail={refresh}
-            setToastNotification={setToastNotification}
-          />
+          <Chat></Chat>
         </div>
       )}
     </Layout>
