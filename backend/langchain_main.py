@@ -10,7 +10,7 @@ import sys
 
 dotenv.load_dotenv()
 OPEN_API_KEY = os.getenv("OPEN_API_KEY");
-openAILLM = ChatOpenAI(openai_api_key=OPEN_API_KEY, temperature=0, model_name="gpt-4")
+openAILLM = ChatOpenAI(openai_api_key=OPEN_API_KEY, temperature=0, model_name="gpt-3.5-turbo-0613")
 tools = [load_tools(['human']), SendEmail()];
 
 chat_history = MessagesPlaceholder(variable_name="chat_history")

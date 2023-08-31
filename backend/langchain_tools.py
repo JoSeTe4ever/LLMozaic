@@ -211,7 +211,7 @@ class SendEmail(BaseTool):
     NYLAS_RUNTIME_AUTH_KEY = os.getenv("NYLAS_RUNTIME_AUTH_KEY")
 
     json_prompt = PromptTemplate(template=json_object_template, input_variables=["topicEmail", "toEmail", "bodyEmail", "fromEmail"])
-    openAILLM = ChatOpenAI(openai_api_key=OPEN_API_KEY, temperature=0, model_name="gpt-3.5-turbo")
+    openAILLM = ChatOpenAI(openai_api_key=OPEN_API_KEY, temperature=0, model_name="gpt-3.5-turbo-0613")
     chain = LLMChain(llm=openAILLM, prompt=json_prompt)
 
     def _run(self, to, sender: str, summary: str, body: str) -> str:
