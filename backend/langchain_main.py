@@ -6,6 +6,7 @@ from langchain.memory import ConversationBufferMemory
 
 import dotenv
 import os
+import sys
 
 dotenv.load_dotenv()
 OPEN_API_KEY = os.getenv("OPEN_API_KEY");
@@ -29,17 +30,9 @@ def message(user_input: str):
 
 # process_data.py
 def main():
-    while True:
         # prompt the user for input
-        user_input = input(">>> ")
+        user_input = sys.argv[1]
         print(agent.run(user_input))
-
-        # if the user types "exit" or "quit", break out of the loop
-        if user_input.lower() in ["exit", "quit"]:
-            break
-        # otherwise, print the user input
-        else:
-            print(user_input)
 
 if __name__ == "__main__":
     main()

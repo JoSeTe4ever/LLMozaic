@@ -29,7 +29,7 @@ pip install pillow
 - https://blog.langchain.dev/conversational-retrieval-agents/
 - https://www.pinecone.io/learn/series/langchain/langchain-agents/
 - https://www.kaggle.com/code/robalaban/using-langchain-to-query-google-calendar-events/notebook
-
+- https://www.piesocket.com/websocket-tester FOR testing websocket
 viajeroeneltiempo84@gmail.com
 
 ##TODO
