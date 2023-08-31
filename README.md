@@ -32,6 +32,12 @@ pip install pillow
 - https://www.piesocket.com/websocket-tester FOR testing websocket
 viajeroeneltiempo84@gmail.com
 
+
+## CREATIVE
+
+- https://shots.so/ for creating the video.
+- https://ideogram.ai/ for creating the logo
+
 ##TODO
 
 - [ ] Set the authorization header in the request dynamically from the frontend.

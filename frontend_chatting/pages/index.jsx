@@ -20,7 +20,7 @@ export default function Home() {
 
   const [socketUrl, setSocketUrl] = useState('ws://localhost:5000/ws');
   const [messageHistory, setMessageHistory] = useState([]);
-  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl, 
+  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl,
     {
       onOpen: () => console.log('opened'),
       //Will attempt to reconnect on all close events, such as server shutting down
@@ -60,7 +60,7 @@ export default function Home() {
   }, []);
 
   // Handle form submission through WS
-  const handleWSSubmit = async(e) => {
+  const handleWSSubmit = async (e) => {
     e.preventDefault();
 
     if (userInput.trim() === "") {
@@ -91,7 +91,7 @@ export default function Home() {
   }
 
   // Handle form submission
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (userInput.trim() === "") {
@@ -105,7 +105,7 @@ export default function Home() {
     const response = await fetch("http://127.0.0.1:5000/api/chat", {
       method: "POST",
       headers: {
-          "Content-Type": "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ question: userInput, history: history }),
     });
@@ -113,7 +113,7 @@ export default function Home() {
     if (!response.ok) {
       handleError();
       return;
-  }
+    }
 
     // Reset user input
     setUserInput("");
@@ -131,7 +131,7 @@ export default function Home() {
   // Prevent blank submissions and allow for multiline input
   const handleEnter = (e) => {
     if (e.key === "Enter" && userInput) {
-      if(!e.shiftKey && userInput) {
+      if (!e.shiftKey && userInput) {
         handleSubmit(e);
       }
     } else if (e.key === "Enter") {
@@ -144,7 +144,7 @@ export default function Home() {
     if (messages.length >= 3) {
       setHistory([[messages[messages.length - 2].message, messages[messages.length - 1].message]]);
     }
-    }, [messages])
+  }, [messages])
 
   return (
     <>
@@ -155,67 +155,67 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className={styles.topnav}>
-      <div className = {styles.navlogo}>
-    <a href="/">LangChain</a>
-    </div>
-    <div className = {styles.navlinks}>
-    <a href="https://langchain.readthedocs.io/en/latest/" target="_blank">Docs</a>
-    <a href="https://github.com/zahidkhawaja/langchain-chat-nextjs" target="_blank">GitHub</a>
-    </div>
-</div>
-      <main className={styles.main}>
-      <div className = {styles.cloud}>
-        <div ref={messageListRef} className = {styles.messagelist}>
-        {messages.map((message, index) => {
-          return (
-            // The latest message sent by the user will be animated while waiting for a response
-              <div key = {index} className = {message.type === "userMessage" && loading && index === messages.length - 1  ? styles.usermessagewaiting : message.type === "apiMessage" ? styles.apimessage : styles.usermessage}>
-                {/* Display the correct icon depending on the message type */}
-                {message.type === "apiMessage" ? <Image src = "/parroticon.png" alt = "AI" width = "30" height = "30" className = {styles.boticon} priority = {true} /> : <Image src = "/usericon.png" alt = "Me" width = "30" height = "30" className = {styles.usericon} priority = {true} />}
-              <div className = {styles.markdownanswer}>
-                {/* Messages are being rendered in Markdown format */}
-                <ReactMarkdown linkTarget = {"_blank"}>{message.message}</ReactMarkdown>
-                </div>
-              </div>
-          )
-        })}
+        <div className={styles.navlogo}>
+          <a href="/">LangChain</a>
         </div>
-            </div>
-           <div className={styles.center}>
-            
-            <div className = {styles.cloudform}>
-           <form onSubmit = {handleSubmit}>
-          <textarea 
-          disabled = {loading}
-          onKeyDown={handleEnter}
-          ref = {textAreaRef}
-          autoFocus = {false}
-          rows = {1}
-          maxLength = {512}
-          type="text" 
-          id="userInput" 
-          name="userInput" 
-          placeholder = {loading? "Waiting for response..." : "Type your question..."}  
-          value = {userInput} 
-          onChange = {e => setUserInput(e.target.value)} 
-          className = {styles.textarea}
-          />
-            <button 
-            type = "submit" 
-            disabled = {loading}
-            className = {styles.generatebutton}
-            >
-            {loading ? <div className = {styles.loadingwheel}><CircularProgress color="inherit" size = {20}/> </div> : 
-            // Send icon SVG in input field
-            <svg viewBox='0 0 20 20' className={styles.svgicon} xmlns='http://www.w3.org/2000/svg'>
-            <path d='M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z'></path>
-          </svg>}
-            </button>
+        <div className={styles.navlinks}>
+          <a href="https://langchain.readthedocs.io/en/latest/" target="_blank">Docs</a>
+          <a href="https://github.com/zahidkhawaja/langchain-chat-nextjs" target="_blank">GitHub</a>
+        </div>
+      </div>
+      <main className={styles.main}>
+        <div className={styles.cloud}>
+          <div ref={messageListRef} className={styles.messagelist}>
+            {messages.map((message, index) => {
+              return (
+                // The latest message sent by the user will be animated while waiting for a response
+                <div key={index} className={message.type === "userMessage" && loading && index === messages.length - 1 ? styles.usermessagewaiting : message.type === "apiMessage" ? styles.apimessage : styles.usermessage}>
+                  {/* Display the correct icon depending on the message type */}
+                  {message.type === "apiMessage" ? <Image src="/parroticon.png" alt="AI" width="30" height="30" className={styles.boticon} priority={true} /> : <Image src="/usericon.png" alt="Me" width="30" height="30" className={styles.usericon} priority={true} />}
+                  <div className={styles.markdownanswer}>
+                    {/* Messages are being rendered in Markdown format */}
+                    <ReactMarkdown linkTarget={"_blank"}>{message.message}</ReactMarkdown>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+        <div className={styles.center}>
+
+          <div className={styles.cloudform}>
+            <form onSubmit={handleSubmit}>
+              <textarea
+                disabled={loading}
+                onKeyDown={handleEnter}
+                ref={textAreaRef}
+                autoFocus={false}
+                rows={1}
+                maxLength={512}
+                type="text"
+                id="userInput"
+                name="userInput"
+                placeholder={loading ? "Waiting for response..." : "Type your question..."}
+                value={userInput}
+                onChange={e => setUserInput(e.target.value)}
+                className={styles.textarea}
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className={styles.generatebutton}
+              >
+                {loading ? <div className={styles.loadingwheel}><CircularProgress color="inherit" size={20} /> </div> :
+                  // Send icon SVG in input field
+                  <svg viewBox='0 0 20 20' className={styles.svgicon} xmlns='http://www.w3.org/2000/svg'>
+                    <path d='M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z'></path>
+                  </svg>}
+              </button>
             </form>
-            </div>
-            <div className = {styles.footer}>
-            <p>Powered by <a href = "https://github.com/hwchase17/langchain" target="_blank">LangChain</a>. Built by <a href="https://twitter.com/chillzaza_" target="_blank">Zahid</a>.</p>
-            </div>
+          </div>
+          <div className={styles.footer}>
+            <p>Powered by <a href="https://github.com/hwchase17/langchain" target="_blank">LangChain</a>. Built by <a href="https://twitter.com/chillzaza_" target="_blank">Zahid</a>.</p>
+          </div>
         </div>
       </main>
     </>
