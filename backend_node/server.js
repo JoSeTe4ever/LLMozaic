@@ -43,6 +43,7 @@ Nylas.application({
 openWebhookTunnel({
   // Handle when a new message is created (sent)
   onMessage: function handleEvent(delta) {
+    console.log('JOPI webhook received', delta);
     switch (delta.type) {
       case WebhookTriggers.MessageCreated:
         console.log(
@@ -146,6 +147,10 @@ app.get("/nylas/file", isAuthenticated, async (req, res) => {
 // Add route for getting 20 latest calendar events
 app.post("/nylas/read-events", isAuthenticated, express.json(), (req, res) =>
   route.readEvents(req, res)
+);
+
+app.get("/nylas/read-events", isAuthenticated, (req, res) =>
+  route.getReadEvents(req, res)
 );
 
 // Add route for getting 20 latest calendar events

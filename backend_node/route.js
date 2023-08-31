@@ -72,6 +72,23 @@ exports.readEvents = async (req, res) => {
   return res.json(events);
 };
 
+exports.getReadEvents = async (req, res) => {
+  const user = res.locals.user;
+
+  const { calendarId, startsAfter, endsBefore, limit } = req.query;
+
+  const events = await Nylas.with(user.accessToken)
+    .events.list({
+      calendar_id: calendarId,
+      starts_after: startsAfter,
+      ends_before: endsBefore,
+      limit: limit,
+    })
+    .then((events) => events);
+
+  return res.json(events);
+};
+
 exports.readCalendars = async (req, res) => {
   const user = res.locals.user;
 
