@@ -29,9 +29,6 @@ def echo(sock):
         if return_code:
             raise subprocess.CalledProcessError(return_code, ['python', 'langchain_main.py', data])
 
-
-            
-        
 @app.route('/api/chat', methods=['POST'])
 def process_data():
     try:
