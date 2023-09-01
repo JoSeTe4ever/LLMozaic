@@ -74,3 +74,11 @@ go to the proper folder, and for each one run:
   frontend npm run start 
   backend_node npm run start 
   backend python server.py
+
+
+# EMAILS 
+
+hthon898@gmail.com
+fargallotest@gmail.com
+viajeroeneltiempo84@gmail.com 
+
