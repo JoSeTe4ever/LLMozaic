@@ -20,12 +20,26 @@ sock = Sock(app)
 def echo(sock):
         data = sock.receive()
         print('calling'+ data);
+        is_recording = False;
+        lines_to_send = []
         popen = subprocess.Popen(['python', '-u', 'langchain_main.py', data], stdout=subprocess.PIPE, universal_newlines=True)
-        for line in popen.stdout: 
-            print(line, end='')
-            sock.send(line)
-        popen.stdout.close()
+        for line in popen.stdout:
+            print('line'+ line);
+            if line.startswith("Thought:"): 
+                is_recording = True;
+            if line.startswith("Action"):
+                is_recording = False;
+            if is_recording:
+                lines_to_send.append(line)
+                sock.send(line)
+
+        
         return_code = popen.wait()
+        
+
+        if return_code == 0:
+            print("El comando se ejecutó con éxito.")
+
         if return_code:
             raise subprocess.CalledProcessError(return_code, ['python', 'langchain_main.py', data])
 

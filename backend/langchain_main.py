@@ -32,7 +32,8 @@ def message(user_input: str):
 def main():
         # prompt the user for input
         user_input = sys.argv[1]
-        print(agent.run(user_input))
+        print("User input: " + user_input)
+        return agent.run(user_input)
 
 if __name__ == "__main__":
     main()
