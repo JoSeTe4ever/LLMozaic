@@ -51,3 +51,26 @@ viajeroeneltiempo84@gmail.com
 - respond to this email sender saying that XXX
 - When is the best time to schedule a one hour workout
 - Get all my events from now until next week (or next month)
+
+## INSTALL
+
+backend_node 
+
+ - npm i 
+  
+backend 
+
+ - pip -r install requirements.txt
+
+frontend
+    
+  - npm i
+
+the file .env must be in backend root and backend_node root 
+
+## RUN 
+
+go to the proper folder, and for each one run:
+  frontend npm run start 
+  backend_node npm run start 
+  backend python server.py

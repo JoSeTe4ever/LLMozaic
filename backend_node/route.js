@@ -28,6 +28,7 @@ exports.readEmails = async (req, res) => {
 
   const threads = await nylas.threads.list({ limit: 5, expanded: true });
 
+  //sanitize the
   return res.json(threads);
 };
 
