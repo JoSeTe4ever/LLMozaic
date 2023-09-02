@@ -25,10 +25,10 @@ def echo(sock):
         
         if return_code == 0:
             print("Command finished successfully.")
-            sock.close("Command finished successfully.")
+            sock.close()
 
         if return_code:
-            sock.close("Command finished unexpected.")
+            sock.close()
             raise subprocess.CalledProcessError(return_code, ['python', 'langchain_main.py', data])
             
 

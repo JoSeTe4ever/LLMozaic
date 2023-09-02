@@ -32,42 +32,52 @@ export default function Chat() {
         setLoading(false);
       },
       onMessage: (e) => {
-        console.log(e.data);
-        if (e.data.startsWith('Thought:')) {
-          setDisplayMessage(() => true);
-        }
-
-        if (e.data.startsWith('Action:')) {
-          setDisplayMessage(() => false);
-        }
-
-        if (displayMessage || e.data.startsWith('Thought:') && !e.data.startsWith('Action:')) {
-          const rawTextFromBackend = e.data.replace('Thought:', 'Mosaic Thought:');
-          const cleanedText = rawTextFromBackend.replace(/\x1b\[[0-9;]*m/g, '');
-          setCurrentMessage((prevMessage) => prevMessage.concat(cleanedText));
-        }
-
-        if (e.data.startsWith('\n') && currentMessage.length > 0) {
-          setMessages((prevMessages) => [...prevMessages, { "message": currentMessage, "type": "apiMessage" }]);
-          setCurrentMessage('');
-        }
-
-        if (e.data.startsWith('> Finished chain.')) {
-          setLoading(false);
-        }
-      },
-      //Will attempt to reconnect on all close events, such as server shutting down
-      shouldReconnect: (closeEvent) => true,
+        console.log(currentMessage);
+        /* let rawTextFromBackend = e.data;
+         let cleanedText;
+         if (rawTextFromBackend.startsWith('Thought:')) {
+           cleanedText = e.data.replace('Thought:', 'Mosaic Thought:');
+           setDisplayMessage(() => true);
+         }
+ 
+         if (rawTextFromBackend.startsWith('Action:')) {
+           setDisplayMessage(() => false);
+         }
+ 
+         if (displayMessage || e.data.startsWith('Thought:') && !e.data.startsWith('Action:')) {
+ 
+           const cleanedText = rawTextFromBackend.replace(/\x1b\[[0-9;]*m/g, '');
+           setCurrentMessage(currentMessage + cleanedText);
+         }
+ 
+         if (e.data.startsWith('\n')) {
+           setMessages((prevMessages) => [...prevMessages, { "message": currentMessage, "type": "apiMessage" }]);
+           setCurrentMessage('');
+         }
+ 
+         if (e.data.startsWith('> Finished chain.')) {
+           setLoading(false);
+         }
+       },
+       //Will attempt to reconnect on all close events, such as server shutting down
+       shouldReconnect: (closeEvent) => true,
+       */
+      }
     });
 
   const messageListRef = useRef(null);
   const textAreaRef = useRef(null);
 
+  useEffect(() => {
+    /* it will be called when queues did update */
+    console.log('Aqui hay que parsear el array', messageHistory)
+  }, [messageHistory])
 
   //ws
   useEffect(() => {
     if (lastMessage !== null) {
       setMessageHistory((prev) => prev.concat(lastMessage));
+      setMessages((prevMessages) => [...prevMessages, { "message": lastMessage.data, "type": "apiMessage" }]);
     }
   }, [lastMessage, setMessageHistory]);
 
