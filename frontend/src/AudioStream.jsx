@@ -54,7 +54,6 @@ export default function AudioStream({ onClose }) {
             const WIDTH = audioCanvas.current.width
             const HEIGHT = audioCanvas.current.height;
 
-
             requestAnimationFrame(draw);
 
             analyser.getByteTimeDomainData(dataArray);
@@ -62,15 +61,13 @@ export default function AudioStream({ onClose }) {
             canvasCtx.fillStyle = 'rgb(200, 200, 200)';
             canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
-            canvasCtx.lineWidth = 2;
+            canvasCtx.lineWidth = 3;
             canvasCtx.strokeStyle = 'rgb(0, 0, 0)';
 
             canvasCtx.beginPath();
 
             let sliceWidth = WIDTH * 1.0 / bufferLength;
             let x = 0;
-
-
             for (let i = 0; i < bufferLength; i++) {
 
                 let v = dataArray[i] / 128.0;
@@ -120,7 +117,7 @@ export default function AudioStream({ onClose }) {
 
     return (
         <div className="audio-stream">
-            <canvas id="audioCanvas" width="400" height="200" ref={audioCanvas}></canvas>
+            <canvas id="audioCanvas" width="500" height="200" ref={audioCanvas}></canvas>
             <div className="button-container">
                 <button className='okButton' onClick={onSendEvent}>
                     <FontAwesomeIcon icon={faCheck} />
