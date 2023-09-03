@@ -4,11 +4,13 @@ import CircularProgress from '@mui/material/CircularProgress';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import styles from '../src/styles/Home.module.css'
 
-export default function Chat() {
+export default function Chat({ userId }) {
 
   const [userInput, setUserInput] = useState("");
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [displayMessage, setDisplayMessage] = useState(false);
+  const [currentMessage, setCurrentMessage] = useState('');
   const [messages, setMessages] = useState([
     {
       "message": "Hi there! How can I help?",
@@ -16,23 +18,38 @@ export default function Chat() {
     }
   ]);
 
-  const [socketUrl, setSocketUrl] = useState('ws://localhost:5000/ws');
+  const [socketUrl, setSocketUrl] = useState('ws://localhost:5000/ws?userId=' + sessionStorage.getItem('userId'));
   const [messageHistory, setMessageHistory] = useState([]);
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl,
     {
-      onOpen: () => console.log('opened'),
-      //Will attempt to reconnect on all close events, such as server shutting down
+      onOpen: () => {
+        console.log('opened ws://localhost:5000/ws');
+        setDisplayMessage(() => false);
+        setLoading(false);
+        setCurrentMessage('');
+      },
+      onClosed: () => {
+        setLoading(false);
+      },
+      onMessage: (e) => {
+        console.log(e.data);
+      },
       shouldReconnect: (closeEvent) => true,
     });
 
   const messageListRef = useRef(null);
   const textAreaRef = useRef(null);
 
+  useEffect(() => {
+    /* it will be called when queues did update */
+    console.log('Aqui hay que parsear el array', messageHistory)
+  }, [messageHistory])
 
   //ws
   useEffect(() => {
     if (lastMessage !== null) {
       setMessageHistory((prev) => prev.concat(lastMessage));
+      setMessages((prevMessages) => [...prevMessages, { "message": lastMessage.data, "type": "apiMessage" }]);
     }
   }, [lastMessage, setMessageHistory]);
 
@@ -70,16 +87,9 @@ export default function Chat() {
 
     // Send user question and history to API
     sendMessage(userInput);
-
-    if (!response.ok) {
-      handleError();
-      return;
-    }
-
     // Reset user input
     setUserInput("");
   };
-
 
   // Handle errors
   const handleError = () => {
@@ -130,7 +140,7 @@ export default function Chat() {
   const handleEnter = (e) => {
     if (e.key === "Enter" && userInput) {
       if (!e.shiftKey && userInput) {
-        handleSubmit(e);
+        handleWSSubmit(e);
       }
     } else if (e.key === "Enter") {
       e.preventDefault();
@@ -154,7 +164,7 @@ export default function Chat() {
                 // The latest message sent by the user will be animated while waiting for a response
                 <div key={index} className={message.type === "userMessage" && loading && index === messages.length - 1 ? styles.usermessagewaiting : message.type === "apiMessage" ? styles.apimessage : styles.usermessage}>
                   {/* Display the correct icon depending on the message type */}
-                  {message.type === "apiMessage" ? <img src="/ideogram.jpeg" alt="AI" width="80" height="80" className={styles.boticon} priority={true} /> : <img src="/me.jpg" alt="Me" width="80" height="80" className={styles.usericon} priority={true} />}
+                  {message.type === "apiMessage" ? <img src="/ideogram.jpeg" alt="AI" width="80" height="80" className={styles.boticon} /> : <img src="/me.jpg" alt="Me" width="80" height="80" className={styles.usericon} />}
                   <div className={styles.markdownanswer}>
                     {/* Messages are being rendered in Markdown format */}
                     <ReactMarkdown linkTarget={"_blank"}>{message.message}</ReactMarkdown>
@@ -167,7 +177,7 @@ export default function Chat() {
         <div className={styles.center}>
 
           <div className={styles.cloudform}>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleWSSubmit}>
               <textarea
                 disabled={loading}
                 onKeyDown={handleEnter}

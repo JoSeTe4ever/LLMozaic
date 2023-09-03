@@ -2,10 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS  # Import the CORS module
 from flask_sock import Sock
 from contextlib import redirect_stdout
-import io
 
-import asyncio
-import websockets
 import subprocess
 import langchain_main
 import subprocess
@@ -18,16 +15,40 @@ sock = Sock(app)
 
 @sock.route('/ws')
 def echo(sock):
+        userId = request.args.get('userId')
+        print(f"Valor del parámetro 'mi_parametro': {userId}")
+        lines_to_send = []  # Lista para almacenar las líneas
+        recordLine = False;
         data = sock.receive()
-        print('calling'+ data);
-        popen = subprocess.Popen(['python', '-u', 'langchain_main.py', data], stdout=subprocess.PIPE, universal_newlines=True)
-        for line in popen.stdout: 
-            print(line, end='')
-            sock.send(line)
-        popen.stdout.close()
+        popen = subprocess.Popen(['python', '-u', 'langchain_main.py', data, userId], stdout=subprocess.PIPE, universal_newlines=True)
+        for line in popen.stdout:
+            if line.find('[32;1m') != -1 and line.find('Action') == -1 and line.find('Observation') == -1:
+                recordLine = True
+            if line.startswith("Thought:"):
+                recordLine = True
+            elif line.startswith("Action"):
+                recordLine = False
+            elif line.startswith("Observation"):
+                recordLine = False
+            elif line.startswith("\n"):
+                if len(lines_to_send) > 0:
+                    sock.send(''.join(lines_to_send))
+                    lines_to_send = []
+            if recordLine:
+                lines_to_send.append(line)
+            # Procesa las líneas almacenadas y luego límpialas
+
         return_code = popen.wait()
+        
+        if return_code == 0:
+            print("Command finished successfully. Closing socket...")
+            sock.close()
+
         if return_code:
+            print("Command error. Closing socket...")
+            sock.close()
             raise subprocess.CalledProcessError(return_code, ['python', 'langchain_main.py', data])
+            
 
 @app.route('/api/chat', methods=['POST'])
 def process_data():

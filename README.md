@@ -30,6 +30,7 @@ pip install pillow
 - https://www.pinecone.io/learn/series/langchain/langchain-agents/
 - https://www.kaggle.com/code/robalaban/using-langchain-to-query-google-calendar-events/notebook
 - https://www.piesocket.com/websocket-tester FOR testing websocket
+- https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API/Using_the_MediaStream_Recording_API for speech2text
 viajeroeneltiempo84@gmail.com
 
 
@@ -81,6 +82,7 @@ go to the proper folder, and for each one run:
 hthon898@gmail.com
 fargallotest@gmail.com
 viajeroeneltiempo84@gmail.com 
+blackstartimetraveller@gmail.com
 
 
 # VERSIONS 
