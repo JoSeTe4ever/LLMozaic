@@ -4,7 +4,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import styles from '../src/styles/Home.module.css'
 
-export default function Chat() {
+export default function Chat({ userId }) {
 
   const [userInput, setUserInput] = useState("");
   const [history, setHistory] = useState([]);
@@ -18,7 +18,7 @@ export default function Chat() {
     }
   ]);
 
-  const [socketUrl, setSocketUrl] = useState('ws://localhost:5000/ws');
+  const [socketUrl, setSocketUrl] = useState('ws://localhost:5000/ws?userId=' + sessionStorage.getItem('userId'));
   const [messageHistory, setMessageHistory] = useState([]);
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl,
     {

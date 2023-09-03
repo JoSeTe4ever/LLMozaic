@@ -11,19 +11,10 @@ import sys
 dotenv.load_dotenv()
 OPEN_API_KEY = os.getenv("OPEN_API_KEY");
 openAILLM = ChatOpenAI(openai_api_key=OPEN_API_KEY, temperature=0.7, model_name="gpt-3.5-turbo")
-tools = [load_tools(['human']), SendEmail()];
+tools = [load_tools(['human'])];
 
 chat_history = MessagesPlaceholder(variable_name="chat_history")
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
-
-
-agent = initialize_agent(tools=[SendEmail(), ReadEmails(), GetContacts(), GetEvents(), GetCalendars(), CreateModifyDeleteEvents(), DateTimestamp()] , llm=openAILLM, 
-        agent="structured-chat-zero-shot-react-description", agent_kwargs={
-        "memory_prompts": [chat_history],
-        "input_variables": ["input", "agent_scratchpad", "chat_history"]},
-        memory=memory,
-        verbose=True)
-
 
 def message(user_input: str):
     return agent.run(user_input)
@@ -32,6 +23,16 @@ def message(user_input: str):
 def main():
         # prompt the user for input
         user_input = sys.argv[1]
+        userId = sys.argv[2];
+        print(f"Valor del parámetro 'userId': {userId}")
+        agent = initialize_agent(tools=[SendEmail(userId), ReadEmails(userId), GetContacts(userId), GetEvents(userId), GetCalendars(userId),
+                                         CreateModifyDeleteEvents(userId), DateTimestamp()] , llm=openAILLM, 
+        agent="structured-chat-zero-shot-react-description", agent_kwargs={
+        "memory_prompts": [chat_history],
+        "input_variables": ["input", "agent_scratchpad", "chat_history"]},
+        memory=memory,
+        verbose=True)
+
         agent.run(user_input)
 
 if __name__ == "__main__":

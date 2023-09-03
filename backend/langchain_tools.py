@@ -5,7 +5,6 @@ from langchain.chat_models import ChatOpenAI
 from langchain.tools import BaseTool, StructuredTool
 
 import requests
-import dotenv
 import os
 import json
 import datetime
@@ -20,12 +19,11 @@ class CreateModifyDeleteEvents(BaseTool):
     The action is sucessfully completed if the response holds 200"""
 
 
-    dotenv.load_dotenv()
-    OPEN_API_KEY = os.getenv("OPEN_API_KEY")
-    NYLAS_RUNTIME_AUTH_KEY = os.getenv("NYLAS_RUNTIME_AUTH_KEY")
+    NYLAS_RUNTIME_AUTH_KEY = ''
 
-    dotenv.load_dotenv()
-    NYLAS_RUNTIME_AUTH_KEY = os.getenv("NYLAS_RUNTIME_AUTH_KEY")
+    def __init__(self, userId):
+        super().__init__()  # Llama al constructor de la clase base si es necesario
+        self.NYLAS_RUNTIME_AUTH_KEY = userId
 
     def _run(self, eventSummary: str, startsTimestamp: str, endsTimestamp: str, calendarId: str, location: str = 'Not defined'
              , participants = [{"email": "undefined"}]) -> str:
@@ -78,12 +76,11 @@ class GetEvents(BaseTool):
     using dateTimestamp tool"""
 
 
-    dotenv.load_dotenv()
-    OPEN_API_KEY = os.getenv("OPEN_API_KEY")
-    NYLAS_RUNTIME_AUTH_KEY = os.getenv("NYLAS_RUNTIME_AUTH_KEY")
+    NYLAS_RUNTIME_AUTH_KEY = ''
 
-    dotenv.load_dotenv()
-    NYLAS_RUNTIME_AUTH_KEY = os.getenv("NYLAS_RUNTIME_AUTH_KEY")
+    def __init__(self, userId):
+        super().__init__()  # Llama al constructor de la clase base si es necesario
+        self.NYLAS_RUNTIME_AUTH_KEY = userId
 
     def _run(self, calendarId: str, startsAfter: str, endsBefore: str) -> str:
         url = 'http://localhost:9000/nylas/read-events'
@@ -111,8 +108,11 @@ class GetCalendars(BaseTool):
     description = """Useful for when you need to recieve the information of the calendars in json format.
       Use this action for retrieving all the calendars. Use this action for getting all the calendars associated"""
     
-    dotenv.load_dotenv()
-    NYLAS_RUNTIME_AUTH_KEY = os.getenv("NYLAS_RUNTIME_AUTH_KEY")
+    NYLAS_RUNTIME_AUTH_KEY = ''
+
+    def __init__(self, userId):
+        super().__init__()  # Llama al constructor de la clase base si es necesario
+        self.NYLAS_RUNTIME_AUTH_KEY = userId
 
     def _run(self) -> str:
         url = 'http://localhost:9000/nylas/read-calendars'
@@ -131,8 +131,11 @@ class GetContacts(BaseTool):
     name = "get_contacts"
     description = "Useful for when you need to recieve the information of all the contacts in json format. Use this action for retrieving all the contacts."
 
-    dotenv.load_dotenv()
-    NYLAS_RUNTIME_AUTH_KEY = os.getenv("NYLAS_RUNTIME_AUTH_KEY")
+    NYLAS_RUNTIME_AUTH_KEY = ''
+
+    def __init__(self, userId):
+        super().__init__()  # Llama al constructor de la clase base si es necesario
+        self.NYLAS_RUNTIME_AUTH_KEY = userId
 
     def _run(self) -> str:
         url = 'http://localhost:9000/nylas/contacts'
@@ -152,8 +155,12 @@ class GetContactDetailsById(BaseTool):
     name = "get_contact_details_by_id"
     description = """Useful for when you need to recieve the information of one specific contact in json format. Use this action for retrieving one contact by id."""
 
-    dotenv.load_dotenv()
-    NYLAS_RUNTIME_AUTH_KEY = os.getenv("NYLAS_RUNTIME_AUTH_KEY")
+    
+    NYLAS_RUNTIME_AUTH_KEY = ''
+
+    def __init__(self, userId):
+        super().__init__()  # Llama al constructor de la clase base si es necesario
+        self.NYLAS_RUNTIME_AUTH_KEY = userId
 
     def _run(self, contact_id: str) -> str:
         url = """http://localhost:9000/nylas/contacts/{contact_id}"""
@@ -171,8 +178,12 @@ class ReadEmails(BaseTool):
     name = "read_emails"
     description = "Useful for when you need to recieve or to read the latest emails from your inbox in json format"
 
-    dotenv.load_dotenv()
-    NYLAS_RUNTIME_AUTH_KEY = os.getenv("NYLAS_RUNTIME_AUTH_KEY")
+    
+    NYLAS_RUNTIME_AUTH_KEY = ""
+
+    def __init__(self, userId):
+        super().__init__()  # Llama al constructor de la clase base si es necesario
+        self.NYLAS_RUNTIME_AUTH_KEY = userId
 
     def _run(self) -> str:
         url = 'http://localhost:9000/nylas/read-emails'
@@ -193,26 +204,11 @@ class SendEmail(BaseTool):
     description = """Useful for when you need to send an email to one person or several people. Do not use this title type object, just the plain string which is the title value.
     The action is sucessfully completed if the response holds 200""" 
 
-    # Plantilla JSON para el prompt
-    json_object_template = """
-    Create a json object that looks like
-    {{
-        "object": "draft",
-        "subject": "{topicEmail}",
-        "to": "{toEmail}",
-        "body": "{bodyEmail}",
-        "from": "{fromEmail}",
-        "isOpen": true
-    }}
-    """
+    NYLAS_RUNTIME_AUTH_KEY = ''
 
-    dotenv.load_dotenv()
-    OPEN_API_KEY = os.getenv("OPEN_API_KEY")
-    NYLAS_RUNTIME_AUTH_KEY = os.getenv("NYLAS_RUNTIME_AUTH_KEY")
-
-    json_prompt = PromptTemplate(template=json_object_template, input_variables=["topicEmail", "toEmail", "bodyEmail", "fromEmail"])
-    openAILLM = ChatOpenAI(openai_api_key=OPEN_API_KEY, temperature=0.7, model_name="gpt-3.5-turbo")
-    chain = LLMChain(llm=openAILLM, prompt=json_prompt)
+    def __init__(self, userId):
+        super().__init__()  # Llama al constructor de la clase base si es necesario
+        self.NYLAS_RUNTIME_AUTH_KEY = userId
 
     def _run(self, to, sender: str, summary: str, body: str) -> str:
         url = 'http://localhost:9000/nylas/send-email'
