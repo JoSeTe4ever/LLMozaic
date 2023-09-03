@@ -9,17 +9,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@nylas/nylas-react": "^0.1.0",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@fortawesome/fontawesome-svg-core": "^6.4.2",
+    "@fortawesome/free-solid-svg-icons": "^6.4.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@mui/material": "^5.11.4",
     "@next/font": "13.1.1",
+    "@nylas/nylas-react": "^0.1.0",
     "dompurify": "^2.3.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sass": "^1.55.0",
     "react-markdown": "^8.0.4",
-    "react-use-websocket": "^3.0.0"
+    "react-use-websocket": "^3.0.0",
+    "sass": "^1.55.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.17",
