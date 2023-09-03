@@ -1,19 +1,17 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import ReactMarkdown from 'react-markdown'
+import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useEffect, useRef, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
-import AudioStream from './AudioStream';
-import { faMicrophone } from '@fortawesome/free-solid-svg-icons'
 import styles from '../src/styles/Home.module.css';
+import AudioStream from './AudioStream';
 
 export default function Chat({ userId }) {
 
   const [userInput, setUserInput] = useState("");
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [mediaRecorder, setMediaRecorder] = useState(null);
-  const [mediaAudioEnabled, setMediaAudioEnabled] = useState(false);
   const [recording, setRecording] = useState(false);
   const [displayMessage, setDisplayMessage] = useState(false);
   const [currentMessage, setCurrentMessage] = useState('');
@@ -74,23 +72,6 @@ export default function Chat({ userId }) {
   // Focus on text field on load and init audio recording (check if browser supports it)
   useEffect(() => {
     textAreaRef.current.focus();
-
-    if (navigator.mediaDevices) {
-      console.log("getUserMedia supported.");
-      setMediaAudioEnabled(true);
-      const constraints = { audio: true };
-      let chunks = [];
-
-      navigator.mediaDevices
-        .getUserMedia(constraints)
-        .then((stream) => {
-          const mediaR = new MediaRecorder(stream);
-          setMediaRecorder(mediaR);
-        })
-        .catch((err) => {
-          console.log("The following getUserMedia error occurred: " + err);
-        });
-    }
   }, []);
 
   // Handle form submission through WS
