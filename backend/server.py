@@ -17,7 +17,6 @@ sock = Sock(app)
 def echo(sock):
         lines_to_send = []  # Lista para almacenar las líneas
         recordLine = False;
-        print(f'jopi {recordLine}')
         data = sock.receive()
         popen = subprocess.Popen(['python', '-u', 'langchain_main.py', data], stdout=subprocess.PIPE, universal_newlines=True)
         for line in popen.stdout:
@@ -35,7 +34,6 @@ def echo(sock):
                     lines_to_send = []
             if recordLine:
                 lines_to_send.append(line)
-            print(f'recordLine {recordLine}, line -> {line}', end='')
             # Procesa las líneas almacenadas y luego límpialas
 
         return_code = popen.wait()
