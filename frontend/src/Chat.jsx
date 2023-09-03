@@ -32,37 +32,9 @@ export default function Chat() {
         setLoading(false);
       },
       onMessage: (e) => {
-        console.log(currentMessage);
-        /* let rawTextFromBackend = e.data;
-         let cleanedText;
-         if (rawTextFromBackend.startsWith('Thought:')) {
-           cleanedText = e.data.replace('Thought:', 'Mosaic Thought:');
-           setDisplayMessage(() => true);
-         }
- 
-         if (rawTextFromBackend.startsWith('Action:')) {
-           setDisplayMessage(() => false);
-         }
- 
-         if (displayMessage || e.data.startsWith('Thought:') && !e.data.startsWith('Action:')) {
- 
-           const cleanedText = rawTextFromBackend.replace(/\x1b\[[0-9;]*m/g, '');
-           setCurrentMessage(currentMessage + cleanedText);
-         }
- 
-         if (e.data.startsWith('\n')) {
-           setMessages((prevMessages) => [...prevMessages, { "message": currentMessage, "type": "apiMessage" }]);
-           setCurrentMessage('');
-         }
- 
-         if (e.data.startsWith('> Finished chain.')) {
-           setLoading(false);
-         }
-       },
-       //Will attempt to reconnect on all close events, such as server shutting down
-       shouldReconnect: (closeEvent) => true,
-       */
-      }
+        console.log(e.data);
+      },
+      shouldReconnect: (closeEvent) => true,
     });
 
   const messageListRef = useRef(null);

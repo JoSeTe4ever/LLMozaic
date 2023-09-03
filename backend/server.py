@@ -15,19 +15,37 @@ sock = Sock(app)
 
 @sock.route('/ws')
 def echo(sock):
+        lines_to_send = []  # Lista para almacenar las líneas
+        recordLine = False;
+        print(f'jopi {recordLine}')
         data = sock.receive()
         popen = subprocess.Popen(['python', '-u', 'langchain_main.py', data], stdout=subprocess.PIPE, universal_newlines=True)
         for line in popen.stdout:
-            print('line'+ line);
-            sock.send(line)
+            if line.find('[32;1m') != -1 and line.find('Action') == -1 and line.find('Observation') == -1:
+                recordLine = True
+            if line.startswith("Thought:"):
+                recordLine = True
+            elif line.startswith("Action"):
+                recordLine = False
+            elif line.startswith("Observation"):
+                recordLine = False
+            elif line.startswith("\n"):
+                if len(lines_to_send) > 0:
+                    sock.send(''.join(lines_to_send))
+                    lines_to_send = []
+            if recordLine:
+                lines_to_send.append(line)
+            print(f'recordLine {recordLine}, line -> {line}', end='')
+            # Procesa las líneas almacenadas y luego límpialas
 
         return_code = popen.wait()
         
         if return_code == 0:
-            print("Command finished successfully.")
+            print("Command finished successfully. Closing socket...")
             sock.close()
 
         if return_code:
+            print("Command error. Closing socket...")
             sock.close()
             raise subprocess.CalledProcessError(return_code, ['python', 'langchain_main.py', data])
             
