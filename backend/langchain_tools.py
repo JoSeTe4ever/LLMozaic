@@ -210,24 +210,20 @@ class SendEmail(BaseTool):
         super().__init__()  # Llama al constructor de la clase base si es necesario
         self.NYLAS_RUNTIME_AUTH_KEY = userId
 
-    def _run(self, to, sender: str, summary: str, body: str) -> str:
+    def _run(self, to, summary: str, body: str) -> str:
         url = 'http://localhost:9000/nylas/send-email'
         
         # Genera el JSON a partir del prompt y ejecuta la cadena
         json_data = {
-            "topicEmail": summary,
-            "toEmail": to,
-            "bodyEmail": body,
-            "fromEmail": sender
+            "to": to,
+            "subject": summary,
+            "body": body
         }
-        json_string = self.chain.run(json_data)
-        json_object = json.loads(json_string)
 
         # Configura encabezados y envía la solicitud
         headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
-        print(json_object)
-        print('llamando')
-        response = requests.post(url, json=json_object, headers=headers)
+        print(json_data)
+        response = requests.post(url, json=json_data, headers=headers)
         print(response)
         return response.json
 

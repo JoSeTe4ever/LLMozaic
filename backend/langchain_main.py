@@ -10,7 +10,7 @@ import sys
 
 dotenv.load_dotenv()
 OPEN_API_KEY = os.getenv("OPEN_API_KEY");
-openAILLM = ChatOpenAI(openai_api_key=OPEN_API_KEY, temperature=0.9, model_name="gpt-3.5-turbo")
+openAILLM = ChatOpenAI(openai_api_key=OPEN_API_KEY, temperature=0.9, model_name="gpt-4")
 tools = [load_tools(['human'])];
 
 chat_history = MessagesPlaceholder(variable_name="chat_history")
@@ -68,7 +68,7 @@ def main():
         
         agent = initialize_agent(tools=tools , llm=openAILLM, 
         agent="structured-chat-zero-shot-react-description", agent_kwargs={
-        "input_variables": ["input", "agent_scratchpad", "chat_history"]},
+        "input_variables": ["input", "agent_scratchpad"]},
         memory=memory,
         verbose=True)
 
