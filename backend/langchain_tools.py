@@ -113,6 +113,7 @@ class GetCalendars(BaseTool):
     def __init__(self, userId):
         super().__init__()  # Llama al constructor de la clase base si es necesario
         self.NYLAS_RUNTIME_AUTH_KEY = userId
+        
 
     def _run(self) -> str:
         url = 'http://localhost:9000/nylas/read-calendars'
@@ -123,9 +124,8 @@ class GetCalendars(BaseTool):
         return response.json();
 
     async def _arun(self) -> str:
-        headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
-        reponse = await requests.get(url, headers=headers);
-        return reponse.json();
+        """Use the tool asynchronously."""
+        raise NotImplementedError("get_calendars does not support async")
 
 class GetContacts(BaseTool):
     name = "get_contacts"
