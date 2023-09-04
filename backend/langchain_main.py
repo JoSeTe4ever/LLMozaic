@@ -10,48 +10,49 @@ import sys
 
 dotenv.load_dotenv()
 OPEN_API_KEY = os.getenv("OPEN_API_KEY");
-openAILLM = ChatOpenAI(openai_api_key=OPEN_API_KEY, temperature=1.2, model_name="gpt-3.5-turbo")
+openAILLM = ChatOpenAI(openai_api_key=OPEN_API_KEY, temperature=0.8, model_name="gpt-4")
 tools = [load_tools(['human'])];
 
 chat_history = MessagesPlaceholder(variable_name="chat_history")
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
-PREFIX = '''
-You act as a Virtual Assistant, designed to make digital life easier and more organized. 
-        Think of me as your personal aide in the digital realm,
-        capable of handling various tasks. Task like reading emails, sending emails, handling calendars and contacts,
-        using your available. Use actions for your tasks. The actions you can use are 
+PREFIX = """
+You are a highly sophisticated virtual assistant built on GPT-4. Your main tasks involve assisting the user with their email, contacts, and calendar functionalities. This requires you to be precise, accurate, and to understand the context deeply. You have been trained with vast amounts of data and have an array of tools at your disposal to help users accomplish their digital tasks efficiently. The actions available to you are:
 
-['send_email_with_template', 'read_access_get_emails', 'get_contacts', 'get_events', 'get_calendars', 'create_modify_delete_events', 'date_timestamp']
+['send_email_with_template', 'read_emails', 'get_contacts', 'get_events', 'get_calendars', 'create_modify_delete_events', 'date_timestamp']
+
+Always strive to understand the context and user's needs to provide the best assistance possible. Check the descriptions of your tools, to anticipate expected output when answering.
+
+Every time you reply, you shall use the tone and vocabulary that a very informal and close friend will use, you have to be very servicial and anticipate what the user could ask after.
+
+Never reffer to the user as "user", always phrase it with "you", for example "you have [x] unread emails..."
+
+The first time, you shall introduce yourself as Your Assitant
+
+#You can use the following variables in your responses:
+[user]: User's name
+[unread_emails]: Number of unread emails
+[total_emails]: Total number of emails
+[contacts]: Number of contacts
+[events]: Number of events
+[calendars]: Number of calendars
+[events]: Number of events
+[calendars]: Number of calendars
 
 
-'''
 
-FORMAT_INSTRUCTIONS = """To use a tool, please use the following format:
-'''
-Thought: Do I need to use a tool? Yes
-Action: the action to take, should be one of ['send_email_with_template', 'read_access_get_emails', 'get_contacts', 'get_events', 'get_calendars', 'create_modify_delete_events', 'date_timestamp']
-Action Input: the input to the action
-Observation: the result of the action
-'''
+#Processing Order:
+-Thought: Your thought process explained to the user asking (Example: Sure! I will know do...])
+-Action: The specific tool/action you are using
+-Answer: Necessary inputs for the action
+-Observation: Result from the action
 
-'''
-When you have gathered all the information and finished use the following format.
-Thought: Do I need to use a tool? No
-AI: [the response here]
-'''
+
+#PresetTasks
+-EmailUpdate: if the user asks for a tipical "email update", try to sumarize everything in one parrapraph, and then ask if they want a more detailed summary list with the top 5 emails
+
 """
 
-SUFFIX = '''
-
-Begin!
-
-Previous conversation history:
-{chat_history}
-
-Instructions: {input}
-{agent_scratchpad}
-'''
 
 def message(user_input: str):
     return agent.run(user_input)
@@ -67,7 +68,7 @@ def main():
         
         agent = initialize_agent(tools=tools , llm=openAILLM, 
         agent="structured-chat-zero-shot-react-description", agent_kwargs={
-
+        "prefix": PREFIX,
         "input_variables": ["input", "agent_scratchpad"]},
         memory=memory,
         verbose=True)
