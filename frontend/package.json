@@ -22,6 +22,7 @@
     "react-dom": "^18.2.0",
     "react-markdown": "^8.0.4",
     "react-use-websocket": "^3.0.0",
+    "recorder-js": "^1.0.7",
     "sass": "^1.55.0"
   },
   "devDependencies": {
