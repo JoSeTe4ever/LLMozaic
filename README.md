@@ -33,6 +33,8 @@ pip install pillow
 - https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API/Using_the_MediaStream_Recording_API for speech2text
 - https://artificialcorner.com/how-to-build-tool-using-agents-with-langchain-d9fa9674b6c7
 - https://stackoverflow.com/questions/76329949/i-cant-get-the-langchain-agent-module-to-actually-execute-my-prompt
+- https://codepen.io/lxls/project/editor/ZKKBJa for specch2text
+- https://github.com/addpipe/simple-recorderjs-demo esta es la mejor demo.
 viajeroeneltiempo84@gmail.com
 
 
