@@ -6,6 +6,7 @@ import '../src/styles/AudioStream.css';
 
 export default function AudioStream({ onClose }) {
 
+    const [isLoading, setIsLoading] = useState(false);
     const [mediaRecorder, setMediaRecorder] = useState(null);
     const [mediaAudioEnabled, setMediaAudioEnabled] = useState(false);
     const audioCanvas = useRef();
@@ -25,7 +26,8 @@ export default function AudioStream({ onClose }) {
 
     const onMediaRecorderStop = (e) => {
         console.log("data available after MediaRecorder.stop() called.");
-        const clipName = prompt('Enter a name for your sound clip?', 'My unnamed clip');
+        setIsLoading(true)
+
     }
 
     const onMediaDataAvailable = (e) => {
@@ -117,6 +119,7 @@ export default function AudioStream({ onClose }) {
 
     return (
         <div className="audio-stream">
+           isLoading {{ isLoading }}
             <canvas id="audioCanvas" width="500" height="200" ref={audioCanvas}></canvas>
             <div className="button-container">
                 <button className='okButton' onClick={onSendEvent}>

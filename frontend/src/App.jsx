@@ -48,7 +48,7 @@ function App() {
   useEffect(() => {
     if (userId?.length) {
       window.history.replaceState({}, '', `/?userId=${userId}`);
-      getEmails();
+      //getEmails();
     } else {
       window.history.replaceState({}, '', '/');
     }

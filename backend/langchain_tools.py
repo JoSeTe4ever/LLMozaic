@@ -226,6 +226,7 @@ class SendEmail(BaseTool):
         # Configura encabezados y envía la solicitud
         headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
         print(json_object)
+        print('llamando')
         response = requests.post(url, json=json_object, headers=headers)
         print(response)
         return response.json
