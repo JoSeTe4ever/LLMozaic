@@ -37,6 +37,8 @@ export default function Chat({ userId }) {
       },
       onMessage: (e) => {
         console.log(e.data);
+        setMessageHistory((prev) => prev.concat(e.data));
+        setMessages((prevMessages) => [...prevMessages, { "message": e.data, "type": "apiMessage" }]);
       },
       shouldReconnect: (closeEvent) => true,
     });
@@ -47,8 +49,7 @@ export default function Chat({ userId }) {
   //ws
   useEffect(() => {
     if (lastMessage !== null) {
-      setMessageHistory((prev) => prev.concat(lastMessage));
-      setMessages((prevMessages) => [...prevMessages, { "message": lastMessage.data, "type": "apiMessage" }]);
+
     }
   }, [lastMessage, setMessageHistory]);
 

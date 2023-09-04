@@ -67,6 +67,7 @@ def main():
         
         agent = initialize_agent(tools=tools , llm=openAILLM, 
         agent="structured-chat-zero-shot-react-description", agent_kwargs={
+        'prefix': PREFIX, 
         "input_variables": ["input", "agent_scratchpad"]},
         memory=memory,
         verbose=True)
