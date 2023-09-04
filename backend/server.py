@@ -16,12 +16,12 @@ sock = Sock(app)
 @sock.route('/ws')
 def echo(sock):
         userId = request.args.get('userId')
-        print(f"Valor del parámetro 'mi_parametro': {userId}")
         lines_to_send = []  # Lista para almacenar las líneas
         recordLine = False;
         data = sock.receive()
         popen = subprocess.Popen(['python', '-u', 'langchain_main.py', data, userId], stdout=subprocess.PIPE, universal_newlines=True)
         for line in popen.stdout:
+            print(line, end='')
             if line.find('[32;1m') != -1 and line.find('Action') == -1 and line.find('Observation') == -1:
                 recordLine = True
             if line.startswith("Thought:"):
@@ -42,7 +42,7 @@ def echo(sock):
         
         if return_code == 0:
             print("Command finished successfully. Closing socket...")
-            sock.close()
+            #sock.close()
 
         if return_code:
             print("Command error. Closing socket...")

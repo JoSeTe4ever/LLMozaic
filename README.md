@@ -31,6 +31,8 @@ pip install pillow
 - https://www.kaggle.com/code/robalaban/using-langchain-to-query-google-calendar-events/notebook
 - https://www.piesocket.com/websocket-tester FOR testing websocket
 - https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API/Using_the_MediaStream_Recording_API for speech2text
+- https://artificialcorner.com/how-to-build-tool-using-agents-with-langchain-d9fa9674b6c7
+- https://stackoverflow.com/questions/76329949/i-cant-get-the-langchain-agent-module-to-actually-execute-my-prompt
 viajeroeneltiempo84@gmail.com
 
 

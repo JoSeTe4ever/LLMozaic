@@ -1,14 +1,18 @@
-import { useState, useRef, useEffect, useCallback } from 'react'
-import ReactMarkdown from 'react-markdown'
+import { faMicrophone } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useEffect, useRef, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
-import styles from '../src/styles/Home.module.css'
+import styles from '../src/styles/Home.module.css';
+import AudioStream from './AudioStream';
 
 export default function Chat({ userId }) {
 
   const [userInput, setUserInput] = useState("");
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [recording, setRecording] = useState(false);
   const [displayMessage, setDisplayMessage] = useState(false);
   const [currentMessage, setCurrentMessage] = useState('');
   const [messages, setMessages] = useState([
@@ -33,6 +37,8 @@ export default function Chat({ userId }) {
       },
       onMessage: (e) => {
         console.log(e.data);
+        setMessageHistory((prev) => prev.concat(e.data));
+        setMessages((prevMessages) => [...prevMessages, { "message": e.data, "type": "apiMessage" }]);
       },
       shouldReconnect: (closeEvent) => true,
     });
@@ -40,16 +46,10 @@ export default function Chat({ userId }) {
   const messageListRef = useRef(null);
   const textAreaRef = useRef(null);
 
-  useEffect(() => {
-    /* it will be called when queues did update */
-    console.log('Aqui hay que parsear el array', messageHistory)
-  }, [messageHistory])
-
   //ws
   useEffect(() => {
     if (lastMessage !== null) {
-      setMessageHistory((prev) => prev.concat(lastMessage));
-      setMessages((prevMessages) => [...prevMessages, { "message": lastMessage.data, "type": "apiMessage" }]);
+
     }
   }, [lastMessage, setMessageHistory]);
 
@@ -69,7 +69,8 @@ export default function Chat({ userId }) {
     messageList.scrollTop = messageList.scrollHeight;
   }, [messages]);
 
-  // Focus on text field on load
+  // Init useEffect.
+  // Focus on text field on load and init audio recording (check if browser supports it)
   useEffect(() => {
     textAreaRef.current.focus();
   }, []);
@@ -98,44 +99,6 @@ export default function Chat({ userId }) {
     setUserInput("");
   }
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (userInput.trim() === "") {
-      return;
-    }
-
-    setLoading(true);
-    setMessages((prevMessages) => [...prevMessages, { "message": userInput, "type": "userMessage" }]);
-
-    // Send user question and history to API
-    const response = await fetch("http://127.0.0.1:5000/api/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ question: userInput, history: history }),
-    });
-
-    if (!response.ok) {
-      handleError();
-      return;
-    }
-
-    // Reset user input
-    setUserInput("");
-    const data = await response.json();
-
-    if (data.error) {
-      handleError();
-      return;
-    }
-
-    setMessages((prevMessages) => [...prevMessages, { "message": data.success, "type": "apiMessage" }]);
-    setLoading(false);
-  };
-
   // Prevent blank submissions and allow for multiline input
   const handleEnter = (e) => {
     if (e.key === "Enter" && userInput) {
@@ -147,6 +110,11 @@ export default function Chat({ userId }) {
     }
   };
 
+  const handleRecordClick = () => {
+    setRecording(true);
+    console.log("recorder started");
+  }
+
   // Keep history in sync with messages
   useEffect(() => {
     if (messages.length >= 3) {
@@ -157,6 +125,16 @@ export default function Chat({ userId }) {
   return (
     <>
       <main className={styles.main}>
+
+         {/* Condición para mostrar el overlay */}
+         {recording && (
+          <div className={styles.RecordStreamOverlay}>
+            <div className="overlay-content">
+              <AudioStream onClose={ () => setRecording(false)}/>
+            </div>
+          </div>
+        )}
+
         <div className={styles.cloud}>
           <div ref={messageListRef} className={styles.messagelist}>
             {messages.map((message, index) => {
@@ -193,6 +171,9 @@ export default function Chat({ userId }) {
                 onChange={e => setUserInput(e.target.value)}
                 className={styles.textarea}
               />
+
+              <FontAwesomeIcon icon={faMicrophone} className={styles.microButton} onClick={handleRecordClick} />
+
               <button
                 type="submit"
                 disabled={loading}
@@ -200,10 +181,12 @@ export default function Chat({ userId }) {
               >
                 {loading ? <div className={styles.loadingwheel}><CircularProgress color="inherit" size={20} /> </div> :
                   // Send icon SVG in input field
+
                   <svg viewBox='0 0 20 20' className={styles.svgicon} xmlns='http://www.w3.org/2000/svg'>
                     <path d='M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z'></path>
                   </svg>}
               </button>
+
             </form>
           </div>
           <div className={styles.footer}>
