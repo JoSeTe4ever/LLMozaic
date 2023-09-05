@@ -56,6 +56,7 @@ def echo(sock):
 
 @app.route('/speech2text', methods=['POST'])
 def upload_audio():
+    print('audio_data recibido')
     if 'audio_data' not in request.files:
         return 'No se proporcionó ningún archivo de audio', 400
 
