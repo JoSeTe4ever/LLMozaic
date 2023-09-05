@@ -50,6 +50,23 @@ def echo(sock):
             raise subprocess.CalledProcessError(return_code, ['python', 'langchain_main.py', data])
             
 
+@app.route('/speech2text', methods=['POST'])
+def upload_audio():
+    if 'audio_data' not in request.files:
+        return 'No se proporcionó ningún archivo de audio', 400
+
+    audio_file = request.files['audio_data']
+
+    if audio_file.filename == '':
+        return 'Nombre de archivo vacío', 400
+
+    # Puedes guardar el archivo en el servidor o procesarlo de la manera que desees.
+    # Por ejemplo, para guardar el archivo en el directorio 'uploads':
+    # audio_file.save('uploads/' + audio_file.filename)
+
+    return 'Archivo de audio recibido con éxito'
+
+
 @app.route('/api/chat', methods=['POST'])
 def process_data():
     try:

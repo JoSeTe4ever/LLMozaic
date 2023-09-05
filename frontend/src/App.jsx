@@ -45,16 +45,6 @@ function App() {
 		}
 	}, []);
 
-<<<<<<< HEAD
-  useEffect(() => {
-    if (userId?.length) {
-      window.history.replaceState({}, '', `/?userId=${userId}`);
-      //getEmails();
-    } else {
-      window.history.replaceState({}, '', '/');
-    }
-  }, [userId]);
-=======
 	useEffect(() => {
 		if (userId?.length) {
 			window.history.replaceState({}, '', `/?userId=${userId}`);
@@ -63,7 +53,6 @@ function App() {
 			window.history.replaceState({}, '', '/');
 		}
 	}, [userId]);
->>>>>>> main
 
 	const getEmails = async () => {
 		setIsLoading(true);
