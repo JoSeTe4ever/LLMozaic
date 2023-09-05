@@ -25,8 +25,8 @@ export default function AudioStream({ onClose }) {
 
     function uploadFile(blob) {
       //name of .wav file to use during upload and download (without extendion)
-      var filename = new Date().toISOString();
-
+      //var filename = new Date().toISOString()  + 'test.wav';
+      var filename = 'test.wav';
       //add controls to the <audio> element
 
       var xhr = new XMLHttpRequest();
