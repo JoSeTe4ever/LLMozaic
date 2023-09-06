@@ -17,7 +17,7 @@ backend_node/node_modules/
 backend_node/datastore.json
 frontend_calendar/node_modules/
 frontend_chatting/node_modules/
-backend/audio_files/
+*.ogg
 eggs/
 .eggs/
 lib/
