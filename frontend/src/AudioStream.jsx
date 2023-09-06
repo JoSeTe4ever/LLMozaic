@@ -111,7 +111,7 @@ export default function AudioStream({ onClose }) {
 
                         //name of .wav file to use during upload and download (without extendion)
                         //var filename = new Date().toISOString()  + 'test.wav';
-                        var filename = 'test2.ogg';
+                        var filename = new Date().getTime() + '_sentFile.ogg';
                         //add controls to the <audio> element
             
                         var xhr = new XMLHttpRequest();
@@ -150,8 +150,6 @@ export default function AudioStream({ onClose }) {
                 <button className="okButton" onClick={onSendEvent}>
                     <FontAwesomeIcon icon={faCheck} />
                 </button>
-
-
 
                 <button className="cancelButton" onClick={onCloseEvent}>
                     <FontAwesomeIcon icon={faTimes} />
