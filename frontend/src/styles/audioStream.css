@@ -10,10 +10,11 @@
   margin-bottom: 20px;
 }
 
-.buttonContainer {
+.button-container {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  margin-top: 2rem;
 }
 
 .okButton,
