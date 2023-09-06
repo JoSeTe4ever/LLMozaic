@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faTimes, faRefresh, faBedPulse } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import "../src/styles/AudioStream.css";
 
@@ -8,6 +8,7 @@ export default function AudioStream({ onClose }) {
     const [mediaRecorder, setMediaRecorder] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [urlBlob, setUrlBlob] = useState(null);
+    const [transcription, setTranscription] = useState('');
     const audioCanvas = useRef();
     let audioCtx;
     var chunks = [];
@@ -21,16 +22,13 @@ export default function AudioStream({ onClose }) {
         console.log("send clicked");
         //tell the recorder to stop the recording
         mediaRecorder.stop();
-        const blob = new Blob(chunks, { 'type': 'audio/ogg; codecs=opus' });
-        chunks = [];
-
         console.log("recorder stopped");
-
     };
 
-    const onMediaRecorderStop = (e) => {
-        console.log("data available after MediaRecorder.stop() called.");
-        setIsLoading(true);
+    const onRetryEvent = () => {
+        console.log("retry clicked");
+        //tell the recorder to stop the recording
+        console.log("recorder started");
     };
 
     const visualize = (stream) => {
@@ -105,6 +103,7 @@ export default function AudioStream({ onClose }) {
 
 
                     mediaRecorder.ondataavailable = function (e) {
+                        setIsLoading(true);
                         chunks.push(e.data);
                         const audioURL = window.URL.createObjectURL(e.data);
                         setUrlBlob(audioURL);
@@ -118,6 +117,10 @@ export default function AudioStream({ onClose }) {
                         xhr.onload = function (e) {
                             if (this.readyState === 4) {
                                 console.log("Server returned: ", e.target.responseText);
+                                setTranscription(e.target.responseText);
+                                setIsLoading(false);
+                            } else {
+                              setIsLoading(false);
                             }
                         };
                         var fd = new FormData();
@@ -126,6 +129,7 @@ export default function AudioStream({ onClose }) {
                         xhr.send(fd);
                     }
                     setMediaRecorder(mediaRecorder);
+                    mediaRecorder.start()
                 })
                 .catch((err) => {
                     console.error("The following getUserMedia error occurred: " + err);
@@ -135,26 +139,37 @@ export default function AudioStream({ onClose }) {
 
     return (
         <div className="audio-stream">
-            <canvas
+            
+            {isLoading == false && transcription.length == 0 ? <>
+              <span className="listening">Now Listening ...</span>
+              <canvas
                 id="audioCanvas"
                 width="500"
                 height="200"
                 ref={audioCanvas}
-            ></canvas>
+              ></canvas></> : isLoading == true ? <div className="loader">
+                <FontAwesomeIcon icon={faBedPulse} />
+              </div> : <></>}
+            
+            {transcription?.length > 0 ? <div className="transcription">
+                {transcription}
+            </div>  : <></>
+            } 
             <div className="button-container">
-
-                <button className="okButton" onClick={() => mediaRecorder.start()}>
-                    <FontAwesomeIcon icon={faCheck} />Play
-                </button>
-
                 <button className="okButton" onClick={onSendEvent}>
                     <FontAwesomeIcon icon={faCheck} />
+                    Send
+                </button>
+
+                <button className="refreshButton" onClick={onRetryEvent}>
+                    <FontAwesomeIcon icon={faRefresh} />
+                    Retry
                 </button>
 
                 <button className="cancelButton" onClick={onCloseEvent}>
                     <FontAwesomeIcon icon={faTimes} />
+                    Cancel
                 </button>
-                <audio controls src={urlBlob}></audio>
             </div>
         </div>
     );
