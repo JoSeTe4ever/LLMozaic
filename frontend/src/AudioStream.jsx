@@ -25,15 +25,18 @@ export default function AudioStream({ onClose }) {
 
   const onSendEvent = () => {
     console.log("send clicked");
-    //tell the recorder to stop the recording
     mediaRecorder.stop();
-    console.log("recorder stopped");
+    onClose(transcription);
   };
 
   const onRetryEvent = () => {
     setIsLoading(false);
     setTranscription("");
-    init()
+    init();
+  };
+
+  const onStopRecording = () => {
+    mediaRecorder.stop();
   };
 
   const visualize = (stream) => {
@@ -53,7 +56,6 @@ export default function AudioStream({ onClose }) {
     draw();
 
     function draw() {
-
       let canvasCtx = audioCanvas.current.getContext("2d");
       const WIDTH = audioCanvas.current.width;
       const HEIGHT = audioCanvas.current.height;
@@ -62,11 +64,11 @@ export default function AudioStream({ onClose }) {
 
       analyser.getByteTimeDomainData(dataArray);
 
-      canvasCtx.fillStyle = "rgb(200, 200, 200)";
+      canvasCtx.fillStyle = "rgb(200, 200, 200, 0.1)";
       canvasCtx.fillRect(0, 0, WIDTH, HEIGHT);
 
       canvasCtx.lineWidth = 3;
-      canvasCtx.strokeStyle = "rgb(0, 0, 0)";
+      canvasCtx.strokeStyle = "rgb(255, 255, 255)";
 
       canvasCtx.beginPath();
 
@@ -141,7 +143,6 @@ export default function AudioStream({ onClose }) {
 
   // Init useEffect.
   useEffect(() => {
-    
     init();
   }, []);
 
@@ -149,7 +150,7 @@ export default function AudioStream({ onClose }) {
     <div className="audio-stream">
       {isLoading == false && transcription.length == 0 ? (
         <>
-          <span className="listening">Now Listening ...</span>
+          <span className="transcription">Now Listening ...</span>
           <canvas
             id="audioCanvas"
             width="500"
@@ -171,10 +172,19 @@ export default function AudioStream({ onClose }) {
         <></>
       )}
       <div className="button-container">
-        <button className="okButton" onClick={onSendEvent}>
-          <FontAwesomeIcon icon={faCheck} />
-          Send
-        </button>
+        {transcription?.length > 0 ? (
+          <button className="okButton" onClick={onSendEvent}>
+            <FontAwesomeIcon icon={faCheck} />
+            Send
+          </button>
+        ) : (
+          <>
+            <button className="okButton" onClick={onStopRecording}>
+              <FontAwesomeIcon icon={faCheck} />
+              Stop
+            </button>
+          </>
+        )}
 
         <button className="refreshButton" onClick={onRetryEvent}>
           <FontAwesomeIcon icon={faRefresh} />

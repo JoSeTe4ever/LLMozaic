@@ -40,8 +40,12 @@
   background-color: #bd2130;
 }
 
-audio {
-  display: block;
-  width: 100%;
-  margin-top: 0.2rem;
+canvas#audioCanvas {
+  margin-bottom: 1rem;
+}
+
+.transcription {
+  color: white !important;
+  font-size: x-large;
+  margin: 2rem;
 }
