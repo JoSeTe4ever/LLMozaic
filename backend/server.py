@@ -45,7 +45,7 @@ def echo(sock):
 
     if return_code == 0:
         print("Command finished successfully. Closing socket...")
-        # sock.close()
+        sock.close()
 
     if return_code:
         print("Command error. Closing socket...")
