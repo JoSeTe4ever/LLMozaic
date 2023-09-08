@@ -3,6 +3,38 @@ const { default: Event } = require('nylas/lib/models/event');
 
 const Nylas = require("nylas");
 
+//drafts
+
+exports.createDraft = async (req, res) => {
+  const user = res.locals.user;
+
+  const { to, subject, body, replyToMessageId } = req.body;
+
+  const draft = new Draft(Nylas.with(user.accessToken));
+
+  draft.from = [{ email: user.emailAddress }];
+  draft.to = [{ email: to }];
+  draft.subject = subject;
+  draft.body = body;
+  draft.replyToMessageId = replyToMessageId;
+
+  return res.json(draft);
+};
+
+exports.sendDraft = async (req, res) => {
+  const user = res.locals.user;
+
+  const { draftId } = req.query;
+  await Nylas.with(user.accessToken)
+    .drafts.list({
+      draft_id: draftId,
+    })
+    .then((draft) => {
+      draft.send();
+      return res.json(draft);
+    });
+};
+
 exports.sendEmail = async (req, res) => {
   const user = res.locals.user;
 
