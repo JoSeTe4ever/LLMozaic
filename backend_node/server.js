@@ -134,7 +134,7 @@ app.post("/nylas/send-draft", express.json(), (req, res, next) => {
   route.createDraft(req, res, next);
 });
 
-app.post("nylas/send-email", express.json(), (req, res, next) => {
+app.post("/nylas/send-email", isAuthenticated, (req, res, next) => {
   route.sendEmail(req, res, next);
 });
 

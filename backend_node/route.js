@@ -8,7 +8,7 @@ const Nylas = require("nylas");
 exports.createDraft = async (req, res, next) => {
   try {
     const user = res.locals.user;
-
+    console.log("req", req)
     const { to, subject, body, replyToMessageId } = req.body;
 
     const draft = new Draft(Nylas.with(user.accessToken));
