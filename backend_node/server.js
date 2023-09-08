@@ -43,7 +43,6 @@ Nylas.application({
 openWebhookTunnel({
   // Handle when a new message is created (sent)
   onMessage: function handleEvent(delta) {
-    console.log('JOPI webhook received', delta);
     switch (delta.type) {
       case WebhookTriggers.MessageCreated:
         console.log(
@@ -127,50 +126,95 @@ async function isAuthenticated(req, res, next) {
   next();
 }
 
-// Handle routes
-app.post("/nylas/send-email", isAuthenticated, express.json(), (req, res) =>
-  route.sendEmail(req, res)
-);
-
-app.get("/nylas/read-emails", isAuthenticated, (req, res) =>
-  route.readEmails(req, res)
-);
-
-app.get("/nylas/message", isAuthenticated, async (req, res) => {
-  route.getMessage(req, res);
+app.post("nylas/send-email", express.json(), (req, res, next) => {
+  try {
+    route.sendEmail(req, res)
+  } catch (error) {
+    next(error); // Pasa el error al siguiente middleware de manejo de errores
+  }
 });
 
-app.get("/nylas/file", isAuthenticated, async (req, res) => {
-  route.getFile(req, res);
+app.get("/nylas/read-emails", isAuthenticated, (req, res, next) => {
+  try {
+    route.readEmails(req, res)
+  } catch (error) {
+    next(error); // Pasa el error al siguiente middleware de manejo de errores
+  }
+});
+
+app.get("/nylas/message", isAuthenticated, async (req, res, next) => {
+  try {
+    route.getMessage(req, res);
+  } catch (error) {
+    next(error); // Pasa el error al siguiente middleware de manejo de errores
+  }
+});
+
+app.get("/nylas/file", isAuthenticated, async (req, res, next) => {
+  try {
+    route.getFile(req, res);
+  } catch (error) {
+    next(error); // Pasa el error al siguiente middleware de manejo de errores
+  }
 });
 
 // Add route for getting 20 latest calendar events
-app.post("/nylas/read-events", isAuthenticated, express.json(), (req, res) =>
-  route.readEvents(req, res)
-);
+app.post("/nylas/read-events", isAuthenticated, express.json(), (req, res, next) => {
+  try {
+    route.readEvents(req, res)
+  } catch (error) {
+    next(error); // Pasa el error al siguiente middleware de manejo de errores
+  }
+});
 
-app.get("/nylas/read-events", isAuthenticated, (req, res) =>
-  route.getReadEvents(req, res)
-);
+app.get("/nylas/read-events", isAuthenticated, (req, res, next) => {
+  try {
+    route.getReadEvents(req, res)
+  } catch (error) {
+    next(error); // Pasa el error al siguiente middleware de manejo de errores
+  }
+});
 
 // Add route for getting 20 latest calendar events
-app.get("/nylas/read-calendars", isAuthenticated, (req, res) =>
-  route.readCalendars(req, res)
-);
+app.get("/nylas/read-calendars", isAuthenticated, (req, res, next) => {
+  try {
+    route.readCalendars(req, res)
+  } catch (error) {
+    next(error); // Pasa el error al siguiente middleware de manejo de errores
+  }
+});
 
 // Add route for creating calendar events
-app.post("/nylas/create-events", isAuthenticated, express.json(), (req, res) =>
-  route.createEvents(req, res)
-);
+app.post("/nylas/create-events", isAuthenticated, express.json(), (req, res, next) => {
+  try {
+    route.createEvents(req, res)
+  } catch (error) {
+    next(error); // Pasa el error al siguiente middleware de manejo de errores
+  }
+});
 
 // Add route for getting all contacts
-app.get("/nylas/contacts", isAuthenticated, express.json(), (req, res) =>
-  route.getAllContacts(req, res)
-);
+app.get("/nylas/contacts", isAuthenticated, express.json(), (req, res, next) => {
+  try {
+    route.getAllContacts(req, res)
+  } catch (error) {
+    next(error); // Pasa el error al siguiente middleware de manejo de errores
+  }
+});
 
-app.get("/nylas/contacts/{id}", isAuthenticated, express.json(), (req, res) =>
-  route.getContactById(req, res)
-);
+app.get("/nylas/contacts/{id}", isAuthenticated, express.json(), (req, res, next) => {
+  try {
+    route.getContactById(req, res)
+  } catch (error) {
+    next(error); // Pasa el error al siguiente middleware de manejo de errores
+  }
+});
 
 // Start listening on port 9000
 app.listen(port, () => console.log("App listening on port " + port));
+
+// Middleware for errors
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Internal Server Error' });
+});
