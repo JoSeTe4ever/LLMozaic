@@ -126,95 +126,83 @@ async function isAuthenticated(req, res, next) {
   next();
 }
 
-app.post("nylas/send-email", express.json(), (req, res, next) => {
-  try {
-    route.sendEmail(req, res)
-  } catch (error) {
-    next(error); // Pasa el error al siguiente middleware de manejo de errores
-  }
+app.post("/nylas/create-draft", isAuthenticated, (req, res, next) => {
+  route.createDraft(req, res, next);
+});
+
+app.post("/nylas/send-draft", express.json(), (req, res, next) => {
+  route.createDraft(req, res, next);
+});
+
+app.post("/nylas/send-email", isAuthenticated, (req, res, next) => {
+  route.sendEmail(req, res, next);
 });
 
 app.get("/nylas/read-emails", isAuthenticated, (req, res, next) => {
-  try {
-    route.readEmails(req, res)
-  } catch (error) {
-    next(error); // Pasa el error al siguiente middleware de manejo de errores
-  }
+  route.readEmails(req, res, next);
 });
 
 app.get("/nylas/message", isAuthenticated, async (req, res, next) => {
-  try {
-    route.getMessage(req, res);
-  } catch (error) {
-    next(error); // Pasa el error al siguiente middleware de manejo de errores
-  }
+  route.getMessage(req, res, next);
 });
 
 app.get("/nylas/file", isAuthenticated, async (req, res, next) => {
-  try {
-    route.getFile(req, res);
-  } catch (error) {
-    next(error); // Pasa el error al siguiente middleware de manejo de errores
-  }
+  route.getFile(req, res, next);
 });
 
 // Add route for getting 20 latest calendar events
-app.post("/nylas/read-events", isAuthenticated, express.json(), (req, res, next) => {
-  try {
-    route.readEvents(req, res)
-  } catch (error) {
-    next(error); // Pasa el error al siguiente middleware de manejo de errores
+app.post(
+  "/nylas/read-events",
+  isAuthenticated,
+  express.json(),
+  (req, res, next) => {
+    route.readEvents(req, res, next);
   }
-});
+);
 
 app.get("/nylas/read-events", isAuthenticated, (req, res, next) => {
-  try {
-    route.getReadEvents(req, res)
-  } catch (error) {
-    next(error); // Pasa el error al siguiente middleware de manejo de errores
-  }
+  route.getReadEvents(req, res, next);
 });
 
 // Add route for getting 20 latest calendar events
 app.get("/nylas/read-calendars", isAuthenticated, (req, res, next) => {
-  try {
-    route.readCalendars(req, res)
-  } catch (error) {
-    next(error); // Pasa el error al siguiente middleware de manejo de errores
-  }
+  route.readCalendars(req, res, next);
 });
 
 // Add route for creating calendar events
-app.post("/nylas/create-events", isAuthenticated, express.json(), (req, res, next) => {
-  try {
-    route.createEvents(req, res)
-  } catch (error) {
-    next(error); // Pasa el error al siguiente middleware de manejo de errores
+app.post(
+  "/nylas/create-events",
+  isAuthenticated,
+  express.json(),
+  (req, res, next) => {
+    route.createEvents(req, res, next);
   }
-});
+);
 
 // Add route for getting all contacts
-app.get("/nylas/contacts", isAuthenticated, express.json(), (req, res, next) => {
-  try {
-    route.getAllContacts(req, res)
-  } catch (error) {
-    next(error); // Pasa el error al siguiente middleware de manejo de errores
+app.get(
+  "/nylas/contacts",
+  isAuthenticated,
+  express.json(),
+  (req, res, next) => {
+    route.getAllContacts(req, res, next);
   }
-});
+);
 
-app.get("/nylas/contacts/{id}", isAuthenticated, express.json(), (req, res, next) => {
-  try {
-    route.getContactById(req, res)
-  } catch (error) {
-    next(error); // Pasa el error al siguiente middleware de manejo de errores
+app.get(
+  "/nylas/contacts/{id}",
+  isAuthenticated,
+  express.json(),
+  (req, res, next) => {
+    route.getContactById(req, res, next);
   }
-});
+);
 
 // Start listening on port 9000
 app.listen(port, () => console.log("App listening on port " + port));
 
 // Middleware for errors
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: 'Internal Server Error' });
+  console.error("MIDDLEWARE ", err.stack);
+  res.status(500).json({ error: "Internal Server Error" + err.stack });
 });

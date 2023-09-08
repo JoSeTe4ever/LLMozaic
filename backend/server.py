@@ -24,10 +24,12 @@ def echo(sock):
     popen = subprocess.Popen(['python', '-u', 'langchain_main.py',
                              data, userId], stdout=subprocess.PIPE, universal_newlines=True)
     for line in popen.stdout:
-        print(line, end='')
+        print(f'recordLine {recordLine } {line}')
         if line.find('[32;1m') != -1 and line.find('Action') == -1 and line.find('Observation') == -1:
             recordLine = True
         if line.startswith("Thought:"):
+            recordLine = True
+        elif line.find('Final Answer') >= 0:
             recordLine = True
         elif line.startswith("Action"):
             recordLine = False
