@@ -141,7 +141,11 @@ app.post("/nylas/create-draft", isAuthenticated, (req, res, next) => {
 });
 
 app.post("/nylas/send-draft", express.json(), (req, res, next) => {
-  route.createDraft(req, res, next);
+  route.sendDraft(req, res, next);
+});
+
+app.get("/nylas/read-drafts", isAuthenticated, (req, res, next) => {
+  route.readDrafts(req, res, next);
 });
 
 app.post("/nylas/send-email", isAuthenticated, (req, res, next) => {

@@ -3,8 +3,6 @@ const { default: Event } = require("nylas/lib/models/event");
 
 const Nylas = require("nylas");
 
-//drafts
-
 exports.createDraft = async (req, res, next) => {
   try {
     const user = res.locals.user;
@@ -23,6 +21,22 @@ exports.createDraft = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.readDrafts = async (req, res, next) => {
+  try {
+    const user = res.locals.user;
+
+    const nylas = Nylas.with(user.accessToken);
+
+    const drafts = await nylas.drafts.list({ limit: 15, expanded: true });
+
+    //sanitize the
+    return res.json(drafts);
+  } catch (error) {
+    next(error);
+  }
+};
+    
 
 exports.sendDraft = async (req, res, next) => {
   try {
