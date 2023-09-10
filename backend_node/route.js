@@ -3,10 +3,29 @@ const { default: Event } = require("nylas/lib/models/event");
 
 const Nylas = require("nylas");
 
+exports.greetingInfo = async (req, res, next) => {
+  try {
+
+    const user = res.locals.user;
+    const nylas = Nylas.with(user.accessToken);
+
+    console.log("user", user);
+    const userInfo = {
+      userEmail : user.emailAddress,
+      unreadEmails : 0,
+      eventsToday : 0,
+    }
+    return userInfo;
+  }
+  catch (error) {
+    next(error);
+  }
+};
+
+
 exports.createDraft = async (req, res, next) => {
   try {
     const user = res.locals.user;
-    console.log("req", req)
     const { to, subject, body, replyToMessageId } = req.body;
 
     const draft = new Draft(Nylas.with(user.accessToken));
@@ -16,7 +35,8 @@ exports.createDraft = async (req, res, next) => {
     draft.subject = subject;
     draft.body = body;
     draft.replyToMessageId = replyToMessageId;
-    return res.json(draft);
+    const savedDraft = await draft.save();
+    return res.json(savedDraft)
   } catch (error) {
     next(error);
   }
@@ -36,21 +56,20 @@ exports.readDrafts = async (req, res, next) => {
     next(error);
   }
 };
-    
 
 exports.sendDraft = async (req, res, next) => {
+  console.log("send draft!!!");
   try {
     const user = res.locals.user;
 
     const { draftId } = req.query;
-    await Nylas.with(user.accessToken)
-      .drafts.list({
-        draft_id: draftId,
-      })
-      .then((draft) => {
-        draft.send();
-        return res.json(draft);
-      });
+
+    console.log("send draft!!! draftId", draftId);
+    const allDrafts = await Nylas.with(user.accessToken)
+      .drafts.list();
+
+    await allDrafts.find(e => e.id === draftId).send();
+    return res.json({ message: "success" })
   } catch (error) {
     next(error);
   }
@@ -61,7 +80,6 @@ exports.sendEmail = async (req, res, next) => {
     const user = res.locals.user;
 
     const { to, subject, body, replyToMessageId } = req.body;
-    console.log("req.body", req.body)
     const draft = new Draft(Nylas.with(user.accessToken));
 
     draft.from = [{ email: user.emailAddress }];
@@ -69,7 +87,6 @@ exports.sendEmail = async (req, res, next) => {
     draft.subject = subject;
     draft.body = body;
     draft.replyToMessageId = replyToMessageId;
-    console.log("draft", draft)
     const message = await draft.send();
 
     return res.json(message);
@@ -94,6 +111,21 @@ exports.readEmails = async (req, res, next) => {
 };
 
 exports.getMessage = async (req, res, next) => {
+  try {
+    const user = res.locals.user;
+
+    const nylas = Nylas.with(user.accessToken);
+
+    const { id } = req.query;
+    const message = await nylas.messages.find(id);
+
+    return res.json(message);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getMessages = async (req, res, next) => {
   try {
     const user = res.locals.user;
 

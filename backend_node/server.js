@@ -136,11 +136,15 @@ async function isAuthenticated(req, res, next) {
   next();
 }
 
+app.get("/nylas/greeting-info", isAuthenticated, (req, res, next) => {
+  route.greetingInfo(req, res, next);
+});
+
 app.post("/nylas/create-draft", isAuthenticated, (req, res, next) => {
   route.createDraft(req, res, next);
 });
 
-app.post("/nylas/send-draft", express.json(), (req, res, next) => {
+app.get("/nylas/send-draft", isAuthenticated, (req, res, next) => {
   route.sendDraft(req, res, next);
 });
 
