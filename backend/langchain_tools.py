@@ -196,6 +196,7 @@ class ReadEmails(BaseTool):
 class SendEmail(BaseTool):
     name = "send_email_with_template"
     description = """Useful for when you need to send an email to one person or several people. Do not use this title type object, just the plain string which is the title value.
+    The tool expects only the actual value, not a complex object for each parameter.
     The action is sucessfully completed if the response holds 200""" 
 
     NYLAS_RUNTIME_AUTH_KEY = ''

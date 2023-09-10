@@ -47,7 +47,7 @@ exports.sendEmail = async (req, res, next) => {
     const user = res.locals.user;
 
     const { to, subject, body, replyToMessageId } = req.body;
-
+    console.log("req.body", req.body)
     const draft = new Draft(Nylas.with(user.accessToken));
 
     draft.from = [{ email: user.emailAddress }];
@@ -55,7 +55,7 @@ exports.sendEmail = async (req, res, next) => {
     draft.subject = subject;
     draft.body = body;
     draft.replyToMessageId = replyToMessageId;
-
+    console.log("draft", draft)
     const message = await draft.send();
 
     return res.json(message);

@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const bodyParser = require("body-parser");
 const mockDb = require("./utils/mock-db");
 const route = require("./route");
 
@@ -18,6 +19,15 @@ app.use(cors());
 
 // The port the express app will run on
 const port = 9000;
+
+// Middleware for errors
+app.use((err, req, res, next) => {
+  console.error("MIDDLEWARE ", err.stack);
+  res.status(500).json({ error: "Internal Server Error" + err.stack });
+});
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true}));
 
 // Initialize the Nylas SDK using the client credentials
 Nylas.config({
@@ -200,9 +210,3 @@ app.get(
 
 // Start listening on port 9000
 app.listen(port, () => console.log("App listening on port " + port));
-
-// Middleware for errors
-app.use((err, req, res, next) => {
-  console.error("MIDDLEWARE ", err.stack);
-  res.status(500).json({ error: "Internal Server Error" + err.stack });
-});
