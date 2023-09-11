@@ -7,7 +7,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import "../src/styles/AudioStream.css";
-import { useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 
 export default function AudioStream({ onClose }) {
@@ -17,7 +16,7 @@ export default function AudioStream({ onClose }) {
   const override = {
     display: "block",
     margin: "0 auto",
-    borderColor: "red",
+    borderColor: "white",
   };
 
   const [mediaRecorder, setMediaRecorder] = useState(null);
@@ -203,10 +202,11 @@ export default function AudioStream({ onClose }) {
           </>
         )}
 
+        {isLoading == false && transcription.length > 0 ? (
         <button className="refreshButton" onClick={onRetryEvent}>
           <FontAwesomeIcon icon={faRefresh} />
           Retry
-        </button>
+        </button>) : (<></>)}
 
         <button className="cancelButton" onClick={onCloseEvent}>
           <FontAwesomeIcon icon={faTimes} />
