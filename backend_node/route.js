@@ -125,21 +125,6 @@ exports.getMessage = async (req, res, next) => {
   }
 };
 
-exports.getMessages = async (req, res, next) => {
-  try {
-    const user = res.locals.user;
-
-    const nylas = Nylas.with(user.accessToken);
-
-    const { id } = req.query;
-    const message = await nylas.messages.find(id);
-
-    return res.json(message);
-  } catch (error) {
-    next(error);
-  }
-};
-
 exports.getFile = async (req, res, next) => {
   try {
     const user = res.locals.user;
