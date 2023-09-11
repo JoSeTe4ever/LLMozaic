@@ -5,23 +5,34 @@ const Nylas = require("nylas");
 
 exports.greetingInfo = async (req, res, next) => {
   try {
-
     const user = res.locals.user;
     const nylas = Nylas.with(user.accessToken);
 
-    console.log("user", user);
-    const userInfo = {
-      userEmail : user.emailAddress,
-      unreadEmails : 0,
-      eventsToday : 0,
+    const threads = await nylas.threads.list({ unread: true });
+
+    const calendar = (await nylas.calendars.list()).find(e => e.is_primary);
+    let events = [];
+
+    if(calendar) {
+      events = await nylas.events.list({
+        calendar_id: calendar.id,
+        starts_after: +new Date(),
+        ends_before: +new Date() + 86400,
+      });
     }
-    return userInfo;
-  }
-  catch (error) {
+
+
+    const userInfo = {
+      userEmail: user.emailAddress,
+      unreadEmails: threads.length,
+      eventsTodayMainCalendar: events.length,
+    };
+
+    return res.json(userInfo);
+  } catch (error) {
     next(error);
   }
 };
-
 
 exports.createDraft = async (req, res, next) => {
   try {
@@ -36,7 +47,7 @@ exports.createDraft = async (req, res, next) => {
     draft.body = body;
     draft.replyToMessageId = replyToMessageId;
     const savedDraft = await draft.save();
-    return res.json(savedDraft)
+    return res.json(savedDraft);
   } catch (error) {
     next(error);
   }
@@ -65,11 +76,10 @@ exports.sendDraft = async (req, res, next) => {
     const { draftId } = req.query;
 
     console.log("send draft!!! draftId", draftId);
-    const allDrafts = await Nylas.with(user.accessToken)
-      .drafts.list();
+    const allDrafts = await Nylas.with(user.accessToken).drafts.list();
 
-    await allDrafts.find(e => e.id === draftId).send();
-    return res.json({ message: "success" })
+    await allDrafts.find((e) => e.id === draftId).send();
+    return res.json({ message: "success" });
   } catch (error) {
     next(error);
   }
