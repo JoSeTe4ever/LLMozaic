@@ -10,19 +10,12 @@ dotenv.load_dotenv()
 OPEN_API_KEY = os.getenv("OPEN_API_KEY")
 
 # Constants
-actions_menu = """
-You have CRUD over:
-- Emails
-- Calendar
-- Contacts
-"""
 
 output_format = """
 - Salutation (with no name, you can use something generic like 'buddy') + email number update + funny short satirical pun
-- Your output for the possible actions the user can do based on the following menu:
-{}
+- Possible actions
 
-""".format(actions_menu)
+"""
 
 # Custom Chain
 class SayHiChain(LLMChain):
@@ -32,8 +25,7 @@ class SayHiChain(LLMChain):
             input_variables=["unread_emails"],
             template=f"""You are a personal assistant. You must create a fun welcome message to the user saying how many emails they got.
             Something like 'Hey user, you have {{unread_emails}} unread emails today!'
-            When you finish with the update, you should also offer the user a list of possible actions that they can do with you.
-            
+            When you finish with the update, you should also offer the user a list of possible actions that they can do with you.      
             Also, always format your reply like this:
             {output_format}
             """
