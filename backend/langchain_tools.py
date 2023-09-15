@@ -196,6 +196,7 @@ class ReadEmails(BaseTool):
 class SendEmail(BaseTool):
     name = "send_email_with_template"
     description = """Useful for when you need to send an email to one person or several people. Do not use this title type object, just the plain string which is the title value.
+    The tool expects only the actual value, not a complex object for each parameter.
     The action is sucessfully completed if the response holds 200""" 
 
     NYLAS_RUNTIME_AUTH_KEY = ''
@@ -224,3 +225,28 @@ class SendEmail(BaseTool):
     async def _arun(self, to, sender: str, summary: str, body: str) -> str:
         result = await self._run(to, sender, summary, body)
         return result
+
+
+class GetEmailDrafts(BaseTool):
+    name = "get_email_drafts"
+    description = """Useful for when you need to recieve the information of the emails that are in draft in json format.
+      Use this action for retrieving all the drafts."""
+    
+    NYLAS_RUNTIME_AUTH_KEY = ''
+
+    def __init__(self, userId):
+        super().__init__()  # Llama al constructor de la clase base si es necesario
+        self.NYLAS_RUNTIME_AUTH_KEY = userId
+        
+
+    def _run(self) -> str:
+        url = 'http://localhost:9000/nylas/read-drafts'
+        
+        # Configura encabezados y envía la solicitud
+        headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
+        response = requests.get(url, headers=headers)
+        return response.json();
+
+    async def _arun(self) -> str:
+        """Use the tool asynchronously."""
+        raise NotImplementedError("get_calendars does not support async")

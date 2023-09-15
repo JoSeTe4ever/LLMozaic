@@ -1,6 +1,6 @@
 from langchain.agents import initialize_agent, load_tools
 from langchain.chat_models import ChatOpenAI
-from langchain_tools import SendEmail, ReadEmails, GetContacts, GetEvents, GetCalendars, DateTimestamp, CreateModifyDeleteEvents
+from langchain_tools import SendEmail, ReadEmails, GetContacts, GetEvents, GetCalendars, DateTimestamp, CreateModifyDeleteEvents, GetEmailDrafts
 from langchain.prompts import MessagesPlaceholder
 from langchain.memory import ConversationBufferMemory
 
@@ -64,7 +64,7 @@ def main():
         userId = sys.argv[2];
         print(f"Valor del parámetro 'userId': {userId}")
         tools=[SendEmail(userId), ReadEmails(userId), GetContacts(userId), GetEvents(userId), GetCalendars(userId),
-                                         CreateModifyDeleteEvents(userId), DateTimestamp()]
+               GetEmailDrafts(userId), CreateModifyDeleteEvents(userId), DateTimestamp()]
         
         agent = initialize_agent(tools=tools , llm=openAILLM, 
         agent="structured-chat-zero-shot-react-description", agent_kwargs={
