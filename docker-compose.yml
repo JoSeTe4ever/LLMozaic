@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  backend_node:
+    build:
+      context: ./backend_node
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    environment:
+      NODE_ENV: production
+      FRONTEND_URL: http://frontend:3000
+    networks:
+      - app-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    networks:
+      - app-network
+    environment:
+      BACKEND_NODE_URL: http://backend_node:9000
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    environment:
+      VITE_BACKEND_URL: http://backend:5000
+      VITE_BACKEND_NODE_URL: http://backend_node:9000
+
+networks:
+  app-network:
+    driver: bridge

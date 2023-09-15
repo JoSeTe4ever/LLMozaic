@@ -3,9 +3,9 @@ import ReactMarkdown from 'react-markdown'
 import CircularProgress from '@mui/material/CircularProgress';
 import useWebSocket, { ReadyState } from 'react-use-websocket';
 import styles from '../src/styles/Home.module.css'
-
 export default function Chat({ userId }) {
 
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || 'ws://localhost:5000';
   const [userInput, setUserInput] = useState("");
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -18,12 +18,12 @@ export default function Chat({ userId }) {
     }
   ]);
 
-  const [socketUrl, setSocketUrl] = useState('ws://localhost:5000/ws?userId=' + sessionStorage.getItem('userId'));
+  const [socketUrl, setSocketUrl] = useState(backendUrl + '/ws?userId=' + sessionStorage.getItem('userId'));
   const [messageHistory, setMessageHistory] = useState([]);
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl,
     {
       onOpen: () => {
-        console.log('opened ws://localhost:5000/ws');
+        console.log(`opened ${backendUrl}/ws`);
         setDisplayMessage(() => false);
         setLoading(false);
         setCurrentMessage('');
@@ -91,7 +91,7 @@ export default function Chat({ userId }) {
     setUserInput("");
   };
 
-  // Handle errors
+  // Handle errors-
   const handleError = () => {
     setMessages((prevMessages) => [...prevMessages, { "message": "Oops! There seems to be an error. Please try again.", "type": "apiMessage" }]);
     setLoading(false);
@@ -110,7 +110,7 @@ export default function Chat({ userId }) {
     setMessages((prevMessages) => [...prevMessages, { "message": userInput, "type": "userMessage" }]);
 
     // Send user question and history to API
-    const response = await fetch("http://127.0.0.1:5000/api/chat", {
+    const response = await fetch("${backendUrl}/api/chat", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

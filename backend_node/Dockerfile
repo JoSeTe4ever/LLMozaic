@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 9000
 
 # Command to start the backend application (adjust this according to your project)
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "start" ]

@@ -11,7 +11,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [emails, setEmails] = useState([]);
   const [toastNotification, setToastNotification] = useState('');
-  const SERVER_URI = import.meta.env.VITE_SERVER_URI || 'http://localhost:9000';
+  const SERVER_URI = import.meta.env.VITE_BACKEND_NODE_URL || 'http://localhost:9000';
 
   useEffect(() => {
     if (!nylas) {

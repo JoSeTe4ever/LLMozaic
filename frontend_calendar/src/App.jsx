@@ -17,7 +17,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [events, setEvents] = useState([]);
   const serverBaseUrl =
-    import.meta.env.VITE_SERVER_URI || 'http://localhost:9000';
+    import.meta.env.VITE_BACKEND_NODE_URL || 'http://localhost:9000';
 
   useEffect(() => {
     if (!nylas) {

@@ -20,4 +20,4 @@ RUN npm run build
 EXPOSE 3000
 
 # Command to start a web server for serving the frontend build (adjust as needed)
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "start" ]
