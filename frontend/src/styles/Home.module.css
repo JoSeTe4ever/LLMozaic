@@ -1,6 +1,28 @@
+.microButton {
+  cursor: pointer;
+  position: absolute;
+  top: 12px;
+  right: -45px;
+  font-size: 34px;
+}
 
+.RecordStreamOverlay {
+  position: fixed; /* Fija el overlay en la ventana */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 255, 0.5); /* Color azul semitransparente */
+  z-index: 999; /* Asegura que esté por encima de otros elementos */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: -12%;
+}
 
-.navlogo, .navlinks a {
+.navlogo,
+.navlinks a {
   font-weight: 500;
 }
 
@@ -45,7 +67,7 @@
   border-radius: 0.5rem;
   border: 1px solid #30373d;
   background: #070809;
-  color: #ECECF1;
+  color: #ececf1;
   outline: none;
 }
 
@@ -109,12 +131,12 @@
 .usermessage {
   background: #070809;
   padding: 1.5rem;
-  color: #ECECF1;
+  color: #ececf1;
 }
 
-.usermessagewaiting{
+.usermessagewaiting {
   padding: 1.5rem;
-  color: #ECECF1;
+  color: #ececf1;
   background: linear-gradient(to left, #070809, #1a1c20, #070809);
   background-size: 200% 200%;
   background-position: -100% 0;
@@ -135,16 +157,22 @@
 .apimessage {
   background: #141619;
   padding: 1.5rem;
-  color: #ECECF1;
+  color: #ececf1;
   animation: fadein 0.5s;
 }
 
 @keyframes fadein {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-.apimessage, .usermessage, .usermessagewaiting {
+.apimessage,
+.usermessage,
+.usermessagewaiting {
   display: flex;
 }
 
@@ -167,19 +195,22 @@
   white-space: pre-wrap !important;
 }
 
-.markdownanswer ol, .markdownanswer ul {
+.markdownanswer ol,
+.markdownanswer ul {
   margin: 1rem;
 }
 
-.boticon, .usericon {
+.boticon,
+.usericon {
   margin-right: 1rem;
   border-radius: 0.1rem;
 }
 
-.markdownanswer h1, .markdownanswer h2, .markdownanswer h3 {
+.markdownanswer h1,
+.markdownanswer h2,
+.markdownanswer h3 {
   font-size: inherit;
 }
-
 
 .center {
   display: flex;
@@ -229,10 +260,10 @@
 
 /* Mobile optimization */
 @media (max-width: 600px) {
-
   .main {
     padding: 1rem;
     max-height: 90vh;
+    position: relative;
   }
 
   .cloud {
@@ -248,18 +279,18 @@
     padding: 0.85rem 0.75rem 0.85rem 0.75rem;
   }
 
-.navlogo {
-  font-size: 1.25rem;
-  width: 20rem;
-}
+  .navlogo {
+    font-size: 1.25rem;
+    width: 20rem;
+  }
 
-.markdownanswer code {
-  white-space : pre-wrap !important;
-}
+  .markdownanswer code {
+    white-space: pre-wrap !important;
+  }
 
-.footer {
-  font-size: 0.7rem;
-  width: 100%;
-  text-align: center;
-}
+  .footer {
+    font-size: 0.7rem;
+    width: 100%;
+    text-align: center;
+  }
 }

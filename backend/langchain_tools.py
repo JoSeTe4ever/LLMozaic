@@ -1,13 +1,7 @@
-from langchain.document_loaders import url
-from langchain.llms import OpenAI
-from langchain import PromptTemplate
-from langchain.chains import LLMChain
-from langchain.chat_models import ChatOpenAI
-from langchain.tools import BaseTool, StructuredTool
+from langchain.tools import BaseTool
 
 import requests
 import os
-import json
 import datetime
 
 BASE_BACKEND_NODE_URL = os.environ.get('BACKEND_NODE_URL', 'http://localhost:9000')
@@ -116,6 +110,7 @@ class GetCalendars(BaseTool):
         super().__init__()  # Llama al constructor de la clase base si es necesario
         self.NYLAS_RUNTIME_AUTH_KEY = userId
 
+
     def _run(self) -> str:
         url = f'{BASE_BACKEND_NODE_URL}/nylas/read-calendars'
 
@@ -125,9 +120,8 @@ class GetCalendars(BaseTool):
         return response.json();
 
     async def _arun(self) -> str:
-        headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
-        reponse = await requests.get(url, headers=headers);
-        return reponse.json();
+        """Use the tool asynchronously."""
+        raise NotImplementedError("get_calendars does not support async")
 
 class GetContacts(BaseTool):
     name = "get_contacts"
@@ -203,7 +197,8 @@ class ReadEmails(BaseTool):
 class SendEmail(BaseTool):
     name = "send_email_with_template"
     description = """Useful for when you need to send an email to one person or several people. Do not use this title type object, just the plain string which is the title value.
-    The action is sucessfully completed if the response holds 200""" 
+    The tool expects only the actual value, not a complex object for each parameter.
+    The action is sucessfully completed if the response holds 200"""
 
     NYLAS_RUNTIME_AUTH_KEY = ''
 
@@ -216,21 +211,43 @@ class SendEmail(BaseTool):
 
         # Genera el JSON a partir del prompt y ejecuta la cadena
         json_data = {
-            "topicEmail": summary,
-            "toEmail": to,
-            "bodyEmail": body,
-            "fromEmail": sender
+            "to": to,
+            "subject": summary,
+            "body": body
         }
-        json_string = self.chain.run(json_data)
-        json_object = json.loads(json_string)
 
         # Configura encabezados y envía la solicitud
         headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
-        print(json_object)
-        response = requests.post(url, json=json_object, headers=headers)
+        print(json_data)
+        response = requests.post(url, json=json_data, headers=headers)
         print(response)
         return response.json
 
     async def _arun(self, to, sender: str, summary: str, body: str) -> str:
         result = await self._run(to, sender, summary, body)
         return result
+
+
+class GetEmailDrafts(BaseTool):
+    name = "get_email_drafts"
+    description = """Useful for when you need to recieve the information of the emails that are in draft in json format.
+      Use this action for retrieving all the drafts."""
+
+    NYLAS_RUNTIME_AUTH_KEY = ''
+
+    def __init__(self, userId):
+        super().__init__()  # Llama al constructor de la clase base si es necesario
+        self.NYLAS_RUNTIME_AUTH_KEY = userId
+
+
+    def _run(self) -> str:
+        url = 'http://localhost:9000/nylas/read-drafts'
+
+        # Configura encabezados y envía la solicitud
+        headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
+        response = requests.get(url, headers=headers)
+        return response.json();
+
+    async def _arun(self) -> str:
+        """Use the tool asynchronously."""
+        raise NotImplementedError("get_calendars does not support async")

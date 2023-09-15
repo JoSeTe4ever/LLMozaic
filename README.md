@@ -31,6 +31,10 @@ pip install pillow
 - https://www.kaggle.com/code/robalaban/using-langchain-to-query-google-calendar-events/notebook
 - https://www.piesocket.com/websocket-tester FOR testing websocket
 - https://developer.mozilla.org/en-US/docs/Web/API/MediaStream_Recording_API/Using_the_MediaStream_Recording_API for speech2text
+- https://artificialcorner.com/how-to-build-tool-using-agents-with-langchain-d9fa9674b6c7
+- https://stackoverflow.com/questions/76329949/i-cant-get-the-langchain-agent-module-to-actually-execute-my-prompt
+- https://codepen.io/lxls/project/editor/ZKKBJa for specch2text
+- https://github.com/addpipe/simple-recorderjs-demo esta es la mejor demo.
 viajeroeneltiempo84@gmail.com
 
 
@@ -68,6 +72,22 @@ frontend
   - npm i
 
 the file .env must be in backend root and backend_node root 
+
+Speech2text whisper requires the following 
+# on Ubuntu or Debian
+sudo apt update && sudo apt install ffmpeg
+
+# on Arch Linux
+sudo pacman -S ffmpeg
+
+# on MacOS using Homebrew (https://brew.sh/)
+brew install ffmpeg
+
+# on Windows using Chocolatey (https://chocolatey.org/)
+choco install ffmpeg
+
+# on Windows using Scoop (https://scoop.sh/)
+scoop install ffmpeg
 
 ## RUN 
 
