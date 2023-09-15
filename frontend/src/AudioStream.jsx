@@ -4,12 +4,21 @@ import {
   faCheck,
   faTimes,
   faRefresh,
-  faBedPulse,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
 import "../src/styles/AudioStream.css";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export default function AudioStream({ onClose }) {
+
+  const color = "#ffffff";
+  
+  const override = {
+    display: "block",
+    margin: "0 auto",
+    borderColor: "white",
+  };
+
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [urlBlob, setUrlBlob] = useState(null);
@@ -160,7 +169,14 @@ export default function AudioStream({ onClose }) {
         </>
       ) : isLoading == true ? (
         <div className="loader">
-          <FontAwesomeIcon icon={faBedPulse} />
+          <ClipLoader
+            color={color}
+            loading={isLoading}
+            cssOverride={override}
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
         </div>
       ) : (
         <></>
@@ -186,10 +202,11 @@ export default function AudioStream({ onClose }) {
           </>
         )}
 
+        {isLoading == false && transcription.length > 0 ? (
         <button className="refreshButton" onClick={onRetryEvent}>
           <FontAwesomeIcon icon={faRefresh} />
           Retry
-        </button>
+        </button>) : (<></>)}
 
         <button className="cancelButton" onClick={onCloseEvent}>
           <FontAwesomeIcon icon={faTimes} />
