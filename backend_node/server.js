@@ -43,7 +43,6 @@ Nylas.application({
 openWebhookTunnel({
   // Handle when a new message is created (sent)
   onMessage: function handleEvent(delta) {
-    console.log('JOPI webhook received', delta);
     switch (delta.type) {
       case WebhookTriggers.MessageCreated:
         console.log(
@@ -127,50 +126,83 @@ async function isAuthenticated(req, res, next) {
   next();
 }
 
-// Handle routes
-app.post("/nylas/send-email", isAuthenticated, express.json(), (req, res) =>
-  route.sendEmail(req, res)
-);
-
-app.get("/nylas/read-emails", isAuthenticated, (req, res) =>
-  route.readEmails(req, res)
-);
-
-app.get("/nylas/message", isAuthenticated, async (req, res) => {
-  route.getMessage(req, res);
+app.post("/nylas/create-draft", isAuthenticated, (req, res, next) => {
+  route.createDraft(req, res, next);
 });
 
-app.get("/nylas/file", isAuthenticated, async (req, res) => {
-  route.getFile(req, res);
+app.post("/nylas/send-draft", express.json(), (req, res, next) => {
+  route.createDraft(req, res, next);
+});
+
+app.post("/nylas/send-email", isAuthenticated, (req, res, next) => {
+  route.sendEmail(req, res, next);
+});
+
+app.get("/nylas/read-emails", isAuthenticated, (req, res, next) => {
+  route.readEmails(req, res, next);
+});
+
+app.get("/nylas/message", isAuthenticated, async (req, res, next) => {
+  route.getMessage(req, res, next);
+});
+
+app.get("/nylas/file", isAuthenticated, async (req, res, next) => {
+  route.getFile(req, res, next);
 });
 
 // Add route for getting 20 latest calendar events
-app.post("/nylas/read-events", isAuthenticated, express.json(), (req, res) =>
-  route.readEvents(req, res)
+app.post(
+  "/nylas/read-events",
+  isAuthenticated,
+  express.json(),
+  (req, res, next) => {
+    route.readEvents(req, res, next);
+  }
 );
 
-app.get("/nylas/read-events", isAuthenticated, (req, res) =>
-  route.getReadEvents(req, res)
-);
+app.get("/nylas/read-events", isAuthenticated, (req, res, next) => {
+  route.getReadEvents(req, res, next);
+});
 
 // Add route for getting 20 latest calendar events
-app.get("/nylas/read-calendars", isAuthenticated, (req, res) =>
-  route.readCalendars(req, res)
-);
+app.get("/nylas/read-calendars", isAuthenticated, (req, res, next) => {
+  route.readCalendars(req, res, next);
+});
 
 // Add route for creating calendar events
-app.post("/nylas/create-events", isAuthenticated, express.json(), (req, res) =>
-  route.createEvents(req, res)
+app.post(
+  "/nylas/create-events",
+  isAuthenticated,
+  express.json(),
+  (req, res, next) => {
+    route.createEvents(req, res, next);
+  }
 );
 
 // Add route for getting all contacts
-app.get("/nylas/contacts", isAuthenticated, express.json(), (req, res) =>
-  route.getAllContacts(req, res)
+app.get(
+  "/nylas/contacts",
+  isAuthenticated,
+  express.json(),
+  (req, res, next) => {
+    route.getAllContacts(req, res, next);
+  }
 );
 
-app.get("/nylas/contacts/{id}", isAuthenticated, express.json(), (req, res) =>
-  route.getContactById(req, res)
+app.get(
+  "/nylas/contacts/{id}",
+  isAuthenticated,
+  express.json(),
+  (req, res, next) => {
+    route.getContactById(req, res, next);
+  }
 );
 
 // Start listening on port 9000
 app.listen(port, () => console.log("App listening on port " + port));
+
+// Middleware for errors
+app.use((err, req, res, next) => {
+  console.error("MIDDLEWARE ", err.stack);
+  res.status(500).json({ error: "Internal Server Error" + err.stack });
+});

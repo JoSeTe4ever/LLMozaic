@@ -1,41 +1,52 @@
 .audio-stream {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-  }
-  
-  #audio-canvas {
-    border: 1px solid #000;
-    margin-bottom: 20px;
-  }
-  
-  .buttonContainer {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-  
-  .okButton,
-  .cancelButton {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .okButton:hover,
-  .cancel-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .cancelButton {
-    background-color: #dc3545;
-  }
-  
-  .cancelButton:hover {
-    background-color: #bd2130;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+#audio-canvas {
+  border: 1px solid #000;
+  margin-bottom: 20px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.okButton,
+.cancelButton {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.okButton:hover,
+.cancel-button:hover {
+  background-color: #0056b3;
+}
+
+.cancelButton {
+  background-color: #dc3545;
+}
+
+.cancelButton:hover {
+  background-color: #bd2130;
+}
+
+canvas#audioCanvas {
+  margin-bottom: 1rem;
+}
+
+.transcription {
+  color: white !important;
+  font-size: x-large;
+  margin: 2rem;
+}
