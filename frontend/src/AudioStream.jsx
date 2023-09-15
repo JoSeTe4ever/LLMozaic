@@ -6,7 +6,7 @@ import {
   faRefresh,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
-import "../src/styles/AudioStream.css";
+import "./styles/audioStream.css";
 import ClipLoader from "react-spinners/ClipLoader";
 
 export default function AudioStream({ onClose }) {
