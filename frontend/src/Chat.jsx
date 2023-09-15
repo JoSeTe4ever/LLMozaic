@@ -23,12 +23,12 @@ export default function Chat({ userId }) {
     }
   ]);
 
-  const [socketUrl, setSocketUrl] = useState('ws://localhost:5000/ws?userId=' + sessionStorage.getItem('userId'));
+  const [socketUrl, setSocketUrl] = useState(backendUrl + '/ws?userId=' + sessionStorage.getItem('userId'));
   const [messageHistory, setMessageHistory] = useState([]);
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl,
     {
       onOpen: () => {
-        console.log('opened ws://localhost:5000/ws');
+        console.log('opened ' + backendUrl + '/ws');
         setDisplayMessage(() => false);
         setLoading(false);
         setCurrentMessage('');

@@ -4,7 +4,7 @@ import requests
 import os
 import datetime
 
-BASE_BACKEND_NODE_URL = os.environ.get('BACKEND_NODE_URL', 'http://localhost:9000')
+BACKEND_NODE_URL = os.environ.get('BACKEND_NODE_URL', 'http://localhost:9000')
 
 
 class CreateModifyDeleteEvents(BaseTool):
@@ -24,7 +24,7 @@ class CreateModifyDeleteEvents(BaseTool):
 
     def _run(self, eventSummary: str, startsTimestamp: str, endsTimestamp: str, calendarId: str, location: str = 'Not defined'
              , participants = [{"email": "undefined"}]) -> str:
-        url = f"{BASE_BACKEND_NODE_URL}/nylas/create-events"
+        url = f"{BACKEND_NODE_URL}/nylas/create-events"
         json_data = {
             "title": eventSummary,
             "startTime": startsTimestamp,
@@ -79,7 +79,7 @@ class GetEvents(BaseTool):
         self.NYLAS_RUNTIME_AUTH_KEY = userId
 
     def _run(self, calendarId: str, startsAfter: str, endsBefore: str) -> str:
-        url = f"{BASE_BACKEND_NODE_URL}/nylas/read-events"
+        url = f"{BACKEND_NODE_URL}/nylas/read-events"
 
         json_data = {
             "calendarId": calendarId,
@@ -112,7 +112,7 @@ class GetCalendars(BaseTool):
 
 
     def _run(self) -> str:
-        url = f'{BASE_BACKEND_NODE_URL}/nylas/read-calendars'
+        url = f'{BACKEND_NODE_URL}/nylas/read-calendars'
 
 # Configura encabezados y envía la solicitud
         headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
@@ -134,7 +134,7 @@ class GetContacts(BaseTool):
         self.NYLAS_RUNTIME_AUTH_KEY = userId
 
     def _run(self) -> str:
-        url = f'{BASE_BACKEND_NODE_URL}/nylas/contacts'
+        url = f'{BACKEND_NODE_URL}/nylas/contacts'
 
         # Configura encabezados y envía la solicitud
         headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
@@ -159,7 +159,7 @@ class GetContactDetailsById(BaseTool):
         self.NYLAS_RUNTIME_AUTH_KEY = userId
 
     def _run(self, contact_id: str) -> str:
-        url = f"""{BASE_BACKEND_NODE_URL}/nylas/contacts/{contact_id}"""
+        url = f"""{BACKEND_NODE_URL}/nylas/contacts/{contact_id}"""
 
 # Configura encabezados y envía la solicitud
         headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
@@ -182,7 +182,7 @@ class ReadEmails(BaseTool):
         self.NYLAS_RUNTIME_AUTH_KEY = userId
 
     def _run(self) -> str:
-        url = f'{BASE_BACKEND_NODE_URL}/nylas/read-emails'
+        url = f'{BACKEND_NODE_URL}/nylas/read-emails'
         # Configura encabezados y envía la solicitud
         headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
         response = requests.get(url, headers=headers)
@@ -207,7 +207,7 @@ class SendEmail(BaseTool):
         self.NYLAS_RUNTIME_AUTH_KEY = userId
 
     def _run(self, to, sender: str, summary: str, body: str) -> str:
-        url = f'{BASE_BACKEND_NODE_URL}/nylas/send-email'
+        url = f'{BACKEND_NODE_URL}/nylas/send-email'
 
         # Genera el JSON a partir del prompt y ejecuta la cadena
         json_data = {
@@ -241,7 +241,7 @@ class GetEmailDrafts(BaseTool):
 
 
     def _run(self) -> str:
-        url = 'http://localhost:9000/nylas/read-drafts'
+        url = f"{BACKEND_NODE_URL}/nylas/read-drafts"
 
         # Configura encabezados y envía la solicitud
         headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
