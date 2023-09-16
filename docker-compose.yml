@@ -5,6 +5,8 @@ services:
     build:
       context: ./backend_node
       dockerfile: Dockerfile
+    env_file:
+      - ./backend_node/.env
     ports:
       - "9000:9000"
     environment:
@@ -17,6 +19,8 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env
     ports:
       - "5000:5000"
     networks:
