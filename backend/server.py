@@ -1,4 +1,4 @@
-#server.py
+# server.py
 from flask import Flask, request, jsonify
 from flask_cors import CORS  # Import the CORS module
 from flask_sock import Sock
@@ -27,15 +27,15 @@ def echo(sock):
     userId = request.args.get('userId')
     lines_to_send = []  # Lista para almacenar las líneas
     recordLine = False
-         # Comprueba si el mensaje de bienvenida ya se ha enviado a este usuario
-        if userId not in welcome_message_sent or not welcome_message_sent[userId]:
-            # Envia el mensaje de bienvenida
-            unread_emails = 5  # Sustituir por el número real de correos electrónicos no leídos
-            greeting = say_hi_chain.run({"unread_emails": unread_emails})
-            sock.send(greeting)
-        
-            # Marca el mensaje de bienvenida como enviado para este usuario
-            welcome_message_sent[userId] = True
+    # Comprueba si el mensaje de bienvenida ya se ha enviado a este usuario
+    if userId not in welcome_message_sent or not welcome_message_sent[userId]:
+        # Envia el mensaje de bienvenida
+        unread_emails = 5  # Sustituir por el número real de correos electrónicos no leídos
+        greeting = say_hi_chain.run({"unread_emails": unread_emails})
+        sock.send(greeting)
+
+        # Marca el mensaje de bienvenida como enviado para este usuario
+        welcome_message_sent[userId] = True
 
     data = sock.receive()
     popen = subprocess.Popen(['python', '-u', 'langchain_main.py',
