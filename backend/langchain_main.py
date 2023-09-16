@@ -9,12 +9,14 @@ import os
 import sys
 
 dotenv.load_dotenv()
-OPEN_API_KEY = os.getenv("OPEN_API_KEY");
-openAILLM = ChatOpenAI(openai_api_key=OPEN_API_KEY, temperature=0.8, model_name="gpt-4")
-tools = [load_tools(['human'])];
+OPEN_API_KEY = os.getenv("OPEN_API_KEY")
+openAILLM = ChatOpenAI(openai_api_key=OPEN_API_KEY,
+                       temperature=0.8, model_name="gpt-4")
+tools = [load_tools(['human'])]
 
 chat_history = MessagesPlaceholder(variable_name="chat_history")
-memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+memory = ConversationBufferMemory(
+    memory_key="chat_history", return_messages=True)
 
 PREFIX = """
 You are a highly sophisticated virtual assistant built on GPT-4. Your main tasks involve assisting the user with their email, contacts, and calendar functionalities. This requires you to be precise, accurate, and to understand the context deeply. You have been trained with vast amounts of data and have an array of tools at your disposal to help users accomplish their digital tasks efficiently. The actions available to you are:
@@ -28,19 +30,6 @@ Every time you reply, you shall use the tone and vocabulary that a very informal
 Never reffer to the user as "user", always phrase it with "you", for example "you have [x] unread emails..."
 
 The first time, you shall introduce yourself as Your Assitant
-
-#You can use the following variables in your responses:
-[user]: User's name
-[unread_emails]: Number of unread emails
-[total_emails]: Total number of emails
-[contacts]: Number of contacts
-[events]: Number of events
-[calendars]: Number of calendars
-[events]: Number of events
-[calendars]: Number of calendars
-
-
-
 #Processing Order:
 -Thought: Your thought process explained to the user asking (Example: Sure! I will know do...])
 -Action: The specific tool/action you are using
@@ -58,24 +47,27 @@ def message(user_input: str):
     return agent.run(user_input)
 
 # process_data.py
-def main():
-        # prompt the user for input
-        user_input = sys.argv[1]
-        userId = sys.argv[2];
-        print(f"Valor del parámetro 'userId': {userId}")
-        tools=[SendEmail(userId), ReadEmails(userId), GetContacts(userId), GetEvents(userId), GetCalendars(userId),
-               GetEmailDrafts(userId), CreateModifyDeleteEvents(userId), DateTimestamp()]
-        
-        agent = initialize_agent(tools=tools , llm=openAILLM, 
-        agent="structured-chat-zero-shot-react-description", agent_kwargs={
-        "prefix": PREFIX,
-        "input_variables": ["input", "agent_scratchpad"]},
-        memory=memory,
-        verbose=True)
 
-        tool_names = [tool.name for tool in tools]
-        print(tool_names)
-        agent.run(user_input)
+
+def main():
+    # prompt the user for input
+    user_input = sys.argv[1]
+    userId = sys.argv[2]
+    print(f"Valor del parámetro 'userId': {userId}")
+    tools = [SendEmail(userId), ReadEmails(userId), GetContacts(userId), GetEvents(userId), GetCalendars(userId),
+             GetEmailDrafts(userId), CreateModifyDeleteEvents(userId), DateTimestamp()]
+
+    agent = initialize_agent(tools=tools, llm=openAILLM,
+                             agent="structured-chat-zero-shot-react-description", agent_kwargs={
+                                 "prefix": PREFIX,
+                                 "input_variables": ["input", "agent_scratchpad"]},
+                             memory=memory,
+                             verbose=True)
+
+    tool_names = [tool.name for tool in tools]
+    print(tool_names)
+    agent.run(user_input)
+
 
 if __name__ == "__main__":
     main()
