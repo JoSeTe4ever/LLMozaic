@@ -13,14 +13,20 @@ export default function Chat({ greetingInfo }) {
 	const [loading, setLoading] = useState(false);
 	const [recording, setRecording] = useState(false);
 	const [displayMessage, setDisplayMessage] = useState(false);
+	const [initialMessageReceived, setInitialMessageReceived] = useState(false);
 	const [currentMessage, setCurrentMessage] = useState('');
-	const [messages, setMessages] = useState([
-		{
-			message: 'Hi there! How can I help?',
-			type: 'apiMessage',
-		},
-	]);
+	const [firstMessageReceived, setFirstMessageReceived] = useState(false);
 
+	const [messages, setMessages] = useState(
+		greetingInfo
+			? []
+			: [
+					{
+						message: 'Hi there! How can I help?',
+						type: 'apiMessage',
+					},
+			  ]
+	);
 	const [socketUrl, setSocketUrl] = useState(
 		'ws://localhost:5000/ws?userId=' + sessionStorage.getItem('userId')
 	);
@@ -57,11 +63,17 @@ export default function Chat({ greetingInfo }) {
 		}
 	}, [greetingInfo]);
 
-	//ws
 	useEffect(() => {
 		if (lastMessage !== null) {
+			// Establecer que se ha recibido el primer mensaje
+			setInitialMessageReceived(true);
+
+			setMessages((prevMessages) => [
+				...prevMessages,
+				{ message: lastMessage.data, type: 'apiMessage' },
+			]);
 		}
-	}, [lastMessage, setMessageHistory]);
+	}, [lastMessage]);
 
 	const connectionStatus = {
 		[ReadyState.CONNECTING]: 'Connecting',
@@ -159,6 +171,12 @@ export default function Chat({ greetingInfo }) {
 	return (
 		<>
 			<main className={styles.main}>
+				{/* Mostrar spinner si el primer mensaje aún no ha sido recibido */}
+				{!initialMessageReceived && (
+					<div className={styles.spinnerContainer}>
+						<CircularProgress />
+					</div>
+				)}
 				{/* Condición para mostrar el overlay */}
 				{recording && (
 					<div className={styles.RecordStreamOverlay}>
