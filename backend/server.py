@@ -5,9 +5,11 @@ from flask_sock import Sock
 from contextlib import redirect_stdout
 from SayHiChain import SayHiChain
 
+import json
 import subprocess
 import langchain_main
 import speech2text
+import json
 import subprocess
 import os
 from subprocess import Popen, PIPE
@@ -30,9 +32,9 @@ def echo(sock):
     # Comprueba si el mensaje de bienvenida ya se ha enviado a este usuario
     if userId not in welcome_message_sent or not welcome_message_sent[userId]:
         # Envia el mensaje de bienvenida
-        unread_emails = 5  # Sustituir por el número real de correos electrónicos no leídos
-        greeting = say_hi_chain.run({"unread_emails": unread_emails})
-        sock.send(greeting)
+        # unread_emails = 5  # Sustituir por el número real de correos electrónicos no leídos
+        # greeting = say_hi_chain.run({"unread_emails": unread_emails})
+        # sock.send(greeting)
 
         # Marca el mensaje de bienvenida como enviado para este usuario
         welcome_message_sent[userId] = True
