@@ -9,6 +9,7 @@ function App() {
 	const [userId, setUserId] = useState('');
 	const [userEmail, setUserEmail] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
+	const [greetingInfo, setGreetingInfo] = useState(null); // New state for storing the response
 	const [emails, setEmails] = useState([]);
 	const [toastNotification, setToastNotification] = useState('');
 	const SERVER_URI = import.meta.env.VITE_SERVER_URI || 'http://localhost:9000';
@@ -89,6 +90,29 @@ function App() {
 		getEmails();
 	};
 
+	useEffect(() => {
+		// Code where userId is obtained (this might be different in your case)
+		if (userId) {
+			console.log('UserId obtained:', userId); // Debugging
+
+			// API call to greeting endpoint
+			const ENDPOINT = 'http://localhost:9000/nylas/greeting-info';
+			axios
+				.get(ENDPOINT, {
+					headers: {
+						Authorization: userId,
+					},
+				})
+				.then((response) => {
+					console.log('Response from greeting endpoint:', response.data); // Debugging
+					setGreetingInfo(response.data);
+				})
+				.catch((error) => {
+					console.log('Error fetching greeting info:', error); // Debugging
+				});
+		}
+	}, [userId]); // Dependency array
+
 	return (
 		<Layout
 			showMenu={!!userId}
@@ -103,7 +127,7 @@ function App() {
 				<NylasLogin email={userEmail} setEmail={setUserEmail} />
 			) : (
 				<div className='app-card'>
-					<Chat></Chat>
+					<Chat greetingInfo={greetingInfo}></Chat>
 				</div>
 			)}
 		</Layout>
