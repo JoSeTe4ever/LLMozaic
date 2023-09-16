@@ -1,6 +1,6 @@
 from langchain.agents import initialize_agent, load_tools
 from langchain.chat_models import ChatOpenAI
-from langchain_tools import SendEmail, ReadEmails, GetContacts, GetEvents, GetCalendars, DateTimestamp, CreateModifyDeleteEvents, GetEmailDrafts, CreateEmailDraft
+from langchain_tools import SendEmail, ReadEmails, GetContacts, GetEvents, GetCalendars, DateTimestamp, CreateModifyDeleteEvents, GetEmailDrafts, CreateEmailDraft, SendEmailDraft
 from langchain.prompts import MessagesPlaceholder
 from langchain.memory import ConversationBufferMemory
 
