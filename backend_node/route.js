@@ -39,7 +39,7 @@ exports.greetingInfo = async (req, res, next) => {
 exports.createDraft = async (req, res, next) => {
   try {
     const user = res.locals.user;
-    const { to, subject, body, replyToMessageId } = req.body;
+    const { to, subject, body } = req.body;
 
     const draft = new Draft(Nylas.with(user.accessToken));
 
