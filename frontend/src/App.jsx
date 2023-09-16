@@ -3,6 +3,7 @@ import { useNylas } from '@nylas/nylas-react';
 import NylasLogin from './NylasLogin';
 import Layout from './components/Layout';
 import Chat from './Chat';
+import axios from 'axios';
 
 function App() {
 	const nylas = useNylas();
@@ -127,7 +128,11 @@ function App() {
 				<NylasLogin email={userEmail} setEmail={setUserEmail} />
 			) : (
 				<div className='app-card'>
-					<Chat greetingInfo={greetingInfo}></Chat>
+					{greetingInfo ? (
+						<Chat greetingInfo={greetingInfo} />
+					) : (
+						<p>Loading chat...</p>
+					)}{' '}
 				</div>
 			)}
 		</Layout>
