@@ -19,7 +19,7 @@ exports.greetingInfo = async (req, res, next) => {
       events = await nylas.events.list({
         calendar_id: calendar.id,
         starts_after: +new Date(),
-        ends_before: +new Date() + 86400,
+        ends_before: +new Date() + 86400, // 86400 = one day in seconds
       });
     }
 
