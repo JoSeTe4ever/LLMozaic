@@ -8,66 +8,347 @@
 		{
 			"name": "Get emails",
 			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "d469c3ae-f7b1-4d32-8f1a-8720cc024b4c",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Authorization",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/nylas/read-emails",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"nylas",
+						"read-emails"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Get send draft by id",
 			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "d469c3ae-f7b1-4d32-8f1a-8720cc024b4c",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Authorization",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/nylas/send-draft?draftId=1zgfk8u8h9l37at395pk57h80",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"nylas",
+						"send-draft"
+					],
+					"query": [
+						{
+							"key": "draftId",
+							"value": "1zgfk8u8h9l37at395pk57h80"
+						}
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "POST send emails",
 			"request": {
-				"method": "GET",
-				"header": []
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "d469c3ae-f7b1-4d32-8f1a-8720cc024b4c",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Authorization",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/nylas/send-email",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"nylas",
+						"send-email"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "POST create Draft",
 			"request": {
-				"method": "GET",
-				"header": []
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "d469c3ae-f7b1-4d32-8f1a-8720cc024b4c",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Authorization",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"to\" : \"josete4ever@gmail.com\",\r\n    \"subject\": \"test\",\r\n    \"body\": \"test\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/nylas/create-draft",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"nylas",
+						"create-draft"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "GET User Greeting info",
 			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "d469c3ae-f7b1-4d32-8f1a-8720cc024b4c",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Authorization",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/nylas/greeting-info",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"nylas",
+						"greeting-info"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Get Calendars",
 			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "d469c3ae-f7b1-4d32-8f1a-8720cc024b4c",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Authorization",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/nylas/read-calendars",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"nylas",
+						"read-calendars"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "GET drafts",
 			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "d469c3ae-f7b1-4d32-8f1a-8720cc024b4c",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Authorization",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/nylas/read-drafts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"nylas",
+						"read-drafts"
+					]
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "Get Contacts",
 			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "d469c3ae-f7b1-4d32-8f1a-8720cc024b4c",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Authorization",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9000/nylas/contacts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"nylas",
+						"contacts"
+					]
+				}
 			},
 			"response": []
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "93765df7-9d23-45e1-901d-4b41a34e2a56",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "Authorization",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
