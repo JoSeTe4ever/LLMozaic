@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNylas } from '@nylas/nylas-react';
 import NylasLogin from './NylasLogin';
+import CircularProgress from '@mui/material/CircularProgress';
 import Layout from './components/Layout';
 import Chat from './Chat';
 import axios from 'axios';
@@ -131,7 +132,12 @@ function App() {
 					{greetingInfo ? (
 						<Chat greetingInfo={greetingInfo} />
 					) : (
-						<p>Loading chat...</p>
+						<div>
+							<p>DEBUG: Loading user profile...</p>
+							<div>
+								<CircularProgress />
+							</div>
+						</div>
 					)}{' '}
 				</div>
 			)}

@@ -173,8 +173,11 @@ export default function Chat({ greetingInfo }) {
 			<main className={styles.main}>
 				{/* Mostrar spinner si el primer mensaje aún no ha sido recibido */}
 				{!initialMessageReceived && (
-					<div className={styles.spinnerContainer}>
-						<CircularProgress />
+					<div>
+						<p>DEBUG: Loading greetingMessage...</p>
+						<div>
+							<CircularProgress />
+						</div>
 					</div>
 				)}
 				{/* Condición para mostrar el overlay */}
