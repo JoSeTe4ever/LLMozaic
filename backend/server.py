@@ -28,7 +28,7 @@ def echo(sock):
     lines_to_send = []  # Lista para almacenar las líneas
     recordLine = False
          # Comprueba si el mensaje de bienvenida ya se ha enviado a este usuario
-        if userId not in welcome_message_sent or not welcome_message_sent[userId]:
+    if userId not in welcome_message_sent or not welcome_message_sent[userId]:
             # Envia el mensaje de bienvenida
             unread_emails = 5  # Sustituir por el número real de correos electrónicos no leídos
             greeting = say_hi_chain.run({"unread_emails": unread_emails})

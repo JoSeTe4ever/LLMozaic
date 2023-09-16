@@ -11,11 +11,7 @@ import sys
 dotenv.load_dotenv()
 OPEN_API_KEY = os.getenv("OPEN_API_KEY")
 openAILLM = ChatOpenAI(openai_api_key=OPEN_API_KEY,
-<<<<<<< HEAD
-                       temperature=0.9, model_name="gpt-4")
-=======
                        temperature=0.8, model_name="gpt-4")
->>>>>>> 64480378063e75113131b84405288767419ee599
 tools = [load_tools(['human'])]
 
 chat_history = MessagesPlaceholder(variable_name="chat_history")
