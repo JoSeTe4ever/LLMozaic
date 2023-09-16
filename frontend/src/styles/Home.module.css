@@ -9,6 +9,7 @@ p {
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
   padding: 1rem;
+  min-width: 10rem;
 }
 
 .microButton {
