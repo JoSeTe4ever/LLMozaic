@@ -92,12 +92,11 @@ function App() {
 	};
 
 	useEffect(() => {
-		// Code where userId is obtained (this might be different in your case)
 		if (userId) {
 			console.log('UserId obtained:', userId); // Debugging
 
 			// API call to greeting endpoint
-			const ENDPOINT = 'http://localhost:9000/nylas/greeting-info';
+			const ENDPOINT = SERVER_URI + 'nylas/greeting-info';
 			axios
 				.get(ENDPOINT, {
 					headers: {
@@ -109,10 +108,10 @@ function App() {
 					setGreetingInfo(response.data);
 				})
 				.catch((error) => {
-					console.log('Error fetching greeting info:', error); // Debugging
+					console.debug('Error fetching greeting info:', error); // Debugging
 				});
 		}
-	}, [userId]); // Dependency array
+	}, [userId]);
 
 	return (
 		<Layout
