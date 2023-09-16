@@ -9,13 +9,13 @@ exports.greetingInfo = async (req, res, next) => {
     const nylas = Nylas.with(user.accessToken);
 
     const threads = await nylas.threads.list({ unread: true });
-
-    const calendar = (await nylas.calendars.list()).find(e => e.is_primary);
+    const unreadSubjects = threads.filter((e) => e.subject).map((e) => e.subject);
+    const calendar = (await nylas.calendars.list()).find((e) => e.is_primary);
     const drafts = await nylas.drafts.list({ limit: 150, expanded: true });
 
     let events = [];
 
-    if(calendar) {
+    if (calendar) {
       events = await nylas.events.list({
         calendar_id: calendar.id,
         starts_after: +new Date(),
@@ -26,6 +26,7 @@ exports.greetingInfo = async (req, res, next) => {
     const userInfo = {
       userEmail: user.emailAddress,
       unreadEmails: threads.length,
+      unreadEmailsSubjects: unreadSubjects,
       eventsTodayMainCalendar: events.length,
       drafts: drafts.length,
     };
