@@ -9,7 +9,6 @@ exports.greetingInfo = async (req, res, next) => {
     const nylas = Nylas.with(user.accessToken);
 
     const threads = await nylas.threads.list({ unread: true });
-    const unreadSubjects = threads.filter((e) => e.subject).map((e) => e.subject);
     const calendar = (await nylas.calendars.list()).find((e) => e.is_primary);
     const drafts = await nylas.drafts.list({ limit: 150, expanded: true });
 
@@ -26,7 +25,6 @@ exports.greetingInfo = async (req, res, next) => {
     const userInfo = {
       userEmail: user.emailAddress,
       unreadEmails: threads.length,
-      unreadEmailsSubjects: unreadSubjects,
       eventsTodayMainCalendar: events.length,
       drafts: drafts.length,
     };

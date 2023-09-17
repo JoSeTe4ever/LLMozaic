@@ -7,6 +7,11 @@
   font-family: 'Poppins', sans-serif;
 }
 
+.title {
+  font-family: 'Poppins';
+  font-weight: 200;
+}
+
 button {
   display: inline-flex;
   align-items: center;
@@ -160,7 +165,10 @@ button {
 .layout {
   width: 100vw;
   height: 100vh;
-  background-color: $color-blue-900;
+
+  background-color: #213571;
+  background-image: linear-gradient(205deg, #213571 43%, #80a4d0 100%);
+
   color: $color-white;
   padding: 1rem;
 

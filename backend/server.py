@@ -1,13 +1,15 @@
-#server.py
+# server.py
 from flask import Flask, request, jsonify
 from flask_cors import CORS  # Import the CORS module
 from flask_sock import Sock
 from contextlib import redirect_stdout
 from SayHiChain import SayHiChain
 
+import json
 import subprocess
 import langchain_main
 import speech2text
+import json
 import subprocess
 import os
 from subprocess import Popen, PIPE

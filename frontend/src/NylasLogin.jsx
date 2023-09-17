@@ -22,6 +22,7 @@ const NylasLogin = ({ email, setEmail }) => {
     <section className="login">
       <form onSubmit={loginUser}>
         <img src='/Mosaic.jpeg' alt='logo' width='200' height='200' />
+        <h2 className='title'>VIRTUAL ASSISTANT</h2>
         <input
           required
           type="email"
