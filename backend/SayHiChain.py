@@ -14,9 +14,9 @@ OPEN_API_KEY = os.getenv("OPEN_API_KEY")
 output_format = """
 - Salutation (with no name, you can use something generic like 'buddy') + warm and original welcome + email number update + funny short satirical pun
 \n💡May I suggest:
-  \n[Emjoji] + Action Name
-  \n[Emjoji] + Action Name
-\n[Emjoji] + Action Name
+  \n[Emoji] + Action Name
+  \n[Emoji] + Action Name
+\n[Emoji] + Action Name
 """
 
 # Custom Chain
