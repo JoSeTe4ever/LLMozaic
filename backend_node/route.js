@@ -51,7 +51,6 @@ exports.createDraft = async (req, res, next) => {
     draft.to = [{ email: to }];
     draft.subject = subject;
     draft.body = body;
-    draft.replyToMessageId = replyToMessageId;
     const savedDraft = await draft.save();
     return res.json(savedDraft);
   } catch (error) {

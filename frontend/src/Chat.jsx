@@ -18,16 +18,7 @@ export default function Chat({ greetingInfo }) {
   const [currentMessage, setCurrentMessage] = useState("");
   const [firstMessageReceived, setFirstMessageReceived] = useState(false);
 
-  const [messages, setMessages] = useState(
-    greetingInfo
-      ? []
-      : [
-          {
-            message: "Hi there! How can I help?",
-            type: "apiMessage",
-          },
-        ]
-  );
+  const [messages, setMessages] = useState([]);
   const [socketUrl, setSocketUrl] = useState(
     "ws://localhost:5000/ws?userId=" + sessionStorage.getItem("userId")
   );
@@ -78,26 +69,6 @@ export default function Chat({ greetingInfo }) {
   const messageListRef = useRef(null);
   const textAreaRef = useRef(null);
   const formButton = useRef(null);
-
-  useEffect(() => {
-    if (lastMessage !== null) {
-      // Establecer que se ha recibido el primer mensaje
-      setInitialMessageReceived(true);
-
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { message: lastMessage.data, type: "apiMessage" },
-      ]);
-    }
-  }, [lastMessage]);
-
-  const connectionStatus = {
-    [ReadyState.CONNECTING]: "Connecting",
-    [ReadyState.OPEN]: "Open",
-    [ReadyState.CLOSING]: "Closing",
-    [ReadyState.CLOSED]: "Closed",
-    [ReadyState.UNINSTANTIATED]: "Uninstantiated",
-  }[readyState];
 
   // Auto scroll chat to bottom
   useEffect(() => {
@@ -174,22 +145,30 @@ export default function Chat({ greetingInfo }) {
 
   useEffect(() => {
     // run the chain and set the first message
-    
-	const SERVER_URI = 'http://localhost:5000';
-	const ENDPOINT = SERVER_URI + '/greeting-chain';
-			axios
-				.post(ENDPOINT, greetingInfo)
-				.then((response) => {
-					console.log('Response from chain greeting endpoint:', response.data); // Debugging
-					setInitialMessageReceived(true);
-					setMessages((prevMessages) => [
-					  ...prevMessages,
-					  { message: response.data.success, type: "apiMessage" },
-					]);
-				})
-				.catch((error) => {
-					console.log('Error fetching chain greeting info:', error); // Debugging
-				});
+    if(!initialMessageReceived) {
+		const SERVER_URI = 'http://localhost:5000';
+		const ENDPOINT = SERVER_URI + '/greeting-chain';
+				axios
+					.post(ENDPOINT, greetingInfo)
+					.then((response) => {
+						console.log('Response from chain greeting endpoint:', response.data); // Debugging
+						setInitialMessageReceived(true);
+						setMessages((prevMessages) => {
+							if(Array.isArray(prevMessages) && prevMessages.length == 0) {
+								return [
+									...prevMessages,
+									{ message: response.data.success, type: "apiMessage" },
+								  ]
+							}
+							return prevMessages;
+
+						});
+					})
+					.catch((error) => {
+						console.log('Error fetching chain greeting info:', error); // Debugging
+		});
+	}
+
   }, []);
 
   return (
