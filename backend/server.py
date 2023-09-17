@@ -2,7 +2,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS  # Import the CORS module
 from flask_sock import Sock
-from contextlib import redirect_stdout
 from SayHiChain import SayHiChain
 
 import json
@@ -90,19 +89,20 @@ def process_data():
         return jsonify({"success": response})
     except Exception as e:
         return jsonify({"error": str(e)})
-
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
-
+    
 
 @app.route('/greeting-chain', methods=['POST'])
 def greeting_chain():
+    print('greeting-chain')
     try:
-        response = langchain_main.message(request.json['question'])
-        return jsonify({"success": response})
+        unreadEmails = request.json['unreadEmails']
+        eventsTodayMainCalendar = request.json['eventsTodayMainCalendar']
+        drafts = request.json['drafts']
+        greetingChainResult = say_hi_chain(inputs={"unreadEmails": unreadEmails, "eventsTodayMainCalendar": eventsTodayMainCalendar, "drafts": drafts})
+        return jsonify({"success": greetingChainResult['text']})
     except Exception as e:
-        return jsonify({"error": str(e)})
+        return jsonify({"error2": str(e)})
+
 
 
 if __name__ == '__main__':

@@ -27,9 +27,10 @@ class SayHiChain(LLMChain):
         llm = OpenAI(openai_api_key=OPEN_API_KEY,
                      temperature=0.8, model_name="gpt-3.5-turbo")
         prompt = PromptTemplate(
-            input_variables=["unread_emails"],
+            input_variables=["unreadEmails", "eventsTodayMainCalendar", "drafts"],
             template=f"""You are a personal assistant. You must create a fun welcome message to the user saying how many emails they got.
-            Something like 'Hey user, you have {{unread_emails}} unread emails today!'
+            Something like 'Hey user, you have {{unreadEmails}} unread emails today!, and please note that you have {{eventsTodayMainCalendar}} events today on your main calendar.'
+            And also do not forget to mention that you have {{drafts}} email drafts.
             When you finish with the update, you should also offer the user a list of possible actions that they can do with you.
             The actions should be related to the your assistant task. You could offer to reply or create some drafts. Try to be very helpfull as a good personal assistant
             The should be presented as a list, 1 option per line. and no more than 3  

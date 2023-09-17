@@ -9,7 +9,6 @@ import AudioStream from "./AudioStream";
 
 export default function Chat({ greetingInfo }) {
   const [userInput, setUserInput] = useState("");
-  const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [recording, setRecording] = useState(false);
   const [displayMessage, setDisplayMessage] = useState(false);
@@ -176,18 +175,6 @@ export default function Chat({ greetingInfo }) {
     }
     setRecording(false);
   };
-
-  // Keep history in sync with messages
-  useEffect(() => {
-    if (messages.length >= 3) {
-      setHistory([
-        [
-          messages[messages.length - 2].message,
-          messages[messages.length - 1].message,
-        ],
-      ]);
-    }
-  }, [messages]);
 
   return (
     <>

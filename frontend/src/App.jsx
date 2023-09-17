@@ -133,7 +133,6 @@ function App() {
 						<Chat greetingInfo={greetingInfo} />
 					) : (
 						<div>
-							<p>DEBUG: Loading user profile...</p>
 							<div>
 								<CircularProgress />
 							</div>
