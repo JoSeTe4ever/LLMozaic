@@ -6,8 +6,10 @@ import ReactMarkdown from "react-markdown";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import styles from "../src/styles/Home.module.css";
 import AudioStream from "./AudioStream";
+import axios from 'axios';
 
 export default function Chat({ greetingInfo }) {
+
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [recording, setRecording] = useState(false);
@@ -29,7 +31,7 @@ export default function Chat({ greetingInfo }) {
   const [socketUrl, setSocketUrl] = useState(
     "ws://localhost:5000/ws?userId=" + sessionStorage.getItem("userId")
   );
-  const { sendGreeting } = useWebSocket(socketUrl);
+
   const [messageHistory, setMessageHistory] = useState([]);
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl, {
     onOpen: () => {
@@ -76,12 +78,6 @@ export default function Chat({ greetingInfo }) {
   const messageListRef = useRef(null);
   const textAreaRef = useRef(null);
   const formButton = useRef(null);
-
-  useEffect(() => {
-    if (greetingInfo) {
-      sendMessage(JSON.stringify(greetingInfo));
-    }
-  }, [greetingInfo]);
 
   useEffect(() => {
     if (lastMessage !== null) {
@@ -175,6 +171,26 @@ export default function Chat({ greetingInfo }) {
     }
     setRecording(false);
   };
+
+  useEffect(() => {
+    // run the chain and set the first message
+    
+	const SERVER_URI = 'http://localhost:5000';
+	const ENDPOINT = SERVER_URI + '/greeting-chain';
+			axios
+				.post(ENDPOINT, greetingInfo)
+				.then((response) => {
+					console.log('Response from chain greeting endpoint:', response.data); // Debugging
+					setInitialMessageReceived(true);
+					setMessages((prevMessages) => [
+					  ...prevMessages,
+					  { message: response.data.success, type: "apiMessage" },
+					]);
+				})
+				.catch((error) => {
+					console.log('Error fetching chain greeting info:', error); // Debugging
+				});
+  }, []);
 
   return (
     <>
