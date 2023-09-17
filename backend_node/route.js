@@ -8,28 +8,33 @@ exports.greetingInfo = async (req, res, next) => {
     const user = res.locals.user;
     const nylas = Nylas.with(user.accessToken);
 
-    const threads = await nylas.threads.list({ unread: true });
-    const calendar = (await nylas.calendars.list()).find((e) => e.is_primary);
-    const drafts = await nylas.drafts.list({ limit: 150, expanded: true });
+    await Promise.all([
+      nylas.threads.list({ unread: true }),
+      nylas.calendars.list(),
+      nylas.drafts.list({ limit: 150, expanded: true }),
+    ]).then(([threads, calendars, drafts]) => {
+      const calendar = calendars.find((e) => e.isPrimary);
 
-    let events = [];
+      if (calendar) {
+        return nylas.events
+          .list({
+            calendar_id: calendar.id,
+            starts_after: +new Date(),
+            ends_before: +new Date() + 86400, // 86400 = one day in seconds
+          })
+          .then((events) => {
+            let eventos = events;
+            const userInfo = {
+              userEmail: user.emailAddress,
+              unreadEmails: threads.length,
+              eventsTodayMainCalendar: eventos.length,
+              drafts: drafts.length,
+            };
 
-    if (calendar) {
-      events = await nylas.events.list({
-        calendar_id: calendar.id,
-        starts_after: +new Date(),
-        ends_before: +new Date() + 86400, // 86400 = one day in seconds
-      });
-    }
-
-    const userInfo = {
-      userEmail: user.emailAddress,
-      unreadEmails: threads.length,
-      eventsTodayMainCalendar: events.length,
-      drafts: drafts.length,
-    };
-
-    return res.json(userInfo);
+            return res.json(userInfo);
+          });
+      }
+    });
   } catch (error) {
     next(error);
   }

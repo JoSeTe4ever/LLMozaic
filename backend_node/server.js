@@ -138,7 +138,6 @@ async function isAuthenticated(req, res, next) {
 
 app.get('/nylas/greeting-info', isAuthenticated, (req, res, next) => {
 	//log this to the console
-	console.log('Greeting Info Called!');
 	route.greetingInfo(req, res, next);
 });
 

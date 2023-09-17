@@ -21,24 +21,11 @@ sock = Sock(app)
 # Initialize SayHiChain
 say_hi_chain = SayHiChain()
 
-welcome_message_sent = {}
-
-
 @sock.route('/ws')
 def echo(sock):
     userId = request.args.get('userId')
     lines_to_send = []  # Lista para almacenar las líneas
     recordLine = False
-         # Comprueba si el mensaje de bienvenida ya se ha enviado a este usuario
-    if userId not in welcome_message_sent or not welcome_message_sent[userId]:
-            # Envia el mensaje de bienvenida
-            unread_emails = 5  # Sustituir por el número real de correos electrónicos no leídos
-            greeting = say_hi_chain.run({"unread_emails": unread_emails})
-            sock.send(greeting)
-        
-            # Marca el mensaje de bienvenida como enviado para este usuario
-            welcome_message_sent[userId] = True
-
     data = sock.receive()
     popen = subprocess.Popen(['python', '-u', 'langchain_main.py',
                              data, userId], stdout=subprocess.PIPE, universal_newlines=True)
@@ -98,6 +85,19 @@ def upload_audio():
 
 @app.route('/api/chat', methods=['POST'])
 def process_data():
+    try:
+        response = langchain_main.message(request.json['question'])
+        return jsonify({"success": response})
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+
+
+@app.route('/greeting-chain', methods=['POST'])
+def greeting_chain():
     try:
         response = langchain_main.message(request.json['question'])
         return jsonify({"success": response})
