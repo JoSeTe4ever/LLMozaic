@@ -48,7 +48,7 @@ export default function Chat({ greetingInfo }) {
         message = e.data.replace("\x1B[0m", "");
       }
       
-      else if (e.data.includes('"action": "Final Answer", "action_input":')) {
+      else if (e.data.includes('\"action\": \"Final Answer\", \"action_input\":')) {
         isFinalAnswer = true;
         message = e.data.replace(
           '"action": "Final Answer", "action_input":',
