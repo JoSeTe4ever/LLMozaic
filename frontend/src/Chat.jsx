@@ -48,12 +48,9 @@ export default function Chat({ greetingInfo }) {
         message = e.data.replace("\x1B[0m", "");
       }
       
-      else if (e.data.includes('\"action\": \"Final Answer\", \"action_input\":')) {
+      else if (e.data.includes('"action": "Final Answer",\n')) {
         isFinalAnswer = true;
-        message = e.data.replace(
-          '"action": "Final Answer", "action_input":',
-          ""
-        );
+        message = e.data.replace('"action": "Final Answer",\n', "");
       }
       setMessageHistory((prev) => prev.concat(e.data));
       setMessages((prevMessages) => [
@@ -297,11 +294,10 @@ export default function Chat({ greetingInfo }) {
           </div>
           <div className={styles.footer}>
             <p>
-              . Built by{" "}
+              Built by{" "}
               <a href="https://devpost.com/software/virtual-assistant-nm4cyh" target="_blank">
                 TEAM JOSE LUCIA FRAN
               </a>
-              .
             </p>
           </div>
         </div>
