@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import IconSync from './icons/IconSync.jsx';
-import IconLogout from './icons/IconLogout.jsx';
-import NylasLogo from './icons/nylas-logo-horizontal.svg';
-import PropTypes from 'prop-types';
-import Toast from './Toast';
+import React, { useState } from "react";
+import IconSync from "./icons/IconSync.jsx";
+import IconLogout from "./icons/IconLogout.jsx";
+import NylasLogo from "./icons/nylas-logo-horizontal.svg";
+import PropTypes from "prop-types";
+import Toast from "./Toast";
 
 const Layout = ({
   children,
@@ -34,7 +34,7 @@ const Layout = ({
   return (
     <div className="layout">
       <div className="title-menu">
-        <h1>{title || ''}</h1>
+        <h1>{title || ""}</h1>
 
         <Toast
           toastNotification={toastNotification}
@@ -46,11 +46,11 @@ const Layout = ({
               onClick={handleRefresh}
               disabled={isLoading || isDisconnecting || toastNotification}
             >
-              <div className={`menu-icon ${isLoading ? 'syncing' : ''}`}>
+              <div className={`menu-icon ${isLoading ? "syncing" : ""}`}>
                 <IconSync />
               </div>
               <span className="hidden-mobile">
-                {isLoading ? 'Refreshing' : 'Refresh'}
+                {isLoading ? "Refreshing" : "Refresh"}
               </span>
             </button>
             <div className="hidden-mobile">·</div>
@@ -62,7 +62,7 @@ const Layout = ({
                 <IconLogout />
               </div>
               <span className="hidden-mobile">
-                {isDisconnecting ? 'Disconnecting...' : 'Disconnect account'}
+                {isDisconnecting ? "Disconnecting..." : "Disconnect account"}
               </span>
             </button>
           </div>
@@ -72,7 +72,10 @@ const Layout = ({
       <footer>
         <div className="logo">
           POWERED BY
-          <img src={NylasLogo} alt="Nylas Logo" />
+          <div>
+            <img src={NylasLogo} alt="Nylas Logo" />
+            <img className="openLogo" src="/public/openAPI.png" alt="Open API Logo" />
+          </div>
         </div>
       </footer>
     </div>

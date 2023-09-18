@@ -280,11 +280,13 @@ export default function Chat({ greetingInfo }) {
                 )}
               </button>
               {!loading ? (
-                <FontAwesomeIcon
-                  icon={faMicrophone}
-                  className={styles.microButton}
-                  onClick={handleRecordClick}
-                />
+                <div className="circle">
+                  <FontAwesomeIcon
+                    icon={faMicrophone}
+                    className={styles.microButton}
+                    onClick={handleRecordClick}
+                  />
+                </div>
               ) : (
                 <></>
               )}

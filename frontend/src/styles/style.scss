@@ -12,6 +12,18 @@
   font-weight: 200;
 }
 
+.circle {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  background-color: #3498db;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-left: 20px;
+}
+
 .loadingSpinner {
   width: 100%;
   height: 55vh;
@@ -138,11 +150,11 @@ button {
   z-index: 1;
 
   &.success {
-    background-color: $color-green-50;
+    background-color: green;
   }
 
   &.error {
-    background-color: $color-red-50;
+    background-color: red;
   }
 
   .dismiss-container {
@@ -160,6 +172,7 @@ button {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -169,6 +182,7 @@ button {
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }
@@ -220,6 +234,7 @@ button {
 
         .menu-icon {
           display: flex;
+
           svg {
             fill: $color-white;
           }
@@ -227,6 +242,7 @@ button {
 
         &:hover {
           color: $color-blue-300;
+
           svg {
             fill: $color-blue-300;
           }
@@ -240,6 +256,7 @@ button {
           0% {
             transform: rotate(0deg);
           }
+
           100% {
             transform: rotate(360deg);
           }
@@ -258,6 +275,11 @@ button {
       font-size: $fs-16;
       line-height: 1.5;
     }
+
+    .openLogo {
+      width: 12rem;
+      margin-left: 2rem;
+    }
   }
 
   main {
@@ -265,6 +287,15 @@ button {
     min-height: 0;
     flex: 1 0 0;
   }
+}
+
+section.titleSection {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
 }
 
 section.login {
@@ -315,13 +346,13 @@ section.login {
   height: 100%;
   color: $color-grey-800;
   background-color: $color-white;
-  padding: $spacing-32 $spacing-48;
+  padding: 1rem 2rem;
   border-radius: $spacing-32;
 }
 
 @media #{$desktop} {
   .layout {
-    padding: 3rem 8rem;
+    padding: 1.5rem 4rem;
 
     .title-menu {
       .menu {
@@ -336,6 +367,7 @@ section.login {
     input {
       max-width: 320px;
     }
+
     button {
       max-width: 320px;
     }

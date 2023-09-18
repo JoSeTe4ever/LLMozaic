@@ -3,7 +3,6 @@
 
 .microButton {
   cursor: pointer;
-  position: absolute;
   top: 12px;
   right: -45px;
   font-size: 34px;
@@ -85,12 +84,13 @@
 .generatebutton {
   position: absolute;
   top: 0.87rem;
-  right: 1rem;
-  color: rgb(165, 162, 162);
+  right: 5rem;
+  color: rgb(249 249 249);
   background: none;
   padding: 0.3rem;
   border: none;
   display: flex;
+  z-index: 999;
 }
 
 .loadingwheel {
@@ -136,10 +136,25 @@
   margin-top: 1rem;
 }
 
-.usermessage {
+.usermessage, .usermessagewaiting {
   padding: 1.5rem;
   color: #ececf1;
   flex-direction: row-reverse;
+
+  .markdownanswer {
+    line-height: 1.75;
+    border-radius: 10px;
+    border-radius: 10px;
+    background: #2482BE;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  
+    color: white !important;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  
 }
 
 .usermessagewaiting {
@@ -282,6 +297,9 @@
   opacity: 0.8;
 }
 
+form {
+  display: flex
+}
 /* Mobile optimization */
 @media (max-width: 600px) {
   .main {
@@ -290,13 +308,10 @@
     position: relative;
   }
 
-  .cloud {
-    width: 22rem;
-    height: 28rem;
-  }
   .textarea {
     width: 22rem;
   }
+
   .topnav {
     border: 1px solid black;
     align-items: center;
@@ -312,9 +327,25 @@
     white-space: pre-wrap !important;
   }
 
-  .footer {
-    font-size: 0.7rem;
-    width: 100%;
-    text-align: center;
+  footer {
+    display: none;
   }
+
+  .boticon, .usericon {
+    display: none;
+  }
+
+  form {
+    display: flex;
+    max-width: 20rem;
+  }
+
+  .microButton{
+    font-size: 16px;
+  }
+
+  .circle{
+    background-color: transparent !important;
+  }
+
 }
