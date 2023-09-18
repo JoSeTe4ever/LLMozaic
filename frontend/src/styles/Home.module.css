@@ -120,7 +120,7 @@
 .messagelist {
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   border-radius: 0.5rem;
   border-radius: 20px;
   border: 1px solid #063462;
@@ -241,9 +241,10 @@
   border-radius: 0.1rem;
 }
 
-.usericon {
+.usericon, .boticon {
   margin-left: 1rem;
   border-radius: 0.1rem;
+  border-radius: 3.0rem;
 }
 
 .markdownanswer h1,

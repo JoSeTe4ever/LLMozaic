@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faQuestionCircle,
 } from "@fortawesome/free-solid-svg-icons";
+import { Tooltip } from "react-tooltip";
 
 const Layout = ({
   children,
@@ -48,10 +49,16 @@ const Layout = ({
           <div className="menu">
             <button
             >
-              <div className="menu-icon">
-              <FontAwesomeIcon icon={faQuestionCircle} />
+              <div className="menu-icon"
+                data-tooltip-id="my-tooltip-data-html"
+                data-tooltip-html="<p>
+                  <p><b>Suggested prompts</b></p><br> Read my emails <br>Create an event today in my main calendar for working out <br>
+                  Create a draft message for test@test.com<br> Create an image of a birthday cake and send it to test@test.com<br><br><br>   
+                </p>">
+                <FontAwesomeIcon icon={faQuestionCircle} className="infoIcon"/>
                 Suggestions
-                </div>
+              </div>
+              <Tooltip id="my-tooltip-data-html" style={{ backgroundColor: "black", color: "white" }} />
             </button>
 
             <button

@@ -37,14 +37,18 @@ export default function Chat({ greetingInfo }) {
       console.log(e.data);
       let isThought = false;
       let isFinalAnswer = false;
-      let message = e.data;
+      let message = e.data; 
       if (e.data.includes("\x1B[32;1m\x1B[1;3mThought:")) {
         isThought = true;
         message = e.data.replace("\x1B[32;1m\x1B[1;3mThought:", "");
       } else if (e.data.includes("\x1B[32;1m\x1B[1;3m")) {
         isThought = true;
         message = e.data.replace("\x1B[32;1m\x1B[1;3m", "");
-      } else if (e.data.includes('"action": "Final Answer", "action_input":')) {
+      } else if (e.data.includes("\x1B[0m")) {
+        message = e.data.replace("\x1B[0m", "");
+      }
+      
+      else if (e.data.includes('"action": "Final Answer", "action_input":')) {
         isFinalAnswer = true;
         message = e.data.replace(
           '"action": "Final Answer", "action_input":',

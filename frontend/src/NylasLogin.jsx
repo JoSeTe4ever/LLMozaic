@@ -46,7 +46,7 @@ const NylasLogin = ({ email, setEmail }) => {
             directly speaking to the virtual assistant.
           </p>"
           />
-          <Tooltip id="my-tooltip-data-html"  style={{ backgroundColor: "#063462", color: "white" }}/>
+          <Tooltip id="my-tooltip-data-html" style={{ backgroundColor: "#063462", color: "white" }} />
         </section>
 
         <input
