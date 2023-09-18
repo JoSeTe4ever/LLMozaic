@@ -6,10 +6,9 @@ import ReactMarkdown from "react-markdown";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import styles from "../src/styles/Home.module.css";
 import AudioStream from "./AudioStream";
-import axios from 'axios';
+import axios from "axios";
 
 export default function Chat({ greetingInfo }) {
-
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [recording, setRecording] = useState(false);
@@ -145,44 +144,31 @@ export default function Chat({ greetingInfo }) {
 
   useEffect(() => {
     // run the chain and set the first message
-    if(!initialMessageReceived) {
-		const SERVER_URI = 'http://localhost:5000';
-		const ENDPOINT = SERVER_URI + '/greeting-chain';
-				axios
-					.post(ENDPOINT, greetingInfo)
-					.then((response) => {
-						console.log('Response from chain greeting endpoint:', response.data); // Debugging
-						setInitialMessageReceived(true);
-						setMessages((prevMessages) => {
-							if(Array.isArray(prevMessages) && prevMessages.length == 0) {
-								return [
-									...prevMessages,
-									{ message: response.data.success, type: "apiMessage" },
-								  ]
-							}
-							return prevMessages;
-
-						});
-					})
-					.catch((error) => {
-						console.log('Error fetching chain greeting info:', error); // Debugging
-		});
-	}
-
+    const SERVER_URI = "http://localhost:5000";
+    const ENDPOINT = SERVER_URI + "/greeting-chain";
+    axios
+      .post(ENDPOINT, greetingInfo)
+      .then((response) => {
+        console.log("Response from chain greeting endpoint:", response.data); // Debugging
+        setInitialMessageReceived(true);
+        setMessages((prevMessages) => {
+          if (Array.isArray(prevMessages) && prevMessages.length == 0) {
+            return [
+              ...prevMessages,
+              { message: response.data.success, type: "apiMessage" },
+            ];
+          }
+          return prevMessages;
+        });
+      })
+      .catch((error) => {
+        console.log("Error fetching chain greeting info:", error); // Debugging
+      });
   }, []);
 
   return (
     <>
       <main className={styles.main}>
-        {/* Mostrar spinner si el primer mensaje aún no ha sido recibido */}
-        {!initialMessageReceived && (
-          <div>
-            <p>DEBUG: Loading greetingMessage...</p>
-            <div>
-              <CircularProgress />
-            </div>
-          </div>
-        )}
         {/* Condición para mostrar el overlay */}
         {recording && (
           <div className={styles.RecordStreamOverlay}>
@@ -193,7 +179,18 @@ export default function Chat({ greetingInfo }) {
         )}
 
         <div className={styles.cloud}>
+          {/* Mostrar spinner si el primer mensaje aún no ha sido recibido */}
+
           <div ref={messageListRef} className={styles.messagelist}>
+            {!initialMessageReceived && (
+              <div className={styles.loadingSpinner}>
+                <div>
+                  <p>DEBUG: Loading greetingMessage...</p>
+                  <CircularProgress />
+                </div>
+              </div>
+            )}
+
             {messages.map((message, index) => {
               return (
                 // The latest message sent by the user will be animated while waiting for a response
