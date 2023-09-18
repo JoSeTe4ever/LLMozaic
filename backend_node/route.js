@@ -90,6 +90,32 @@ exports.sendDraft = async (req, res, next) => {
   }
 };
 
+exports.deleteDraft = async (req, res, next) => {
+  try {
+    const user = res.locals.user;
+
+    const { draftId } = req.query;
+
+    console.log("delete draft!!! draftId", draftId);
+    const allDrafts = await Nylas.with(user.accessToken).drafts.list();
+
+    await allDrafts.find((e) => e.id === draftId).delete();
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.readLabels = async (req, res, next) => {
+  try {
+    const user = res.locals.user;
+    const allLabels = await Nylas.with(user.accessToken).labels.list();
+    return res.json(allLabels);
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.sendEmail = async (req, res, next) => {
   try {
     const user = res.locals.user;

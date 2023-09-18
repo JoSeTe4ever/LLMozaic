@@ -183,9 +183,8 @@ export default function Chat({ greetingInfo }) {
 
           <div ref={messageListRef} className={styles.messagelist}>
             {!initialMessageReceived && (
-              <div className={styles.loadingSpinner}>
-                <div>
-                  <p>DEBUG: Loading greetingMessage...</p>
+              <div className="loadingSpinner">
+                <div className="spinner">
                   <CircularProgress />
                 </div>
               </div>
@@ -294,12 +293,8 @@ export default function Chat({ greetingInfo }) {
           </div>
           <div className={styles.footer}>
             <p>
-              Powered by{" "}
-              <a href="https://github.com/hwchase17/langchain" target="_blank">
-                LangChain
-              </a>
               . Built by{" "}
-              <a href="https://twitter.com/chillzaza_" target="_blank">
+              <a href="https://devpost.com/software/virtual-assistant-nm4cyh" target="_blank">
                 TEAM JOSE LUCIA FRAN
               </a>
               .

@@ -213,6 +213,7 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  padding: 1rem;
 }
 
 .markdownanswer a:hover {
@@ -343,9 +344,4 @@ form {
   .microButton{
     font-size: 16px;
   }
-
-  .circle{
-    background-color: transparent !important;
-  }
-
 }

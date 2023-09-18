@@ -149,8 +149,16 @@ app.get('/nylas/send-draft', isAuthenticated, (req, res, next) => {
 	route.sendDraft(req, res, next);
 });
 
+app.delete('/nylas/delete-draft', isAuthenticated, (req, res, next) => {
+	route.deleteDraft(req, res, next);
+});
+
 app.get('/nylas/read-drafts', isAuthenticated, (req, res, next) => {
 	route.readDrafts(req, res, next);
+});
+
+app.get('/nylas/read-labels', isAuthenticated, (req, res, next) => {
+	route.readLabels(req, res, next);
 });
 
 app.post('/nylas/send-email', isAuthenticated, (req, res, next) => {

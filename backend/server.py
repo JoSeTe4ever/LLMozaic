@@ -4,9 +4,9 @@ from flask_cors import CORS  # Import the CORS module
 from flask_sock import Sock
 from SayHiChain import SayHiChain
 
-import json
 import subprocess
 import langchain_main
+import text2img
 import speech2text
 import json
 import subprocess
@@ -61,6 +61,13 @@ def echo(sock):
             return_code, ['python', 'langchain_main.py', data])
 
 
+
+@app.route('/text2img', methods=['GET'])
+def create_image():
+    prompt = request.args.get('prompt')
+    imgUrl = text2img.transform(prompt)
+    return imgUrl
+
 @app.route('/speech2text', methods=['POST'])
 def upload_audio():
     print('audio_data recibido')
@@ -80,16 +87,6 @@ def upload_audio():
     if audio_file:
         speech = speech2text.transcribe(file_path)
         return speech
-
-
-@app.route('/api/chat', methods=['POST'])
-def process_data():
-    try:
-        response = langchain_main.message(request.json['question'])
-        return jsonify({"success": response})
-    except Exception as e:
-        return jsonify({"error": str(e)})
-    
 
 @app.route('/greeting-chain', methods=['POST'])
 def greeting_chain():

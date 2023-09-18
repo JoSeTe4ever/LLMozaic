@@ -1,4 +1,5 @@
 from langchain.tools import BaseTool
+from urllib.parse import quote
 
 import requests
 import datetime
@@ -300,3 +301,28 @@ class SendEmailDraft(BaseTool):
     async def _arun(self) -> str:
         """Use the tool asynchronously."""
         raise NotImplementedError("get_calendars does not support async")
+    
+
+class CreateImage(BaseTool):
+    name = "create_image"
+    description = """Use this action for creating an image from a text. The text is the prompt. The image is returned as a url. Always use 
+    the url response string in the action chain."""
+
+    def __init__(self):
+        super().__init__()  # Llama al constructor de la clase base si es necesario
+        
+
+    def _run(self, prompt: str) -> str:
+        print(prompt);
+        encoded_text = quote(prompt)
+
+        url = f"http://localhost:5000/text2img?prompt={encoded_text}"
+        
+        # Configura encabezados y envía la solicitud
+        imgUrl = requests.get(url)
+        print(imgUrl, "imgUrl")
+        return imgUrl.json();
+
+    async def _arun(self, prompt) -> str:
+        result = await self._run(prompt)
+        return result

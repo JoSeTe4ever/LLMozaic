@@ -4,6 +4,10 @@ import IconLogout from "./icons/IconLogout.jsx";
 import NylasLogo from "./icons/nylas-logo-horizontal.svg";
 import PropTypes from "prop-types";
 import Toast from "./Toast";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faQuestionCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 const Layout = ({
   children,
@@ -43,6 +47,14 @@ const Layout = ({
         {showMenu && (
           <div className="menu">
             <button
+            >
+              <div className="menu-icon">
+              <FontAwesomeIcon icon={faQuestionCircle} />
+                Suggestions
+                </div>
+            </button>
+
+            <button
               onClick={handleRefresh}
               disabled={isLoading || isDisconnecting || toastNotification}
             >
@@ -50,7 +62,7 @@ const Layout = ({
                 <IconSync />
               </div>
               <span className="hidden-mobile">
-                {isLoading ? "Refreshing" : "Refresh"}
+                {isLoading ? "Refreshing" : "Clean chat"}
               </span>
             </button>
             <div className="hidden-mobile">·</div>
@@ -74,7 +86,11 @@ const Layout = ({
           POWERED BY
           <div>
             <img src={NylasLogo} alt="Nylas Logo" />
-            <img className="openLogo" src="/public/openAPI.png" alt="Open API Logo" />
+            <img
+              className="openLogo"
+              src="/public/openAPI.png"
+              alt="Open API Logo"
+            />
           </div>
         </div>
       </footer>

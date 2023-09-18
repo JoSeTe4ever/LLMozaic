@@ -21,8 +21,10 @@
     "dompurify": "^2.3.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hover": "^3.0.1",
     "react-markdown": "^8.0.4",
     "react-spinners": "^0.13.8",
+    "react-tooltip": "^5.21.4",
     "react-use-websocket": "^3.0.0",
     "sass": "^1.55.0"
   },

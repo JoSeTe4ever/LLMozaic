@@ -1,6 +1,6 @@
 from langchain.agents import initialize_agent, load_tools
 from langchain.chat_models import ChatOpenAI
-from langchain_tools import SendEmail, ReadEmails, GetContacts, GetEvents, GetCalendars, DateTimestamp, CreateModifyDeleteEvents, GetEmailDrafts, CreateEmailDraft, SendEmailDraft
+from langchain_tools import SendEmail, ReadEmails, GetContacts, GetEvents, GetCalendars, DateTimestamp, CreateModifyDeleteEvents, GetEmailDrafts, CreateEmailDraft, SendEmailDraft, CreateImage
 from langchain.prompts import MessagesPlaceholder
 from langchain.memory import ConversationBufferMemory
 
@@ -13,10 +13,6 @@ OPEN_API_KEY = os.getenv("OPEN_API_KEY")
 openAILLM = ChatOpenAI(openai_api_key=OPEN_API_KEY,
                        temperature=0.8, model_name="gpt-4")
 tools = [load_tools(['human'])]
-
-chat_history = MessagesPlaceholder(variable_name="chat_history")
-memory = ConversationBufferMemory(
-    memory_key="chat_history", return_messages=True)
 
 PREFIX = """
 You are a highly sophisticated virtual assistant built on GPT-4. Your main tasks involve assisting the user with their email, contacts, and calendar functionalities. This requires you to be precise, accurate, and to understand the context deeply. You have been trained with vast amounts of data and have an array of tools at your disposal to help users accomplish their digital tasks efficiently. The actions available to you are:
@@ -42,11 +38,6 @@ The first time, you shall introduce yourself as Your Assitant
 -Email Machinegun: if the user ask for this, you should return the last 5 emails subject, but adding the string 'PEW' every 6 characters
 """
 
-
-
-def message(user_input: str):
-    return agent.run(user_input)
-
 # process_data.py
 
 
@@ -55,12 +46,12 @@ def main():
     user_input = sys.argv[1]
     userId = sys.argv[2]
     tools = [SendEmail(userId), ReadEmails(userId), GetContacts(userId), GetEvents(userId), GetCalendars(userId),
-             GetEmailDrafts(userId), CreateEmailDraft(userId), SendEmailDraft(userId), CreateModifyDeleteEvents(userId), DateTimestamp()]
+             GetEmailDrafts(userId), CreateEmailDraft(userId), SendEmailDraft(userId), CreateModifyDeleteEvents(userId), DateTimestamp(), CreateImage()]
 
     agent = initialize_agent(tools=tools, llm=openAILLM,
                              agent="structured-chat-zero-shot-react-description", agent_kwargs={
-                                 "input_variables": ["input", "agent_scratchpad"]},
-                             memory=memory,
+                                "prefix": PREFIX,
+                                "input_variables": ["input", "agent_scratchpad"]},
                              verbose=True)
 
     agent.run(user_input)
