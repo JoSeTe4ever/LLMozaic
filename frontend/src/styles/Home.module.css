@@ -337,7 +337,6 @@ form {
 
   form {
     display: flex;
-    max-width: 20rem;
   }
 
   .microButton{
