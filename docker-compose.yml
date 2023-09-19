@@ -11,7 +11,7 @@ services:
       - "9000:9000"
     environment:
       NODE_ENV: production
-      FRONTEND_URL: http://frontend:3000
+      FRONTEND_URL: http://localhost:3000
     networks:
       - app-network
 
@@ -26,7 +26,8 @@ services:
     networks:
       - app-network
     environment:
-      BACKEND_NODE_URL: http://backend_node:9000
+      BACKEND_NODE_URL: http://localhost:9000
+
 
   frontend:
     build:
@@ -39,8 +40,8 @@ services:
     networks:
       - app-network
     environment:
-      VITE_BACKEND_URL: http://backend:5000
-      VITE_BACKEND_NODE_URL: http://backend_node:9000
+      VITE_BACKEND_URL: http://localhost:5000
+      VITE_BACKEND_NODE_URL: http://localhost:9000
 
 networks:
   app-network:

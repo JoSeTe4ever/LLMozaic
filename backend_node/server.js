@@ -41,7 +41,7 @@ Nylas.config({
 const CLIENT_URI =
   process.env.FRONTEND_URL  || `http://localhost:${process.env.PORT || 3000}`;
 Nylas.application({
-	redirectUris: [FRONTEND_URL],
+	redirectUris: [CLIENT_URI],
 }).then((applicationDetails) => {
 	console.log(
 		'Application registered. Application Details: ',
