@@ -34,6 +34,7 @@ export default function Chat({ greetingInfo }) {
       setLoading(false);
     },
     onMessage: (e) => {
+      const messagesToAdd = [];
       console.log(e.data);
       let isThought = false;
       let isFinalAnswer = false;
@@ -41,26 +42,40 @@ export default function Chat({ greetingInfo }) {
       if (e.data.includes("\x1B[32;1m\x1B[1;3mThought:")) {
         isThought = true;
         message = e.data.replace("\x1B[32;1m\x1B[1;3mThought:", "");
-      } else if (e.data.includes("\x1B[32;1m\x1B[1;3m")) {
-        isThought = true;
-        message = e.data.replace("\x1B[32;1m\x1B[1;3m", "");
-      } else if (e.data.includes('"action": "Final Answer", "action_input":')) {
-        isFinalAnswer = true;
-        message = e.data.replace(
-          '"action": "Final Answer", "action_input":',
-          ""
-        );
-      }
-      setMessageHistory((prev) => prev.concat(e.data));
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        {
+
+        messagesToAdd.push({
           message: message,
           type: "apiMessage",
           isThought: isThought,
           isFinalAnswer: isFinalAnswer,
-        },
-      ]);
+        });
+      } else if (e.data.includes("\x1B[32;1m\x1B[1;3m")) {
+        isThought = true;
+        message = e.data.replace("\x1B[32;1m\x1B[1;3m", "");
+
+        messagesToAdd.push({
+          message: message,
+          type: "apiMessage",
+          isThought: isThought,
+          isFinalAnswer: isFinalAnswer,
+        });
+      } else if (e.data.includes('"action": "Final Answer", "action_input":')) {
+        isFinalAnswer = true;
+        messagesToAdd = e.data.split(
+          '"action": "Final Answer", "action_input":'
+        );
+
+        messagesToAdd = messagesToAdd.map((e) => {
+          return {
+            message: e,
+            type: "apiMessage",
+            isThought: false,
+            isFinalAnswer: true,
+          };
+        });
+      }
+      setMessageHistory((prev) => prev.concat(e.data));
+      setMessages((prevMessages) => [...prevMessages, ...messagesToAdd]);
     },
     shouldReconnect: (closeEvent) => true,
   });
