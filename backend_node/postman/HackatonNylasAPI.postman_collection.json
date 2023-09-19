@@ -41,6 +41,50 @@
 			"response": []
 		},
 		{
+			"name": "POST read events",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "d469c3ae-f7b1-4d32-8f1a-8720cc024b4c",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Authorization",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"calendarId\": \"qx0jzuhpzk52hcpmg2dvxzap\",\r\n    \"startsAfter\": 1594984610268,\r\n    \"endsBefore\": 1694984610268,\r\n    \"limit\": \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9000/nylas/read-events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9000",
+					"path": [
+						"nylas",
+						"read-events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get send draft by id",
 			"request": {
 				"auth": {
@@ -170,6 +214,49 @@
 					"path": [
 						"nylas",
 						"create-draft"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST greeting chain",
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "d469c3ae-f7b1-4d32-8f1a-8720cc024b4c",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Authorization",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userEmail\": \"viajeroeneltiempo84@gmail.com\",\r\n    \"unreadEmails\": 28,\r\n    \"eventsTodayMainCalendar\": 0,\r\n    \"drafts\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/greeting-chain",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"greeting-chain"
 					]
 				}
 			},

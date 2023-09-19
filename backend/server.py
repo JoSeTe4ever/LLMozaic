@@ -2,12 +2,11 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS  # Import the CORS module
 from flask_sock import Sock
-from contextlib import redirect_stdout
 from SayHiChain import SayHiChain
 
-import json
 import subprocess
 import langchain_main
+import text2img
 import speech2text
 import json
 import subprocess
@@ -21,27 +20,14 @@ sock = Sock(app)
 # Initialize SayHiChain
 say_hi_chain = SayHiChain()
 
-welcome_message_sent = {}
-
-
 @sock.route('/ws')
 def echo(sock):
     userId = request.args.get('userId')
     lines_to_send = []  # Lista para almacenar las líneas
     recordLine = False
-    # Comprueba si el mensaje de bienvenida ya se ha enviado a este usuario
-    if userId not in welcome_message_sent or not welcome_message_sent[userId]:
-        # Envia el mensaje de bienvenida
-        # unread_emails = 5  # Sustituir por el número real de correos electrónicos no leídos
-        # greeting = say_hi_chain.run({"unread_emails": unread_emails})
-        # sock.send(greeting)
-
-        # Marca el mensaje de bienvenida como enviado para este usuario
-        welcome_message_sent[userId] = True
-
     data = sock.receive()
     popen = subprocess.Popen(['python', '-u', 'langchain_main.py',
-                             data, userId], stdout=subprocess.PIPE, universal_newlines=True)
+                             data, userId], stdout=subprocess.PIPE, universal_newlines=True, encoding="utf-8")
     for line in popen.stdout:
         print(f'recordLine {recordLine } {line}')
         if line.find('[32;1m') != -1 and line.find('Action') == -1 and line.find('Observation') == -1:
@@ -75,6 +61,13 @@ def echo(sock):
             return_code, ['python', 'langchain_main.py', data])
 
 
+
+@app.route('/text2img', methods=['GET'])
+def create_image():
+    prompt = request.args.get('prompt')
+    imgUrl = text2img.transform(prompt)
+    return imgUrl
+
 @app.route('/speech2text', methods=['POST'])
 def upload_audio():
     print('audio_data recibido')
@@ -95,14 +88,18 @@ def upload_audio():
         speech = speech2text.transcribe(file_path)
         return speech
 
-
-@app.route('/api/chat', methods=['POST'])
-def process_data():
+@app.route('/greeting-chain', methods=['POST'])
+def greeting_chain():
+    print('greeting-chain')
     try:
-        response = langchain_main.message(request.json['question'])
-        return jsonify({"success": response})
+        unreadEmails = request.json['unreadEmails']
+        eventsTodayMainCalendar = request.json['eventsTodayMainCalendar']
+        drafts = request.json['drafts']
+        greetingChainResult = say_hi_chain(inputs={"unreadEmails": unreadEmails, "eventsTodayMainCalendar": eventsTodayMainCalendar, "drafts": drafts})
+        return jsonify({"success": greetingChainResult['text']})
     except Exception as e:
-        return jsonify({"error": str(e)})
+        return jsonify({"error2": str(e)})
+
 
 
 if __name__ == '__main__':
