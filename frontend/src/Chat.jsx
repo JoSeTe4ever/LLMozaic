@@ -34,7 +34,7 @@ export default function Chat({ greetingInfo }) {
       setLoading(false);
     },
     onMessage: (e) => {
-      const messagesToAdd = [];
+      let messagesToAdd = [];
       console.log(e.data);
       let isThought = false;
       let isFinalAnswer = false;
