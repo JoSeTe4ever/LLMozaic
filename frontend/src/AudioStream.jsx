@@ -18,7 +18,7 @@ export default function AudioStream({ onClose }) {
     margin: "0 auto",
     borderColor: "white",
   };
-  const backendUrl = import.meta.env.VITE_BACKEND_URL || 'ws://localhost:5000';
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [urlBlob, setUrlBlob] = useState(null);
