@@ -57,30 +57,6 @@ function App() {
 		}
 	}, [userId]);
 
-	const getEmails = async () => {
-		setIsLoading(true);
-		try {
-			const url = SERVER_URI + '/nylas/read-emails';
-			const res = await fetch(url, {
-				method: 'GET',
-				headers: {
-					Authorization: userId,
-					'Content-Type': 'application/json',
-				},
-			});
-			const data = await res.json();
-			if (Array.isArray(data)) {
-				setEmails(data);
-			} else {
-				setEmails([]);
-			}
-		} catch (e) {
-			console.warn(`Error retrieving emails:`, e);
-			return false;
-		}
-		setIsLoading(false);
-	};
-
 	const disconnectUser = () => {
 		sessionStorage.removeItem('userId');
 		sessionStorage.removeItem('userEmail');
@@ -89,7 +65,26 @@ function App() {
 	};
 
 	const refresh = () => {
-		getEmails();
+		if (userId) {
+			setGreetingInfo(undefined);
+			console.log('UserId obtained:', userId); // Debugging
+
+			// API call to greeting endpoint
+			const ENDPOINT = SERVER_URI + '/nylas/greeting-info';
+			axios
+				.get(ENDPOINT, {
+					headers: {
+						Authorization: userId,
+					},
+				})
+				.then((response) => {
+					console.log('Response from greeting endpoint:', response.data); // Debugging
+					setGreetingInfo(response.data);
+				})
+				.catch((error) => {
+					console.log('Error fetching greeting info:', error); // Debugging
+				});
+		}
 	};
 
 	useEffect(() => {

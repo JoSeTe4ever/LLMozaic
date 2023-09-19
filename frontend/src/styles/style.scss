@@ -22,7 +22,7 @@
   align-items: center;
   position: relative;
   margin-left: 20px;
-  background-color: transparent;
+  background-color: #e3e3e3;
   border: 1px solid #3498db;
   cursor: pointer;
 }
@@ -292,6 +292,12 @@ button {
     min-height: 0;
     flex: 1 0 0;
   }
+}
+
+.infoIcon{
+  position: relative;
+  top: 4px;
+  margin-right: 5px;
 }
 
 section.titleSection {

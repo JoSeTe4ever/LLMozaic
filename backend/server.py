@@ -27,7 +27,7 @@ def echo(sock):
     recordLine = False
     data = sock.receive()
     popen = subprocess.Popen(['python', '-u', 'langchain_main.py',
-                             data, userId], stdout=subprocess.PIPE, universal_newlines=True)
+                             data, userId], stdout=subprocess.PIPE, universal_newlines=True, encoding="utf-8")
     for line in popen.stdout:
         print(f'recordLine {recordLine } {line}')
         if line.find('[32;1m') != -1 and line.find('Action') == -1 and line.find('Observation') == -1:

@@ -38,7 +38,7 @@ export default function Chat({ greetingInfo }) {
       console.log(e.data);
       let isThought = false;
       let isFinalAnswer = false;
-      let message = e.data;
+      let message = e.data; 
       if (e.data.includes("\x1B[32;1m\x1B[1;3mThought:")) {
         isThought = true;
         message = e.data.replace("\x1B[32;1m\x1B[1;3mThought:", "");
@@ -59,10 +59,10 @@ export default function Chat({ greetingInfo }) {
           isThought: isThought,
           isFinalAnswer: isFinalAnswer,
         });
-      } else if (e.data.includes('"action": "Final Answer", "action_input":')) {
+      } else if (e.data.includes('"action": "Final Answer",')) {
         isFinalAnswer = true;
         messagesToAdd = e.data.split(
-          '"action": "Final Answer", "action_input":'
+          '"action": "Final Answer",'
         );
 
         messagesToAdd = messagesToAdd.map((e) => {
@@ -308,11 +308,10 @@ export default function Chat({ greetingInfo }) {
           </div>
           <div className={styles.footer}>
             <p>
-              . Built by{" "}
+              Built by{" "}
               <a href="https://devpost.com/software/virtual-assistant-nm4cyh" target="_blank">
                 TEAM JOSE LUCIA FRAN
               </a>
-              .
             </p>
           </div>
         </div>
