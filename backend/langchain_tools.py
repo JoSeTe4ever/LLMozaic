@@ -1,4 +1,5 @@
 from langchain.tools import BaseTool
+from urllib.parse import quote
 
 import requests
 import datetime
@@ -168,6 +169,7 @@ class GetContactDetailsById(BaseTool):
         headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
         reponse = await requests.get(url, headers=headers);
         return reponse.json();
+
 class ReadEmails(BaseTool):
     name = "read_emails"
     description = "Useful for when you need to recieve or to read the latest emails from your inbox in json format"
@@ -228,7 +230,7 @@ class SendEmail(BaseTool):
 
 
 class GetEmailDrafts(BaseTool):
-    name = "get_email_drafts"
+    name = "get_drafts_emails"
     description = """Useful for when you need to recieve the information of the emails that are in draft in json format.
       Use this action for retrieving all the drafts."""
     
@@ -250,3 +252,77 @@ class GetEmailDrafts(BaseTool):
     async def _arun(self) -> str:
         """Use the tool asynchronously."""
         raise NotImplementedError("get_calendars does not support async")
+    
+
+class CreateEmailDraft(BaseTool):
+    name = "create_draft_email"
+    description = """Useful for when you need to create emails in draft that will be sent later.
+      Use this action for retrieving all the drafts. This tool returns an object. This object has an id 
+      that is the id of the draft. This id is useful for when you need to send the email draft."""
+    
+    NYLAS_RUNTIME_AUTH_KEY = ''
+
+    def __init__(self, userId):
+        super().__init__()  # Llama al constructor de la clase base si es necesario
+        self.NYLAS_RUNTIME_AUTH_KEY = userId
+
+    def _run(self, to: str, subject: str, body: str) -> str:   
+        url = 'http://localhost:9000/nylas/create-draft'
+        
+        # Configura encabezados y envía la solicitud
+        headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
+        response = requests.post(url, headers=headers)
+        return response.json();
+
+    async def _arun(self) -> str:
+        """Use the tool asynchronously."""
+        raise NotImplementedError("get_calendars does not support async")
+    
+
+class SendEmailDraft(BaseTool):
+    name = "send_email_draft"
+    description = """Useful for when you need to send an email in draft.
+      Use this action for sending an email that has been previously created and saved as draft. The needed parameter is the id of the draft"""
+    
+    NYLAS_RUNTIME_AUTH_KEY = ''
+
+    def __init__(self, userId):
+        super().__init__()  # Llama al constructor de la clase base si es necesario
+        self.NYLAS_RUNTIME_AUTH_KEY = userId
+
+    def _run(self, id: str) -> str:   
+        url = 'http://localhost:9000/nylas/send-draft?draftId={id}'
+        
+        # Configura encabezados y envía la solicitud
+        headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
+        response = requests.get(url, headers=headers)
+        return response.json();
+
+    async def _arun(self) -> str:
+        """Use the tool asynchronously."""
+        raise NotImplementedError("get_calendars does not support async")
+    
+
+class CreateImage(BaseTool):
+    name = "create_image"
+    description = """Use this action for creating an image from a text. The text is the prompt. The image is returned as a url. Always use 
+    the url response string in the action chain."""
+
+    def __init__(self):
+        super().__init__()  # Llama al constructor de la clase base si es necesario
+        
+
+    def _run(self, prompt: str) -> str:
+        print(prompt);
+        encoded_text = quote(prompt)
+
+        url = f"http://localhost:5000/text2img?prompt={encoded_text}"
+        
+        # Configura encabezados y envía la solicitud
+        imgUrl = requests.get(url)
+        print(imgUrl, "imgUrl")
+        return imgUrl.json();
+
+    async def _arun(self, prompt) -> str:
+        result = await self._run(prompt)
+        return result

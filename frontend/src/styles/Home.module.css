@@ -1,6 +1,8 @@
+:host {
+}
+
 .microButton {
   cursor: pointer;
-  position: absolute;
   top: 12px;
   right: -45px;
   font-size: 34px;
@@ -82,12 +84,13 @@
 .generatebutton {
   position: absolute;
   top: 0.87rem;
-  right: 1rem;
-  color: rgb(165, 162, 162);
+  right: 5rem;
+  color: rgb(249 249 249);
   background: none;
   padding: 0.3rem;
   border: none;
   display: flex;
+  z-index: 999;
 }
 
 .loadingwheel {
@@ -117,8 +120,12 @@
 .messagelist {
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   border-radius: 0.5rem;
+  border: 1px solid #063462;
+  background: #063462;
+  box-shadow: 41px -10px 40px 8px rgba(0, 0, 0, 0.25) inset,
+    -16px 18px 15px 18px rgba(0, 0, 0, 0.41);
 }
 
 .messagelistloading {
@@ -128,16 +135,34 @@
   margin-top: 1rem;
 }
 
-.usermessage {
-  background: #070809;
+.usermessage, .usermessagewaiting {
   padding: 1.5rem;
   color: #ececf1;
+  flex-direction: row-reverse;
+
+  .markdownanswer {
+    line-height: 1.75;
+    border-radius: 10px;
+    border-radius: 10px;
+    background: #2482BE;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  
+    color: white !important;
+    font-family: Inter;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+}
+
+.usermessagewaiting {
+  flex-direction: row-reverse;
 }
 
 .usermessagewaiting {
   padding: 1.5rem;
   color: #ececf1;
-  background: linear-gradient(to left, #070809, #1a1c20, #070809);
+  background: linear-gradient(to left, #063462, #063462, #05428000);
   background-size: 200% 200%;
   background-position: -100% 0;
   animation: loading-gradient 2s ease-in-out infinite;
@@ -155,7 +180,6 @@
 }
 
 .apimessage {
-  background: #141619;
   padding: 1.5rem;
   color: #ececf1;
   animation: fadein 0.5s;
@@ -178,6 +202,16 @@
 
 .markdownanswer {
   line-height: 1.75;
+  border-radius: 10px;
+  background: #c8dae5;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+
+  color: #063462;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  padding: 1rem;
 }
 
 .markdownanswer a:hover {
@@ -200,10 +234,15 @@
   margin: 1rem;
 }
 
-.boticon,
-.usericon {
+.boticon {
   margin-right: 1rem;
   border-radius: 0.1rem;
+}
+
+.usericon, .boticon {
+  margin-left: 1rem;
+  border-radius: 0.1rem;
+  border-radius: 3.0rem;
 }
 
 .markdownanswer h1,
@@ -258,6 +297,9 @@
   opacity: 0.8;
 }
 
+form {
+  display: flex
+}
 /* Mobile optimization */
 @media (max-width: 600px) {
   .main {
@@ -266,13 +308,10 @@
     position: relative;
   }
 
-  .cloud {
-    width: 22rem;
-    height: 28rem;
-  }
   .textarea {
     width: 22rem;
   }
+
   .topnav {
     border: 1px solid black;
     align-items: center;
@@ -288,9 +327,19 @@
     white-space: pre-wrap !important;
   }
 
-  .footer {
-    font-size: 0.7rem;
-    width: 100%;
-    text-align: center;
+  footer {
+    display: none;
+  }
+
+  .boticon, .usericon {
+    display: none;
+  }
+
+  form {
+    display: flex;
+  }
+
+  .microButton{
+    font-size: 16px;
   }
 }

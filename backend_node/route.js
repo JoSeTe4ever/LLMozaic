@@ -8,29 +8,33 @@ exports.greetingInfo = async (req, res, next) => {
     const user = res.locals.user;
     const nylas = Nylas.with(user.accessToken);
 
-    const threads = await nylas.threads.list({ unread: true });
+    await Promise.all([
+      nylas.threads.list({ unread: true }),
+      nylas.calendars.list(),
+      nylas.drafts.list({ limit: 150, expanded: true }),
+    ]).then(([threads, calendars, drafts]) => {
+      const calendar = calendars.find((e) => e.isPrimary);
 
-    const calendar = (await nylas.calendars.list()).find(e => e.is_primary);
-    const drafts = await nylas.drafts.list({ limit: 150, expanded: true });
+      if (calendar) {
+        return nylas.events
+          .list({
+            calendar_id: calendar.id,
+            starts_after: +new Date(),
+            ends_before: +new Date() + 86400, // 86400 = one day in seconds
+          })
+          .then((events) => {
+            let eventos = events;
+            const userInfo = {
+              userEmail: user.emailAddress,
+              unreadEmails: threads.length,
+              eventsTodayMainCalendar: eventos.length,
+              drafts: drafts.length,
+            };
 
-    let events = [];
-
-    if(calendar) {
-      events = await nylas.events.list({
-        calendar_id: calendar.id,
-        starts_after: +new Date(),
-        ends_before: +new Date() + 86400,
-      });
-    }
-
-    const userInfo = {
-      userEmail: user.emailAddress,
-      unreadEmails: threads.length,
-      eventsTodayMainCalendar: events.length,
-      drafts: drafts.length,
-    };
-
-    return res.json(userInfo);
+            return res.json(userInfo);
+          });
+      }
+    });
   } catch (error) {
     next(error);
   }
@@ -39,7 +43,7 @@ exports.greetingInfo = async (req, res, next) => {
 exports.createDraft = async (req, res, next) => {
   try {
     const user = res.locals.user;
-    const { to, subject, body, replyToMessageId } = req.body;
+    const { to, subject, body } = req.body;
 
     const draft = new Draft(Nylas.with(user.accessToken));
 
@@ -47,7 +51,6 @@ exports.createDraft = async (req, res, next) => {
     draft.to = [{ email: to }];
     draft.subject = subject;
     draft.body = body;
-    draft.replyToMessageId = replyToMessageId;
     const savedDraft = await draft.save();
     return res.json(savedDraft);
   } catch (error) {
@@ -82,6 +85,32 @@ exports.sendDraft = async (req, res, next) => {
 
     await allDrafts.find((e) => e.id === draftId).send();
     return res.json({ message: "success" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.deleteDraft = async (req, res, next) => {
+  try {
+    const user = res.locals.user;
+
+    const { draftId } = req.query;
+
+    console.log("delete draft!!! draftId", draftId);
+    const allDrafts = await Nylas.with(user.accessToken).drafts.list();
+
+    await allDrafts.find((e) => e.id === draftId).delete();
+
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.readLabels = async (req, res, next) => {
+  try {
+    const user = res.locals.user;
+    const allLabels = await Nylas.with(user.accessToken).labels.list();
+    return res.json(allLabels);
   } catch (error) {
     next(error);
   }
