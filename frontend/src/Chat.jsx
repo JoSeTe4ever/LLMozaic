@@ -34,6 +34,9 @@ export default function Chat({ greetingInfo }) {
       setLoading(false);
     },
     onMessage: (e) => {
+      // We know this is ugly. But for UX reasons we are 
+      // redirecting the stdout of the agent to the frontend 
+      // and parsing it here to display it in the chat.
       let messagesToAdd = [];
       console.log(e.data);
       let isThought = false;
@@ -74,6 +77,10 @@ export default function Chat({ greetingInfo }) {
           };
         });
       }
+
+      //sanitize message
+      messagesToAdd = messagesToAdd.filter((e) => e.message.trim() !== "");
+
       setMessageHistory((prev) => prev.concat(e.data));
       setMessages((prevMessages) => [...prevMessages, ...messagesToAdd]);
     },
