@@ -6,7 +6,7 @@ import {
   faRefresh,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useRef, useState } from "react";
-import "../src/styles/AudioStream.css";
+import "./styles/audioStream.css";
 import ClipLoader from "react-spinners/ClipLoader";
 
 export default function AudioStream({ onClose }) {
@@ -18,7 +18,7 @@ export default function AudioStream({ onClose }) {
     margin: "0 auto",
     borderColor: "white",
   };
-
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
   const [mediaRecorder, setMediaRecorder] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [urlBlob, setUrlBlob] = useState(null);
@@ -138,7 +138,7 @@ export default function AudioStream({ onClose }) {
             };
             var fd = new FormData();
             fd.append("audio_data", e.data, filename);
-            xhr.open("POST", "http://localhost:5000/speech2text", true);
+            xhr.open("POST", backendUrl + "/speech2text", true);
             xhr.send(fd);
           };
           setMediaRecorder(mediaRecorder);

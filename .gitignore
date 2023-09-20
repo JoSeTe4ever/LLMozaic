@@ -13,6 +13,7 @@ develop-eggs/
 dist/
 downloads/
 frontend/node_modules/
+frontend/package-lock.json
 backend_node/node_modules/
 backend_node/datastore.json
 frontend_calendar/node_modules/

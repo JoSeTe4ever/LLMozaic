@@ -2,7 +2,10 @@ from langchain.tools import BaseTool
 from urllib.parse import quote
 
 import requests
+import os
 import datetime
+
+BACKEND_NODE_URL = os.environ.get('BACKEND_NODE_URL', 'http://localhost:9000')
 
 
 class CreateModifyDeleteEvents(BaseTool):
@@ -22,8 +25,7 @@ class CreateModifyDeleteEvents(BaseTool):
 
     def _run(self, eventSummary: str, startsTimestamp: str, endsTimestamp: str, calendarId: str, location: str = 'Not defined'
              , participants = [{"email": "undefined"}]) -> str:
-        url = 'http://localhost:9000/nylas/create-events'
-
+        url = f"{BACKEND_NODE_URL}/nylas/create-events"
         json_data = {
             "title": eventSummary,
             "startTime": startsTimestamp,
@@ -78,7 +80,7 @@ class GetEvents(BaseTool):
         self.NYLAS_RUNTIME_AUTH_KEY = userId
 
     def _run(self, calendarId: str, startsAfter: str, endsBefore: str) -> str:
-        url = 'http://localhost:9000/nylas/read-events'
+        url = f"{BACKEND_NODE_URL}/nylas/read-events"
 
         json_data = {
             "calendarId": calendarId,
@@ -108,12 +110,12 @@ class GetCalendars(BaseTool):
     def __init__(self, userId):
         super().__init__()  # Llama al constructor de la clase base si es necesario
         self.NYLAS_RUNTIME_AUTH_KEY = userId
-        
+
 
     def _run(self) -> str:
-        url = 'http://localhost:9000/nylas/read-calendars'
-        
-        # Configura encabezados y envía la solicitud
+        url = f'{BACKEND_NODE_URL}/nylas/read-calendars'
+
+# Configura encabezados y envía la solicitud
         headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
         response = requests.get(url, headers=headers)
         return response.json();
@@ -133,8 +135,8 @@ class GetContacts(BaseTool):
         self.NYLAS_RUNTIME_AUTH_KEY = userId
 
     def _run(self) -> str:
-        url = 'http://localhost:9000/nylas/contacts'
-        
+        url = f'{BACKEND_NODE_URL}/nylas/contacts'
+
         # Configura encabezados y envía la solicitud
         headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
         response = requests.get(url, headers=headers)
@@ -158,9 +160,9 @@ class GetContactDetailsById(BaseTool):
         self.NYLAS_RUNTIME_AUTH_KEY = userId
 
     def _run(self, contact_id: str) -> str:
-        url = """http://localhost:9000/nylas/contacts/{contact_id}"""
-        
-        # Configura encabezados y envía la solicitud
+        url = f"""{BACKEND_NODE_URL}/nylas/contacts/{contact_id}"""
+
+# Configura encabezados y envía la solicitud
         headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
         response = requests.get(url, headers=headers)
         return response.json();
@@ -182,8 +184,7 @@ class ReadEmails(BaseTool):
         self.NYLAS_RUNTIME_AUTH_KEY = userId
 
     def _run(self) -> str:
-        url = 'http://localhost:9000/nylas/read-emails'
-        
+        url = f'{BACKEND_NODE_URL}/nylas/read-emails'
         # Configura encabezados y envía la solicitud
         headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
         response = requests.get(url, headers=headers)
@@ -199,7 +200,7 @@ class SendEmail(BaseTool):
     name = "send_email_with_template"
     description = """Useful for when you need to send an email to one person or several people. Do not use this title type object, just the plain string which is the title value.
     The tool expects only the actual value, not a complex object for each parameter.
-    The action is sucessfully completed if the response holds 200""" 
+    The action is sucessfully completed if the response holds 200"""
 
     NYLAS_RUNTIME_AUTH_KEY = ''
 
@@ -207,9 +208,9 @@ class SendEmail(BaseTool):
         super().__init__()  # Llama al constructor de la clase base si es necesario
         self.NYLAS_RUNTIME_AUTH_KEY = userId
 
-    def _run(self, to, summary: str, body: str) -> str:
-        url = 'http://localhost:9000/nylas/send-email'
-        
+    def _run(self, to, sender: str, summary: str, body: str) -> str:
+        url = f'{BACKEND_NODE_URL}/nylas/send-email'
+
         # Genera el JSON a partir del prompt y ejecuta la cadena
         json_data = {
             "to": to,
@@ -233,17 +234,17 @@ class GetEmailDrafts(BaseTool):
     name = "get_drafts_emails"
     description = """Useful for when you need to recieve the information of the emails that are in draft in json format.
       Use this action for retrieving all the drafts."""
-    
+
     NYLAS_RUNTIME_AUTH_KEY = ''
 
     def __init__(self, userId):
         super().__init__()  # Llama al constructor de la clase base si es necesario
         self.NYLAS_RUNTIME_AUTH_KEY = userId
-        
+
 
     def _run(self) -> str:
-        url = 'http://localhost:9000/nylas/read-drafts'
-        
+        url = f"{BACKEND_NODE_URL}/nylas/read-drafts"
+
         # Configura encabezados y envía la solicitud
         headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
         response = requests.get(url, headers=headers)
