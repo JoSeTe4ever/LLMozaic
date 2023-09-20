@@ -206,6 +206,16 @@ app.post(
 	}
 );
 
+
+app.post(
+	'/nylas/create-contact',
+	isAuthenticated,
+	express.json(),
+	(req, res, next) => {
+		route.createContact(req, res, next);
+	}
+);
+
 // Add route for getting all contacts
 app.get(
 	'/nylas/contacts',

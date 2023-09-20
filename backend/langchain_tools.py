@@ -280,6 +280,49 @@ class CreateEmailDraft(BaseTool):
         raise NotImplementedError("get_calendars does not support async")
     
 
+class CreateContact(BaseTool):
+    name = "create_contact"
+    description = """Useful for when you need to create a new contact.
+      Use this action for creating a new contact. This tool returns an object. This object has an id 
+      that is the id of the contact. This id is useful for when you need to get the contact details."""
+    
+    NYLAS_RUNTIME_AUTH_KEY = ''
+
+    def __init__(self, userId):
+        super().__init__()  # Llama al constructor de la clase base si es necesario
+        self.NYLAS_RUNTIME_AUTH_KEY = userId
+
+    def _run(self, givenName: str, middleName: str = "", surname: str = ""
+             , suffix: str = "", nickname: str = "", birthday: str = ""
+             , jobTitle: str = "", officeLocation: str = "", notes: str = ""
+             , pictureUrl: str = "", email: str = "") -> str:
+        
+        json_data = {
+            "givenName": givenName,
+            "middleName": middleName,
+            "surname": surname,
+            "suffix": suffix,
+            "nickname": nickname,
+            "birthday": birthday,
+            "jobTitle": jobTitle,
+            "officeLocation": officeLocation,
+            "notes": notes,
+            "pictureUrl": pictureUrl,
+            "email": email
+        }
+        
+        url = 'http://localhost:9000/nylas/create-contact'
+        
+        # Configura encabezados y envía la solicitud
+        headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
+        response = requests.post(url, json=json_data, headers=headers)
+        return response.json();
+
+    async def _arun(self) -> str:
+        """Use the tool asynchronously."""
+        raise NotImplementedError("get_calendars does not support async")
+    
+
 class SendEmailDraft(BaseTool):
     name = "send_email_draft"
     description = """Useful for when you need to send an email in draft.

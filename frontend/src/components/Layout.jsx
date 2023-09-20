@@ -5,9 +5,7 @@ import NylasLogo from "./icons/nylas-logo-horizontal.svg";
 import PropTypes from "prop-types";
 import Toast from "./Toast";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faQuestionCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import { Tooltip } from "react-tooltip";
 
 const Layout = ({
@@ -47,18 +45,31 @@ const Layout = ({
         />
         {showMenu && (
           <div className="menu">
-            <button
-            >
-              <div className="menu-icon"
+            <button>
+              <div
+                className="menu-icon"
                 data-tooltip-id="my-tooltip-data-html"
                 data-tooltip-html="<p>
-                  <p><b>Suggested prompts</b></p><br> Read my emails <br>Create an event today in my main calendar for working out <br>
-                  Create a draft message for test@test.com<br> Create an image of a birthday cake and send it to test@test.com<br><br><br>   
-                </p>">
-                <FontAwesomeIcon icon={faQuestionCircle} className="infoIcon"/>
+                  <p><b>Suggested prompts</b></p>
+                  <p>
+                    <br> Read my emails <br>Create an event today in my main calendar for working out <br>
+                    Create a draft message for test@test.com<br> Create an image of a birthday cake and send it to test@test.com<br>
+                    Summarize all the emails from test@test.com<br>
+                    Send the latest created draft<br>   
+                    Add a new contact called Jose, with email jose@test.com. Create a image of a cute cat for his contact url image<br>  
+                  </p>
+                  <br>  
+                  <p><i>Got the idea? Use the Nylas API through natural language!</i></p>
+                  <p><i>Mosaic also supports speech to text, check mic button</i></p>
+                </p>"
+              >
+                <FontAwesomeIcon icon={faQuestionCircle} className="infoIcon" />
                 Suggestions
               </div>
-              <Tooltip id="my-tooltip-data-html" style={{ backgroundColor: "black", color: "white" }} />
+              <Tooltip
+                id="my-tooltip-data-html"
+                style={{ backgroundColor: "black", color: "white" }}
+              />
             </button>
 
             <button
