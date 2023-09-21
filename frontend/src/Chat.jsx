@@ -9,6 +9,8 @@ import AudioStream from "./AudioStream";
 import axios from "axios";
 
 export default function Chat({ greetingInfo }) {
+  const wsBackendUrl = import.meta.env.VITE_WS_BACKEND_URL || 'ws://localhost:5000';
+
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [recording, setRecording] = useState(false);
@@ -19,7 +21,7 @@ export default function Chat({ greetingInfo }) {
 
   const [messages, setMessages] = useState([]);
   const [socketUrl, setSocketUrl] = useState(
-    "ws://localhost:5000/ws?userId=" + sessionStorage.getItem("userId")
+    `${wsBackendUrl}/ws?userId=${sessionStorage.getItem("userId")}`
   );
 
   const [messageHistory, setMessageHistory] = useState([]);
