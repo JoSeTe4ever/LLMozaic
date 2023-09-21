@@ -2,6 +2,7 @@ const { default: Draft } = require("nylas/lib/models/draft");
 const { default: Event } = require("nylas/lib/models/event");
 
 const Nylas = require("nylas");
+const { default: Contact } = require("nylas/lib/models/contact");
 
 exports.greetingInfo = async (req, res, next) => {
   try {
@@ -100,7 +101,6 @@ exports.deleteDraft = async (req, res, next) => {
     const allDrafts = await Nylas.with(user.accessToken).drafts.list();
 
     await allDrafts.find((e) => e.id === draftId).delete();
-
   } catch (error) {
     next(error);
   }
@@ -268,6 +268,55 @@ exports.createEvents = async (req, res, next) => {
     }
 
     return res.json(event);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.createContact = async (req, res, next) => {
+  try {
+    const user = res.locals.user;
+
+    const {
+      givenName,
+      middleName,
+      surname,
+      suffix,
+      nickname,
+      birthday,
+      jobTitle,
+      officeLocation,
+      notes,
+      pictureUrl,
+      email,
+    } = req.body;
+
+    if (!givenName || !jobTitle || !birthday) {
+      return res.status(400).json({
+        message:
+          "Missing required fields: givenName, birthday, jobTitle",
+      });
+    }
+
+    const nylas = Nylas.with(user.accessToken);
+
+    const contact = new Contact(nylas);
+
+    contact.givenName = givenName;
+    contact.middleName = middleName;
+    contact.surname = surname;
+
+    contact.suffix = suffix;
+    contact.nickname = nickname;
+    contact.officeLocation = officeLocation;
+
+    contact.notes = notes;
+    contact.pictureUrl = pictureUrl;
+    contact.email = email;
+    
+    await contact.save();
+
+    return res.json(contact);
   } catch (error) {
     next(error);
   }

@@ -5,10 +5,8 @@ from flask_sock import Sock
 from SayHiChain import SayHiChain
 
 import subprocess
-import langchain_main
 import text2img
 import speech2text
-import json
 import subprocess
 import os
 from subprocess import Popen, PIPE

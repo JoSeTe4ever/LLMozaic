@@ -1,6 +1,6 @@
 from langchain.agents import initialize_agent, load_tools
 from langchain.chat_models import ChatOpenAI
-from langchain_tools import SendEmail, ReadEmails, GetContacts, GetEvents, GetCalendars, DateTimestamp, CreateModifyDeleteEvents, GetEmailDrafts, CreateEmailDraft, SendEmailDraft, CreateImage
+from langchain_tools import SendEmail, ReadEmails, GetContacts, GetEvents, GetCalendars, DateTimestamp, CreateModifyDeleteEvents, GetEmailDrafts, CreateEmailDraft, SendEmailDraft, CreateImage, CreateContact
 from langchain.prompts import MessagesPlaceholder
 from langchain.memory import ConversationBufferMemory
 
@@ -46,6 +46,7 @@ def main():
     user_input = sys.argv[1]
     userId = sys.argv[2]
     tools = [SendEmail(userId), ReadEmails(userId), GetContacts(userId), GetEvents(userId), GetCalendars(userId),
+             CreateContact(userId),
              GetEmailDrafts(userId), CreateEmailDraft(userId), SendEmailDraft(userId), CreateModifyDeleteEvents(userId), DateTimestamp(), CreateImage()]
 
     agent = initialize_agent(tools=tools, llm=openAILLM,
