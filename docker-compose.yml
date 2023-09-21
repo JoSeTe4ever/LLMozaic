@@ -46,7 +46,7 @@ services:
     environment:
       VITE_BACKEND_URL: http://localhost:1026 # localhost for local, to be replaced by nginx_proxy public URL for production
       VITE_BACKEND_NODE_URL: http://localhost:1027 # localhost for local, to be replaced by nginx_proxy public URL for production
-      VITE_WS_BACKEND_URL: ws://localhost:1028 # localhost for local, to be replaced by nginx_proxy public URL for production
+      VITE_WS_BACKEND_URL: ws://localhost:5000 # localhost for local, to be replaced by nginx_proxy public URL for production
 
   nginx_proxy:
     image: nginx
