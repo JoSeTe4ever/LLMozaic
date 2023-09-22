@@ -9,7 +9,8 @@ import AudioStream from "./AudioStream";
 import axios from "axios";
 
 export default function Chat({ greetingInfo }) {
-  const wsBackendUrl = import.meta.env.VITE_WS_BACKEND_URL || 'ws://localhost:5000';
+  const wsBackendUrl =
+    import.meta.env.VITE_WS_BACKEND_URL || "ws://localhost:5000";
 
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -27,7 +28,12 @@ export default function Chat({ greetingInfo }) {
   const [messageHistory, setMessageHistory] = useState([]);
   const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl, {
     onOpen: () => {
-      console.log("opened ws://localhost:5000/ws");
+      console.log(
+        "opened ws://" +
+          wsBackendUrl +
+          "/ws?userId=" +
+          sessionStorage.getItem("userId")
+      );
       setDisplayMessage(() => false);
       setLoading(false);
       setCurrentMessage("");
@@ -36,14 +42,14 @@ export default function Chat({ greetingInfo }) {
       setLoading(false);
     },
     onMessage: (e) => {
-      // We know this is ugly. But for UX reasons we are 
-      // redirecting the stdout of the agent to the frontend 
+      // We know this is ugly. But for UX reasons we are
+      // redirecting the stdout of the agent to the frontend
       // and parsing it here to display it in the chat.
       let messagesToAdd = [];
       console.log(e.data);
       let isThought = false;
       let isFinalAnswer = false;
-      let message = e.data; 
+      let message = e.data;
       if (e.data.includes("\x1B[32;1m\x1B[1;3mThought:")) {
         isThought = true;
         message = e.data.replace("\x1B[32;1m\x1B[1;3mThought:", "");
@@ -64,11 +70,18 @@ export default function Chat({ greetingInfo }) {
           isThought: isThought,
           isFinalAnswer: isFinalAnswer,
         });
+      } else if (e.data.includes('"action_input": "')) {
+        message = e.data.replace('"action_input": "', "");
+
+        messagesToAdd.push({
+          message: message,
+          type: "apiMessage",
+          isThought: isThought,
+          isFinalAnswer: isFinalAnswer,
+        });
       } else if (e.data.includes('"action": "Final Answer",')) {
         isFinalAnswer = true;
-        messagesToAdd = e.data.split(
-          '"action": "Final Answer",'
-        );
+        messagesToAdd = e.data.split('"action": "Final Answer",');
 
         messagesToAdd = messagesToAdd.map((e) => {
           return {
@@ -78,6 +91,13 @@ export default function Chat({ greetingInfo }) {
             isFinalAnswer: true,
           };
         });
+      } else {
+        messagesToAdd.push({
+          message: e.data,
+          type: "apiMessage",
+          isThought: false,
+          isFinalAnswer: false,
+        });
       }
 
       //sanitize message
@@ -86,8 +106,29 @@ export default function Chat({ greetingInfo }) {
       setMessageHistory((prev) => prev.concat(e.data));
       setMessages((prevMessages) => [...prevMessages, ...messagesToAdd]);
     },
-    shouldReconnect: (closeEvent) => true,
+    shouldReconnect: (closeEvent) => {
+      console.log("should reconnect", closeEvent);
+      return true;
+    },
+    onError: (errorEvent) => {
+      console.log("error", errorEvent);
+      setLoading(false);
+      setUserInput("");
+    },
+    onClose: (closeEvent) => {
+      console.log("close", closeEvent);
+      setLoading(false);
+      setUserInput("");
+    },
   });
+
+  const connectionStatus = {
+    [ReadyState.CONNECTING]: "Connecting",
+    [ReadyState.OPEN]: "Open",
+    [ReadyState.CLOSING]: "Closing",
+    [ReadyState.CLOSED]: "Closed",
+    [ReadyState.UNINSTANTIATED]: "Uninstantiated",
+  }[readyState];
 
   const messageListRef = useRef(null);
   const textAreaRef = useRef(null);
@@ -168,6 +209,7 @@ export default function Chat({ greetingInfo }) {
 
   useEffect(() => {
     // run the chain and set the first message
+    setLoading(true);
     const SERVER_URI = "http://localhost:5000";
     const ENDPOINT = SERVER_URI + "/greeting-chain";
     axios
@@ -175,6 +217,7 @@ export default function Chat({ greetingInfo }) {
       .then((response) => {
         console.log("Response from chain greeting endpoint:", response.data); // Debugging
         setInitialMessageReceived(true);
+        setLoading(false);
         setMessages((prevMessages) => {
           if (Array.isArray(prevMessages) && prevMessages.length == 0) {
             return [
@@ -192,6 +235,9 @@ export default function Chat({ greetingInfo }) {
 
   return (
     <>
+      {/*<span>The WebSocket is currently {connectionStatus}</span>
+      debug 
+      <span>{lastMessage?.data}</span>*/}
       <main className={styles.main}>
         {/* Condición para mostrar el overlay */}
         {recording && (
@@ -318,7 +364,10 @@ export default function Chat({ greetingInfo }) {
           <div className={styles.footer}>
             <p>
               Built by{" "}
-              <a href="https://devpost.com/software/virtual-assistant-nm4cyh" target="_blank">
+              <a
+                href="https://devpost.com/software/virtual-assistant-nm4cyh"
+                target="_blank"
+              >
                 TEAM JOSE LUCIA FRAN
               </a>
             </p>
