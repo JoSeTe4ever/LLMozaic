@@ -3,13 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import useWebSocket, { ReadyState } from "react-use-websocket";
+import { useWebSocket } from "ahooks";
 import styles from "../src/styles/Home.module.css";
 import AudioStream from "./AudioStream";
 import axios from "axios";
 
 export default function Chat({ greetingInfo }) {
-  const wsBackendUrl = import.meta.env.VITE_WS_BACKEND_URL || 'ws://localhost:5000';
+  const wsBackendUrl =
+    import.meta.env.VITE_WS_BACKEND_URL || "ws://localhost:5000";
 
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,85 +26,98 @@ export default function Chat({ greetingInfo }) {
   );
 
   const [messageHistory, setMessageHistory] = useState([]);
-  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl, {
-    onOpen: () => {
-      console.log("opened ws://localhost:5000/ws");
-      setDisplayMessage(() => false);
-      setLoading(false);
-      setCurrentMessage("");
-    },
-    onClosed: () => {
-      setLoading(false);
-    },
-    onMessage: (e) => {
-      // We know this is ugly. But for UX reasons we are 
-      // redirecting the stdout of the agent to the frontend 
-      // and parsing it here to display it in the chat.
-      let messagesToAdd = [];
-      console.log(e.data);
-      let isThought = false;
-      let isFinalAnswer = false;
-      let message = e.data; 
-      if (e.data.includes("\x1B[32;1m\x1B[1;3mThought:")) {
-        isThought = true;
-        message = e.data.replace("\x1B[32;1m\x1B[1;3mThought:", "");
-
-        messagesToAdd.push({
-          message: message,
-          type: "apiMessage",
-          isThought: isThought,
-          isFinalAnswer: isFinalAnswer,
-        });
-      } else if (e.data.includes("\x1B[32;1m\x1B[1;3m")) {
-        isThought = true;
-        message = e.data.replace("\x1B[32;1m\x1B[1;3m", "");
-
-        messagesToAdd.push({
-          message: message,
-          type: "apiMessage",
-          isThought: isThought,
-          isFinalAnswer: isFinalAnswer,
-        });
-      } else if (e.data.includes('"action": "Final Answer",')) {
-        isFinalAnswer = true;
-        messagesToAdd = e.data.split(
-          '"action": "Final Answer",'
-        );
-
-        messagesToAdd = messagesToAdd.map((e) => {
-          return {
-            message: e,
-            type: "apiMessage",
-            isThought: false,
-            isFinalAnswer: true,
-          };
-        });
-      }
-
-      //sanitize message
-      messagesToAdd = messagesToAdd.filter((e) => e.message.trim() !== "");
-
-      setMessageHistory((prev) => prev.concat(e.data));
-      setMessages((prevMessages) => [...prevMessages, ...messagesToAdd]);
-    },
-    shouldReconnect: (closeEvent) => true,
-  });
+  const { readyState, sendMessage, latestMessage, disconnect, connect } =
+    useWebSocket(socketUrl);
 
   const messageListRef = useRef(null);
   const textAreaRef = useRef(null);
   const formButton = useRef(null);
-
   // Auto scroll chat to bottom
   useEffect(() => {
     const messageList = messageListRef.current;
     messageList.scrollTop = messageList.scrollHeight;
   }, [messages]);
 
+  useEffect(() => {
+    if (readyState === 0) {
+      setLoading(false);
+    }
+  }, [readyState]);
+
   // Init useEffect.
   // Focus on text field on load and init audio recording (check if browser supports it)
   useEffect(() => {
     textAreaRef.current.focus();
   }, []);
+
+  useEffect(() => {
+    if (latestMessage === undefined) {
+      return;
+    }
+    // We know this is ugly. But for UX reasons we are
+    // redirecting the stdout of the agent to the frontend
+    // and parsing it here to display it in the chat.
+    let messagesToAdd = [];
+    console.log(latestMessage.data);
+    let isThought = false;
+    let isFinalAnswer = false;
+    let message = latestMessage.data;
+    if (latestMessage.data.includes("\x1B[32;1m\x1B[1;3mThought:")) {
+      isThought = true;
+      message = latestMessage.data.replace("\x1B[32;1m\x1B[1;3mThought:", "");
+
+      messagesToAdd.push({
+        message: message,
+        type: "apiMessage",
+        isThought: isThought,
+        isFinalAnswer: isFinalAnswer,
+      });
+    } else if (latestMessage.data.includes("\x1B[32;1m\x1B[1;3m")) {
+      isThought = true;
+      message = latestMessage.data.replace("\x1B[32;1m\x1B[1;3m", "");
+
+      messagesToAdd.push({
+        message: message,
+        type: "apiMessage",
+        isThought: isThought,
+        isFinalAnswer: isFinalAnswer,
+      });
+    } else if (latestMessage.data.includes('"action_input": "')) {
+      message = latestMessage.data.replace('"action_input": "', "");
+
+      messagesToAdd.push({
+        message: message,
+        type: "apiMessage",
+        isThought: isThought,
+        isFinalAnswer: isFinalAnswer,
+      });
+    } else if (latestMessage.data.includes('"action": "Final Answer",')) {
+      isFinalAnswer = true;
+      messagesToAdd = latestMessage.data.split('"action": "Final Answer",');
+
+      messagesToAdd = messagesToAdd.map((e) => {
+        return {
+          message: e,
+          type: "apiMessage",
+          isThought: false,
+          isFinalAnswer: true,
+        };
+      });
+    } else {
+      messagesToAdd.push({
+        message: latestMessage.data,
+        type: "apiMessage",
+        isThought: false,
+        isFinalAnswer: false,
+      });
+    }
+
+    //sanitize message
+    messagesToAdd = messagesToAdd.filter((e) => e.message.trim() !== "");
+
+    setMessageHistory((prev) => prev.concat(latestMessage.data));
+    setMessages((prevMessages) => [...prevMessages, ...messagesToAdd]);
+  }, [latestMessage]);
 
   // Handle form submission through WS
   const handleWSSubmit = async (e) => {
@@ -119,6 +133,10 @@ export default function Chat({ greetingInfo }) {
       { message: userInput, type: "userMessage" },
     ]);
 
+    if (readyState === 3) {
+      connect();
+      setLoading(false);
+    }
     // Send user question and history to API
     sendMessage(userInput);
     // Reset user input
@@ -168,6 +186,7 @@ export default function Chat({ greetingInfo }) {
 
   useEffect(() => {
     // run the chain and set the first message
+    setLoading(true);
     const SERVER_URI = "http://localhost:5000";
     const ENDPOINT = SERVER_URI + "/greeting-chain";
     axios
@@ -175,6 +194,7 @@ export default function Chat({ greetingInfo }) {
       .then((response) => {
         console.log("Response from chain greeting endpoint:", response.data); // Debugging
         setInitialMessageReceived(true);
+        setLoading(false);
         setMessages((prevMessages) => {
           if (Array.isArray(prevMessages) && prevMessages.length == 0) {
             return [
@@ -192,6 +212,7 @@ export default function Chat({ greetingInfo }) {
 
   return (
     <>
+      readyState: {readyState}
       <main className={styles.main}>
         {/* Condición para mostrar el overlay */}
         {recording && (
@@ -318,7 +339,10 @@ export default function Chat({ greetingInfo }) {
           <div className={styles.footer}>
             <p>
               Built by{" "}
-              <a href="https://devpost.com/software/virtual-assistant-nm4cyh" target="_blank">
+              <a
+                href="https://devpost.com/software/virtual-assistant-nm4cyh"
+                target="_blank"
+              >
                 TEAM JOSE LUCIA FRAN
               </a>
             </p>
