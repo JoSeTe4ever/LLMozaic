@@ -17,6 +17,7 @@
     "@mui/material": "^5.11.4",
     "@next/font": "13.1.1",
     "@nylas/nylas-react": "^0.1.0",
+    "ahooks": "^3.7.8",
     "axios": "^1.5.0",
     "dompurify": "^2.3.3",
     "react": "^18.2.0",
