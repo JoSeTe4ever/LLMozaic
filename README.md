@@ -44,6 +44,7 @@ viajeroeneltiempo84@gmail.com
 
 - https://shots.so/ for creating the video.
 - https://ideogram.ai/ for creating the logo
+- http://animista.net for web animations
 
 ##TODO
 
