@@ -35,6 +35,7 @@ pip install pillow
 - https://stackoverflow.com/questions/76329949/i-cant-get-the-langchain-agent-module-to-actually-execute-my-prompt
 - https://codepen.io/lxls/project/editor/ZKKBJa for specch2text
 - https://github.com/addpipe/simple-recorderjs-demo esta es la mejor demo.
+- https://gist.github.com/pixeline/6d57e68aa6c1357b14c14fe8e3b4b963#deploy-docker-compose-on-digitalocean
 viajeroeneltiempo84@gmail.com
 
 
