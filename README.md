@@ -36,6 +36,7 @@ pip install pillow
 - https://codepen.io/lxls/project/editor/ZKKBJa for specch2text
 - https://github.com/addpipe/simple-recorderjs-demo esta es la mejor demo.
 - https://gist.github.com/pixeline/6d57e68aa6c1357b14c14fe8e3b4b963#deploy-docker-compose-on-digitalocean
+- https://app.diagrams.net/
 viajeroeneltiempo84@gmail.com
 
 
