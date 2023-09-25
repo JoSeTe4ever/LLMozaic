@@ -2,6 +2,7 @@ version: "3"
 
 services:
   backend_node:
+    restart: "always"
     build:
       context: ./backend_node
       dockerfile: Dockerfile
@@ -17,6 +18,7 @@ services:
       - app-network
 
   backend:
+    restart: "always"
     build:
       context: ./backend
       dockerfile: Dockerfile
@@ -33,6 +35,7 @@ services:
       BACKEND_NODE_URL: http://backend_node:9000
 
   frontend:
+    restart: "always"
     build:
       context: ./frontend
       dockerfile: Dockerfile

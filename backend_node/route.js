@@ -1,8 +1,8 @@
 const { default: Draft } = require("nylas/lib/models/draft");
 const { default: Event } = require("nylas/lib/models/event");
+const { default: Contact } = require("nylas/lib/models/contact");
 
 const Nylas = require("nylas");
-const { default: Contact } = require("nylas/lib/models/contact");
 
 exports.greetingInfo = async (req, res, next) => {
   try {
@@ -293,8 +293,7 @@ exports.createContact = async (req, res, next) => {
 
     if (!givenName || !jobTitle || !birthday) {
       return res.status(400).json({
-        message:
-          "Missing required fields: givenName, birthday, jobTitle",
+        message: "Missing required fields: givenName, birthday, jobTitle",
       });
     }
 
@@ -313,7 +312,7 @@ exports.createContact = async (req, res, next) => {
     contact.notes = notes;
     contact.pictureUrl = pictureUrl;
     contact.email = email;
-    
+
     await contact.save();
 
     return res.json(contact);
@@ -344,6 +343,23 @@ exports.getContactById = async (req, res, next) => {
       .contacts.find(id)
       .then((contact) => contact);
 
+    return res.json(contact);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.deleteContactById = async (req, res, next) => {
+  try {
+    const user = res.locals.user;
+
+    const { id } = req.body;
+
+    const nylas = await Nylas.with(user.accessToken);
+
+    contact = nylas.contacts.delete(id)
+
+    console.log("contactToDelete", contact);
     return res.json(contact);
   } catch (error) {
     next(error);

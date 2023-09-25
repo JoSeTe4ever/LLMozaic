@@ -212,7 +212,7 @@ export default function Chat({ greetingInfo }) {
 
   return (
     <>
-      readyState: {readyState}
+      {/* socket readyState: {readyState} */}
       <main className={styles.main}>
         {/* Condición para mostrar el overlay */}
         {recording && (
