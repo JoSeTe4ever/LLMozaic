@@ -100,6 +100,38 @@ class GetEvents(BaseTool):
         return reponse.json();
 
 
+class CreateCalendar(BaseTool):
+    name = "create_calendar"
+    description = """Useful for when you need to create a calendar with name and description.
+    timezone format entered must be supported by the IANA timezone spec. Use this action for creating a new calendar. 
+    This tool returns an object. This object has an id"""
+    
+    NYLAS_RUNTIME_AUTH_KEY = ''
+
+    def __init__(self, userId):
+        super().__init__()  # Llama al constructor de la clase base si es necesario
+        self.NYLAS_RUNTIME_AUTH_KEY = userId
+
+    def _run(self, name: str, description: str, location: str, timezone: str) -> str:   
+        url = f"{BACKEND_NODE_URL}/nylas/create-calendar"
+        
+        json_data = {
+            "name": name,
+            "description": description,
+            "location": location,
+            "timezone": timezone
+        }
+
+        # Configura encabezados y envía la solicitud
+        headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
+        response = requests.post(url, json=json_data, headers=headers)
+        return response.json();
+
+    async def _arun(self) -> str:
+        """Use the tool asynchronously."""
+        raise NotImplementedError("create_calendar does not support async")
+
+
 class GetCalendars(BaseTool):
     name = "get_calendars"
     description = """Useful for when you need to recieve the information of the calendars in json format.
@@ -252,7 +284,7 @@ class GetEmailDrafts(BaseTool):
 
     async def _arun(self) -> str:
         """Use the tool asynchronously."""
-        raise NotImplementedError("get_calendars does not support async")
+        raise NotImplementedError("get_drafts_emails does not support async")
     
 
 class CreateEmailDraft(BaseTool):
@@ -268,7 +300,7 @@ class CreateEmailDraft(BaseTool):
         self.NYLAS_RUNTIME_AUTH_KEY = userId
 
     def _run(self, to: str, subject: str, body: str) -> str:   
-        url = 'http://localhost:9000/nylas/create-draft'
+        url = f"{BACKEND_NODE_URL}/nylas/create-draft"
         
         # Configura encabezados y envía la solicitud
         headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
@@ -277,7 +309,7 @@ class CreateEmailDraft(BaseTool):
 
     async def _arun(self) -> str:
         """Use the tool asynchronously."""
-        raise NotImplementedError("get_calendars does not support async")
+        raise NotImplementedError("create_draft_email does not support async")
     
 
 class CreateContact(BaseTool):
@@ -311,7 +343,7 @@ class CreateContact(BaseTool):
             "email": email
         }
         
-        url = 'http://localhost:9000/nylas/create-contact'
+        url = f"{BACKEND_NODE_URL}/nylas/create-contact"
         
         # Configura encabezados y envía la solicitud
         headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
@@ -320,7 +352,7 @@ class CreateContact(BaseTool):
 
     async def _arun(self) -> str:
         """Use the tool asynchronously."""
-        raise NotImplementedError("get_calendars does not support async")
+        raise NotImplementedError("create_contact does not support async")
     
 
 class SendEmailDraft(BaseTool):
@@ -335,7 +367,7 @@ class SendEmailDraft(BaseTool):
         self.NYLAS_RUNTIME_AUTH_KEY = userId
 
     def _run(self, id: str) -> str:   
-        url = 'http://localhost:9000/nylas/send-draft?draftId={id}'
+        url = f"{BACKEND_NODE_URL}/nylas/send-draft?draftId={id}"
         
         # Configura encabezados y envía la solicitud
         headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}

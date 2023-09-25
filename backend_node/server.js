@@ -191,6 +191,24 @@ app.get("/nylas/read-calendars", isAuthenticated, (req, res, next) => {
   route.readCalendars(req, res, next);
 });
 
+app.post(
+  "/nylas/create-calendar",
+  isAuthenticated,
+  express.json(),
+  (req, res, next) => {
+    route.createCalendar(req, res, next);
+  }
+);
+
+app.delete(
+  "/nylas/delete-calendar",
+  isAuthenticated,
+  express.json(),
+  (req, res, next) => {
+    route.deleteCalendar(req, res, next);
+  }
+);
+
 // Add route for creating calendar events
 app.post(
   "/nylas/create-events",

@@ -3,6 +3,7 @@ const { default: Event } = require("nylas/lib/models/event");
 const { default: Contact } = require("nylas/lib/models/contact");
 
 const Nylas = require("nylas");
+const { default: Calendar } = require("nylas/lib/models/calendar");
 
 exports.greetingInfo = async (req, res, next) => {
   try {
@@ -97,10 +98,11 @@ exports.deleteDraft = async (req, res, next) => {
 
     const { draftId } = req.query;
 
-    console.log("delete draft!!! draftId", draftId);
-    const allDrafts = await Nylas.with(user.accessToken).drafts.list();
-
-    await allDrafts.find((e) => e.id === draftId).delete();
+    const response = await Nylas.with(user.accessToken).drafts.delete(draftId, {
+      version: 0,
+    });
+    
+    return res.json(response);
   } catch (error) {
     next(error);
   }
@@ -239,6 +241,43 @@ exports.readCalendars = async (req, res, next) => {
   }
 };
 
+exports.createCalendar = async (req, res, next) => {
+  try {
+    const user = res.locals.user;
+
+    const { name, description, location, timezone } = req.body;
+
+    const nylas = Nylas.with(user.accessToken);
+
+    const newCalendar = new Calendar(nylas);
+
+    newCalendar.name = name;
+    newCalendar.location = location;
+    newCalendar.description = description;
+    newCalendar.timezone = timezone;
+
+    const response = await newCalendar.save();
+    return res.json(response);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.deleteCalendar = async (req, res, next) => {
+  try {
+    const user = res.locals.user;
+
+    const { calendarId } = req.query;
+
+    const response = await Nylas.with(user.accessToken).calendars.delete(
+      calendarId
+    );
+    return res.json(response);
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.createEvents = async (req, res, next) => {
   try {
     const user = res.locals.user;
@@ -357,7 +396,7 @@ exports.deleteContactById = async (req, res, next) => {
 
     const nylas = await Nylas.with(user.accessToken);
 
-    contact = nylas.contacts.delete(id)
+    contact = nylas.contacts.delete(id);
 
     console.log("contactToDelete", contact);
     return res.json(contact);
