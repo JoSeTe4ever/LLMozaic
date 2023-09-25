@@ -15,10 +15,7 @@ export default function Chat({ greetingInfo }) {
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [recording, setRecording] = useState(false);
-  const [displayMessage, setDisplayMessage] = useState(false);
   const [initialMessageReceived, setInitialMessageReceived] = useState(false);
-  const [currentMessage, setCurrentMessage] = useState("");
-  const [firstMessageReceived, setFirstMessageReceived] = useState(false);
 
   const [messages, setMessages] = useState([]);
   const [socketUrl, setSocketUrl] = useState(

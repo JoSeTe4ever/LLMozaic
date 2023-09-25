@@ -101,7 +101,7 @@ exports.deleteDraft = async (req, res, next) => {
     const response = await Nylas.with(user.accessToken).drafts.delete(draftId, {
       version: 0,
     });
-    
+
     return res.json(response);
   } catch (error) {
     next(error);
@@ -224,6 +224,40 @@ exports.getReadEvents = async (req, res, next) => {
     return res.json(events);
   } catch (error) {
     next(error);
+  }
+};
+
+
+exports.updateEventById = async (req, res, next) => {
+  try {
+    const user = res.locals.user;
+    const { id, notify_participants, title, description, startTime, endTime, participants } = req.body;
+
+    const nylas = await Nylas.with(user.accessToken);
+
+    eventUpdated = await nylas.events.find(id);
+    eventUpdated.visibility = 'public';
+
+    //mergin objects for updating.
+    updateEventIfValue(eventUpdated, notify_participants, "notify_participants");
+    updateEventIfValue(eventUpdated, title, "title");
+    updateEventIfValue(eventUpdated, description, "description");
+    updateEventIfValue(eventUpdated, startTime, "startTime");
+    updateEventIfValue(eventUpdated, endTime, "endTime");
+    updateEventIfValue(eventUpdated, participants, "participants");
+
+    const response = await eventUpdated.save();
+
+    console.log("eventUpdated", response);
+    return res.json(response);
+  } catch (error) {
+    next(error);
+  }
+
+  function updateEventIfValue(event, value, key) {
+    if (value) {
+      event[key] = value;
+    }
   }
 };
 

@@ -186,6 +186,15 @@ app.get("/nylas/read-events", isAuthenticated, (req, res, next) => {
   route.getReadEvents(req, res, next);
 });
 
+app.put(
+  "/nylas/update-event",
+  isAuthenticated,
+  express.json(),
+  (req, res, next) => {
+    route.updateEventById(req, res, next);
+  }
+);
+
 // Add route for getting 20 latest calendar events
 app.get("/nylas/read-calendars", isAuthenticated, (req, res, next) => {
   route.readCalendars(req, res, next);

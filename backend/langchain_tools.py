@@ -8,12 +8,11 @@ import datetime
 BACKEND_NODE_URL = os.environ.get('BACKEND_NODE_URL', 'http://localhost:9000')
 
 
-class CreateModifyDeleteEvents(BaseTool):
-    name = "create_modify_delete_events"
-    description = """Useful for when you need to create, modify or delete an event. Use this action for creating, modifying or deleting an event.
-    This action needs a calendarId that can be retrieved from the context of the conversation. This Id should be obtained from the list of
-    calendars (it is the id field of the json object)). StartsAfter and endsBefore are integers which are timestamp representation from dates obtained
-    using dateTimestamp tool. Participants is an array of strings, the participant info can be obtained from GetContactDetailsById tool or GetContacts tool.
+class CreateEvent(BaseTool):
+    name = "create_event"
+    description = """Useful for when you need to create an event. Use this action for creating an event.
+    This action needs a calendarId that can be retrieved from the context of the conversation. StartsAfter and endsBefore are integers which are timestamp 
+    representation from dates obtained.Participants is an array of strings, the participant info can be obtained from GetContactDetailsById tool or GetContacts tool.
     The action is sucessfully completed if the response holds 200"""
 
 
@@ -44,6 +43,42 @@ class CreateModifyDeleteEvents(BaseTool):
         reponse = await requests.get(url, headers=headers);
         return reponse.json();
 
+
+class ModifyEvent(BaseTool):
+    name = "modify_event"
+    description = """ Useful for when you need to modify an event. Use this action for modifying an event.
+    This action needs a calendarId that can be retrieved from the tool get_calendars. The other parameters are the same as the create_event tool, 
+    and can be retrieved from the context of the conversation. The action is sucessfully completed if the response holds 200 and a json object"""
+
+    NYLAS_RUNTIME_AUTH_KEY = ''
+
+    def __init__(self, userId):
+        super().__init__()  # Llama al constructor de la clase base si es necesario
+        self.NYLAS_RUNTIME_AUTH_KEY = userId
+
+
+    def _run(self, id: str, notify_participants: bool, title: str, description: str, startTime: str = 'Not defined',
+            endTime: str = 'Not defined' , participants = [{"email": "undefined"}]) -> str:
+
+        url = f"{BACKEND_NODE_URL}/nylas/update-event"
+        json_data = {
+            "id": id,
+            "notify_participants": notify_participants,
+            "title": title,
+            "description": description,
+            "startTime": startTime,
+            "endTime": endTime,
+            "participants": participants
+        }
+        # Configura encabezados y envía la solicitud
+        headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
+        response = requests.put(url, json=json_data, headers=headers)
+        return response.json();
+
+    async def _arun(self) -> str:
+        headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
+        reponse = await requests.get(url, headers=headers);
+        return reponse.json();
 
 class DateTimestamp(BaseTool):
     name = "date_timestamp"
