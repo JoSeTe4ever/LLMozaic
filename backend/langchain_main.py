@@ -50,7 +50,7 @@ def main():
     userId = sys.argv[2]
     tools = [SendEmail(userId), ReadEmails(userId), GetContacts(userId), GetEvents(userId), GetCalendars(userId),
              CreateContact(userId), CreateContact(userId), CreateCalendar(userId), DeleteCalendar(userId), ModifyEvent(userId),
-             DeleteCalendar(userId), CreateCalendar(userId),
+             DeleteCalendar(userId),
              GetEmailDrafts(userId), CreateEmailDraft(userId), SendEmailDraft(userId), CreateEvent(userId), DateTimestamp(), CreateImage()]
 
     agent = initialize_agent(tools=tools, llm=openAILLM,
