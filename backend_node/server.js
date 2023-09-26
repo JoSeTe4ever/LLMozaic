@@ -15,6 +15,14 @@ dotenv.config();
 
 const app = express();
 
+// Middleware for errors
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use((err, req, res, next) => {
+  console.error("MIDDLEWARE ", err.stack);
+  res.status(500).json({ error: "Internal Server Error" + err.stack });
+});
+
 // Enable CORS
 app.use(
   cors({
@@ -273,13 +281,7 @@ app.delete(
   }
 );
 
-// Middleware for errors
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use((err, req, res, next) => {
-  console.error("MIDDLEWARE ", err.stack);
-  res.status(500).json({ error: "Internal Server Error" + err.stack });
-});
+
 
 // Start listening on port 9000
 app.listen(port, () => console.log("App listening on port " + port));

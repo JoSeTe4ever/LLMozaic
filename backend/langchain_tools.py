@@ -358,12 +358,19 @@ class CreateEmailDraft(BaseTool):
         super().__init__()  # Llama al constructor de la clase base si es necesario
         self.NYLAS_RUNTIME_AUTH_KEY = userId
 
-    def _run(self, to: str, subject: str, body: str) -> str:   
+    def _run(self, to: str, subject: str, body: str) -> str:
+
+        json_data = {
+            "to": to,
+            "subject": summary,
+            "body": body
+        }
+
         url = f"{BACKEND_NODE_URL}/nylas/create-draft"
         
         # Configura encabezados y envía la solicitud
         headers = {'Authorization': self.NYLAS_RUNTIME_AUTH_KEY}
-        response = requests.post(url, headers=headers)
+        response = requests.post(url, json=json_data, headers=headers)
         return response.json();
 
     async def _arun(self) -> str:
