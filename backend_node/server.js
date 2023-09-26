@@ -9,6 +9,7 @@ const Nylas = require("nylas");
 const { WebhookTriggers } = require("nylas/lib/models/webhook");
 const { Scope } = require("nylas/lib/models/connect");
 const { openWebhookTunnel } = require("nylas/lib/services/tunnel");
+require("express-async-errors");
 
 dotenv.config();
 
@@ -22,15 +23,6 @@ app.use(
 );
 // The port the express app will run on
 const port = 9000;
-
-// Middleware for errors
-app.use((err, req, res, next) => {
-  console.error("MIDDLEWARE ", err.stack);
-  res.status(500).json({ error: "Internal Server Error" + err.stack });
-});
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 // Initialize the Nylas SDK using the client credentials
 Nylas.config({
@@ -194,10 +186,37 @@ app.get("/nylas/read-events", isAuthenticated, (req, res, next) => {
   route.getReadEvents(req, res, next);
 });
 
+app.put(
+  "/nylas/update-event",
+  isAuthenticated,
+  express.json(),
+  (req, res, next) => {
+    route.updateEventById(req, res, next);
+  }
+);
+
 // Add route for getting 20 latest calendar events
 app.get("/nylas/read-calendars", isAuthenticated, (req, res, next) => {
   route.readCalendars(req, res, next);
 });
+
+app.post(
+  "/nylas/create-calendar",
+  isAuthenticated,
+  express.json(),
+  (req, res, next) => {
+    route.createCalendar(req, res, next);
+  }
+);
+
+app.delete(
+  "/nylas/delete-calendar",
+  isAuthenticated,
+  express.json(),
+  (req, res, next) => {
+    route.deleteCalendar(req, res, next);
+  }
+);
 
 // Add route for creating calendar events
 app.post(
@@ -236,6 +255,31 @@ app.get(
     route.getContactById(req, res, next);
   }
 );
+
+app.delete(
+  "/nylas/delete-contact",
+  isAuthenticated,
+  express.json(),
+  (req, res, next) => {
+    setTimeout(() => {
+      console.log("update contact");
+      try {
+        route.deleteContactById(req, res, next);
+      } catch (error) {
+        console.log(error);
+        next(error);
+      }
+    }, 100);
+  }
+);
+
+// Middleware for errors
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use((err, req, res, next) => {
+  console.error("MIDDLEWARE ", err.stack);
+  res.status(500).json({ error: "Internal Server Error" + err.stack });
+});
 
 // Start listening on port 9000
 app.listen(port, () => console.log("App listening on port " + port));

@@ -1,8 +1,9 @@
 const { default: Draft } = require("nylas/lib/models/draft");
 const { default: Event } = require("nylas/lib/models/event");
+const { default: Contact } = require("nylas/lib/models/contact");
 
 const Nylas = require("nylas");
-const { default: Contact } = require("nylas/lib/models/contact");
+const { default: Calendar } = require("nylas/lib/models/calendar");
 
 exports.greetingInfo = async (req, res, next) => {
   try {
@@ -97,10 +98,11 @@ exports.deleteDraft = async (req, res, next) => {
 
     const { draftId } = req.query;
 
-    console.log("delete draft!!! draftId", draftId);
-    const allDrafts = await Nylas.with(user.accessToken).drafts.list();
+    const response = await Nylas.with(user.accessToken).drafts.delete(draftId, {
+      version: 0,
+    });
 
-    await allDrafts.find((e) => e.id === draftId).delete();
+    return res.json(response);
   } catch (error) {
     next(error);
   }
@@ -225,6 +227,40 @@ exports.getReadEvents = async (req, res, next) => {
   }
 };
 
+
+exports.updateEventById = async (req, res, next) => {
+  try {
+    const user = res.locals.user;
+    const { id, notify_participants, title, description, startTime, endTime, participants } = req.body;
+
+    const nylas = await Nylas.with(user.accessToken);
+
+    eventUpdated = await nylas.events.find(id);
+    eventUpdated.visibility = 'public';
+
+    //mergin objects for updating.
+    updateEventIfValue(eventUpdated, notify_participants, "notify_participants");
+    updateEventIfValue(eventUpdated, title, "title");
+    updateEventIfValue(eventUpdated, description, "description");
+    updateEventIfValue(eventUpdated, startTime, "startTime");
+    updateEventIfValue(eventUpdated, endTime, "endTime");
+    updateEventIfValue(eventUpdated, participants, "participants");
+
+    const response = await eventUpdated.save();
+
+    console.log("eventUpdated", response);
+    return res.json(response);
+  } catch (error) {
+    next(error);
+  }
+
+  function updateEventIfValue(event, value, key) {
+    if (value) {
+      event[key] = value;
+    }
+  }
+};
+
 exports.readCalendars = async (req, res, next) => {
   try {
     const user = res.locals.user;
@@ -234,6 +270,43 @@ exports.readCalendars = async (req, res, next) => {
       .then((calendars) => calendars);
 
     return res.json(calendars);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.createCalendar = async (req, res, next) => {
+  try {
+    const user = res.locals.user;
+
+    const { name, description, location, timezone } = req.body;
+
+    const nylas = Nylas.with(user.accessToken);
+
+    const newCalendar = new Calendar(nylas);
+
+    newCalendar.name = name;
+    newCalendar.location = location;
+    newCalendar.description = description;
+    newCalendar.timezone = timezone;
+
+    const response = await newCalendar.save();
+    return res.json(response);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.deleteCalendar = async (req, res, next) => {
+  try {
+    const user = res.locals.user;
+
+    const { calendarId } = req.query;
+
+    const response = await Nylas.with(user.accessToken).calendars.delete(
+      calendarId
+    );
+    return res.json(response);
   } catch (error) {
     next(error);
   }
@@ -293,8 +366,7 @@ exports.createContact = async (req, res, next) => {
 
     if (!givenName || !jobTitle || !birthday) {
       return res.status(400).json({
-        message:
-          "Missing required fields: givenName, birthday, jobTitle",
+        message: "Missing required fields: givenName, birthday, jobTitle",
       });
     }
 
@@ -313,7 +385,7 @@ exports.createContact = async (req, res, next) => {
     contact.notes = notes;
     contact.pictureUrl = pictureUrl;
     contact.email = email;
-    
+
     await contact.save();
 
     return res.json(contact);
@@ -344,6 +416,23 @@ exports.getContactById = async (req, res, next) => {
       .contacts.find(id)
       .then((contact) => contact);
 
+    return res.json(contact);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.deleteContactById = async (req, res, next) => {
+  try {
+    const user = res.locals.user;
+
+    const { id } = req.body;
+
+    const nylas = await Nylas.with(user.accessToken);
+
+    contact = nylas.contacts.delete(id);
+
+    console.log("contactToDelete", contact);
     return res.json(contact);
   } catch (error) {
     next(error);
