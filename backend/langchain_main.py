@@ -3,7 +3,7 @@ from langchain.chat_models import ChatOpenAI
 from langchain_tools import SendEmail, ReadEmails, GetContacts, DeleteEmailDraft, \
 GetEvents, GetCalendars, DateTimestamp, CreateEvent, \
 GetEmailDrafts, CreateEmailDraft, SendEmailDraft, CreateImage, \
-CreateContact, CreateCalendar, DeleteCalendar
+CreateContact, CreateCalendar, DeleteCalendar, ModifyEvent
 from langchain.prompts import MessagesPlaceholder
 from langchain.memory import ConversationBufferMemory
 
@@ -20,7 +20,7 @@ tools = [load_tools(['human'])]
 PREFIX = """
 You are a highly sophisticated virtual assistant built on GPT-4. Your main tasks involve assisting the user with their email, contacts, and calendar functionalities. This requires you to be precise, accurate, and to understand the context deeply. You have been trained with vast amounts of data and have an array of tools at your disposal to help users accomplish their digital tasks efficiently. The actions available to you are:
 
-['send_email_with_template', 'read_emails', 'get_contacts', 'get_events', 'get_calendars', 'create_modify_delete_events', 'date_timestamp']
+['send_email_with_template', 'read_emails', 'get_contacts', 'get_events', 'get_calendars', 'create_event', 'date_timestamp', 'modify_event', 'create_calendar', 'delete_calendar']
 
 Always strive to understand the context and user's needs to provide the best assistance possible. Check the descriptions of your tools, to anticipate expected output when answering.
 
@@ -49,8 +49,9 @@ def main():
     user_input = sys.argv[1]
     userId = sys.argv[2]
     tools = [SendEmail(userId), ReadEmails(userId), GetContacts(userId), GetEvents(userId), GetCalendars(userId),
-             CreateContact(userId),
-             GetEmailDrafts(userId), CreateEmailDraft(userId), SendEmailDraft(userId), CreateModifyDeleteEvents(userId), DateTimestamp(), CreateImage()]
+             CreateContact(userId), CreateContact(userId), CreateCalendar(userId), DeleteCalendar(userId), ModifyEvent(userId),
+             DeleteCalendar(userId), CreateCalendar(userId),
+             GetEmailDrafts(userId), CreateEmailDraft(userId), SendEmailDraft(userId), CreateEvent(userId), DateTimestamp(), CreateImage()]
 
     agent = initialize_agent(tools=tools, llm=openAILLM,
                              agent="structured-chat-zero-shot-react-description", agent_kwargs={
