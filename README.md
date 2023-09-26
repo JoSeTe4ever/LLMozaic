@@ -115,3 +115,13 @@ Type "help", "copyright", "credits" or "license" for more information.
 
  node -v
 v18.13.0
+
+
+# deployment 
+
+
+http://146.190.113.226:1025/
+
+
+
+

@@ -212,7 +212,7 @@ class DeleteCalendar(BaseTool):
 
     async def _arun(self) -> str:
         """Use the tool asynchronously."""
-        raise NotImplementedError("get_calendars does not support async")
+        raise NotImplementedError("delete_calendar does not support async")
 
 
 class GetContacts(BaseTool):

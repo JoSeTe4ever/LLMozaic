@@ -9,7 +9,7 @@ import AudioStream from "./AudioStream";
 import axios from "axios";
 
 export default function Chat({ greetingInfo }) {
-  const wsBackendUrl =
+  const wsBackendUrl = 
     import.meta.env.VITE_WS_BACKEND_URL || "ws://localhost:5000";
 
   const [userInput, setUserInput] = useState("");
