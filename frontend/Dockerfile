@@ -8,6 +8,12 @@ WORKDIR /app
 COPY package.json ./
 
 # Install project dependencies
+RUN npm config set fetch-retry-mintimeout 20000
+RUN npm config set fetch-retry-maxtimeout 120000
+RUN npm config set fetch-timeout 1800000
+RUN npm config set fetch-retries 5
+
+
 RUN npm install  --legacy-peer-deps
 
 # Copy the frontend application files into the working directory

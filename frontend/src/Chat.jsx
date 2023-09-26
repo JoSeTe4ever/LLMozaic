@@ -184,7 +184,7 @@ export default function Chat({ greetingInfo }) {
   useEffect(() => {
     // run the chain and set the first message
     setLoading(true);
-    const SERVER_URI = "http://localhost:5000";
+    const SERVER_URI = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
     const ENDPOINT = SERVER_URI + "/greeting-chain";
     axios
       .post(ENDPOINT, greetingInfo)
