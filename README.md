@@ -36,35 +36,54 @@ Mosaic offers a wide range of features to simplify your life:
 
 ### Prerequisites
 
-Before you can start using Mosaic, make sure you have the following prerequisites in place:
+Before you can start using Mosaic, make sure you have the following prerequisites in place (for a local installation):
 
 - Python 3.7 or higher installed on your system.
-- Access to the Nylas API and API keys.
-- Langchain and LLM installed and configured (detailed instructions provided in the Installation section).
+- Node 18 installed on your system.
+- Npm 9.3 or higher installed on your system.
+- Access to the Nylas API key and clientId by using a Nylas Sandbox.
+- Access to the openAI API key.
 
 ### Installation
 
 1. Clone the Mosaic repository to your local machine:
 
    ```bash
-   git clone https://github.com/your-username/mosaic.git
+   git clone https://github.com/JoSeTe4ever/LLMozaic
    ```
 
 2. Navigate to the project directory:
 
    ```bash
-   cd mosaic
+   cd LLMozaic
    ```
 
-3. Install the required dependencies:
-
+3. Install the required dependencies in the different folders,:
+  for backend 
    ```bash
    pip install -r requirements.txt
    ```
+  for frontend 
+   ```bash
+   npm install
+   ```
+  for backend_node
+  ```bash
+   npm install
+  ```
 
-4. Configure Nylas API keys and Langchain settings in the `config.yaml` file.
+1. Configure Nylas API keys by creating a .env file with the first 4 values to be filled: 
+   
+  ```bash
+    OPEN_API_KEY=
+    NYLAS_CLIENT_ID=
+    NYLAS_CLIENT_SECRET=
+    NYLAS_RUNTIME_AUTH_KEY=
+    NYLAS_API_SERVER=https://api.nylas.com
+    FLASK_APP=server.py
+  ```
 
-5. Start Mosaic:
+1. Start Mosaic:
 
    ```bash
    python main.py
