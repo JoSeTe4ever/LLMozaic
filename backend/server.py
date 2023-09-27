@@ -93,7 +93,8 @@ def greeting_chain():
         unreadEmails = request.json['unreadEmails']
         eventsTodayMainCalendar = request.json['eventsTodayMainCalendar']
         drafts = request.json['drafts']
-        greetingChainResult = say_hi_chain(inputs={"unreadEmails": unreadEmails, "eventsTodayMainCalendar": eventsTodayMainCalendar, "drafts": drafts})
+        unreadThreadInfo = request.json['unreadThreadInfo']
+        greetingChainResult = say_hi_chain(inputs={"unreadEmails": unreadEmails, "eventsTodayMainCalendar": eventsTodayMainCalendar, "drafts": drafts, "unreadThreadInfo": unreadThreadInfo})
         return jsonify({"success": greetingChainResult['text']})
     except Exception as e:
         return jsonify({"error2": str(e)})

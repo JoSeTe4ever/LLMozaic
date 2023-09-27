@@ -33,11 +33,19 @@ exports.greetingInfo = async (req, res, next) => {
 				ends_before: endTimeISO,
 			});
 
+			const unreadThreadInfo = threads.map((thread) => ({
+				subject: thread.subject,
+				to: thread.participants.map((p) => p.email).join(', '),
+			}));
+
+			//console.log(unreadThreadInfo);
+
 			const userInfo = {
 				userEmail: user.emailAddress,
 				unreadEmails: threads.length,
 				eventsTodayMainCalendar: events.length,
 				drafts: drafts.length,
+				unreadThreadInfo, // Agrega la información de los threads no leídos.
 			};
 
 			return res.json(userInfo);
