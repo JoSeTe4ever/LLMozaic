@@ -1,0 +1,72 @@
+version: "3"
+
+services:
+  backend_node:
+    restart: "always"
+    build:
+      context: ./backend_node
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend_node/.env
+    hostname: backend_node
+    ports:
+      - "9000:9000"
+    environment:
+      NODE_ENV: production
+      FRONTEND_URL: http://146.190.113.226:1025
+    networks:
+      - app-network
+
+  backend:
+    restart: "always"
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - ./backend/.env
+    hostname: backend
+    ports:
+      - "5000:5000"
+    networks:
+      - app-network
+    links:
+      - backend_node
+    environment:
+      BACKEND_NODE_URL: http://backend_node:9000
+
+  frontend:
+    restart: "always"
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    hostname: frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    environment:
+      VITE_BACKEND_URL: http://146.190.113.226:1026 # localhost for local, to be replaced by nginx_proxy public URL for production
+      VITE_BACKEND_NODE_URL: http://146.190.113.226:1027 # localhost for local, to be replaced by nginx_proxy public URL for production
+      VITE_WS_BACKEND_URL: ws://146.190.113.226:1028 # localhost for local, to be replaced by nginx_proxy public URL for production
+
+  nginx_proxy:
+    image: nginx
+    hostname: nginx_proxy
+    depends_on:
+      - backend
+      - frontend
+      - backend_node
+    ports:
+      - "1025:1025"
+      - "1026:1026"
+      - "1027:1027"
+      - "1028:1028"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
