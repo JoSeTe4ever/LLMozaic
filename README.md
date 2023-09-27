@@ -1,19 +1,94 @@
+# Mosaic: Your AI-Powered Virtual Assistant
 
+![Mosaic Logo](frontend/public/Mosaic.jpeg)
 
-Install the following packages:
+## Table of Contents
+- [Introduction](#introduction)
+- [Features](#features)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
-```
-pip install dotenv
-pip install langchain
-pip install transformers
-pip install torch
-pip install pillow
-```
+## Introduction
 
-#notes 
+Welcome to Mosaic, your personal AI-powered virtual assistant! Mosaic is a cutting-edge program that leverages artificial intelligence to help you efficiently manage your email, calendar, and contacts. Powered by Nylas API, Langchain, and LLM (Language Model), Mosaic is designed to streamline your daily tasks and boost your productivity.
 
-- In langchain there are sequentialChains that allows multiple inputs and outputs.
-- In langchain there are simpleSequentialChains that allows multiple inputs and outputs.
+Whether you're a busy professional, an entrepreneur, or anyone looking to simplify email and calendar management, Mosaic is here to make your life easier. Say goodbye to email overload and the hassle of managing appointments and contacts manually.
+
+## Features
+
+Mosaic offers a wide range of features to simplify your life:
+
+- **Email Management:** Mosaic uses Nylas API to intelligently categorize, filter, and prioritize your emails. Say goodbye to sifting through cluttered inboxes.
+
+- **Calendar Assistant:** Never miss an important appointment again. Mosaic helps you schedule meetings, set reminders, and manage your calendar effortlessly.
+
+- **Contact Organization:** Keep your contacts in order with Mosaic. It uses AI to categorize and tag contacts, making it easy to find the people you need.
+
+- **Natural Language Processing:** Mosaic's LLM (Language Model) ensures seamless communication with your virtual assistant. Simply ask for what you need in plain language.
+
+- **Customizable Workflow:** Tailor Mosaic to your specific needs. Customize settings and preferences to make the assistant work just the way you want it to.
+
+## Getting Started
+
+### Prerequisites
+
+Before you can start using Mosaic, make sure you have the following prerequisites in place:
+
+- Python 3.7 or higher installed on your system.
+- Access to the Nylas API and API keys.
+- Langchain and LLM installed and configured (detailed instructions provided in the Installation section).
+
+### Installation
+
+1. Clone the Mosaic repository to your local machine:
+
+   ```bash
+   git clone https://github.com/your-username/mosaic.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd mosaic
+   ```
+
+3. Install the required dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Configure Nylas API keys and Langchain settings in the `config.yaml` file.
+
+5. Start Mosaic:
+
+   ```bash
+   python main.py
+   ```
+
+## Usage
+
+Mosaic is designed to be user-friendly and intuitive. Once you have it up and running, interact with your virtual assistant by simply typing or speaking your requests. Mosaic will process your instructions and assist you with email, calendar, and contact management.
+
+Feel free to explore the customization options and make Mosaic your own.
+
+## Contributing
+
+We welcome contributions from the open-source community. If you'd like to contribute to Mosaic's development, please follow our [contribution guidelines](CONTRIBUTING.md).
+
+## License
+
+Mosaic is released under the [MIT License](LICENSE). Feel free to use, modify, and distribute this software in accordance with the terms of the license.
+
+Thank you for choosing Mosaic as your virtual assistant. We hope it revolutionizes the way you manage your email, calendar, and contacts! If you have any questions or feedback, please don't hesitate to reach out to our support team.
+
+Happy organizing!
+
+[Visit our website](https://www.mosaicassistant.com) | [Contact Support](mailto:support@mosaicassistant.com)
 
 #brainstorming
 
