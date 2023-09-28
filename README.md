@@ -39,18 +39,13 @@ Mosaic offers a wide range of features to simplify your life:
 
   
 
--  **Email Management:** Mosaic uses Nylas API to intelligently categorize, filter, and prioritize your emails. Say goodbye to sifting through cluttered inboxes.
+-  ✉️ **Email Management:** Mosaic uses Nylas API to intelligently categorize, filter, and prioritize your emails. Say goodbye to sifting through cluttered inboxes.
 
-  
+-  🗓️ **Calendar Assistant:** Never miss an important appointment again. Mosaic helps you schedule meetings, set reminders, and manage your calendar effortlessly.
 
--  **Calendar Assistant:** Never miss an important appointment again. Mosaic helps you schedule meetings, set reminders, and manage your calendar effortlessly.
+- 👥 **Contact Organization:** Keep your contacts in order with Mosaic. It uses AI to categorize and tag contacts, making it easy to find the people you need.
 
-  
-
--  **Contact Organization:** Keep your contacts in order with Mosaic. It uses AI to categorize and tag contacts, making it easy to find the people you need.
-
--  **Natural Language Processing:** Mosaic's LLM (Language Model) ensures seamless communication with your virtual assistant. Simply ask for what you need in plain language.
--  **Customizable Workflow:** Tailor Mosaic to your specific needs. Customize settings and preferences to make the assistant work just the way you want it to.
+-  🗨️ **Natural Language Processing:** Mosaic's LLM (Language Model) ensures seamless communication with your virtual assistant. Simply ask for what you need in plain language.
 
   
 
@@ -158,24 +153,33 @@ backend python server.py
 
 ## Usage
 
-  
 
-Mosaic is designed to be user-friendly and intuitive. Once you have it up and running, interact with your virtual assistant by simply typing or speaking your requests. Mosaic will process your instructions and assist you with email, calendar, and contact management.
+
+Mosaic works with any email account provider. Please enter your email in the login screen and grant Nylas access to your account. 
+Mosaic will then sync your email, calendar, and contacts through this Nylas API. 
+
+![Alt text](misc/image.png)
+
+
+
+![Alt text](image.png)
 
 
 There is also a speech to text option, that you can use by clicking on the microphone icon. 
 This will allow you to speak to Mosaic and it will process your request.
 
 
-
-
-
-
+** this option only works from local since navigator.mediaTpyes is not supported withouth https **
 
 https://github.com/JoSeTe4ever/LLMozaic/assets/8459933/8526f7e1-c95a-462b-ad47-51d8020a4217
 
 
+Mosaic is designed to be user-friendly and intuitive. Once you have it up and running, interact with your virtual assistant by simply typing or speaking your requests. Mosaic will process your instructions and assist you with email, calendar, and contact management.
 
+
+**Mosaic has no memory.** 
+
+Please be patient with Mosaic, sometimes you must repeat them the previous request to get the desired result.
 ## Contributing
 
   
