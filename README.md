@@ -17,6 +17,7 @@
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
   - [Usage](#usage)
+    - [Enter your email and grant access to Nylas API for using Mosaic](#enter-your-email-and-grant-access-to-nylas-api-for-using-mosaic)
   - [License](#license)
   - [brainstorming](#brainstorming)
   - [CREATIVE](#creative)
@@ -31,6 +32,8 @@ Welcome to Mosaic, your personal AI-powered virtual assistant! Mosaic is a cutti
 
 Whether you're a busy professional, an entrepreneur, or anyone looking to simplify email and calendar management, Mosaic is here to make your life easier. Say goodbye to email overload and the hassle of managing appointments and contacts manually.
 
+You can manage your email, calendar, and contacts with Mosaic by simply typing or speaking your requests. Mosaic will process your instructions and assist you with email, calendar, and contact management.
+
 ## Features
 
 Mosaic offers a wide range of features to simplify your life:
@@ -41,7 +44,7 @@ Mosaic offers a wide range of features to simplify your life:
 
 -  🗓️ **Calendar Assistant:** Never miss an important appointment again. Mosaic helps you schedule meetings, set reminders, and manage your calendar effortlessly.
 
-- 👥 **Contact Organization:** Keep your contacts in order with Mosaic. It uses AI to categorize and tag contacts, making it easy to find the people you need.
+- 👥 **Contact Organization:** Keep your contacts in order with Mosaic. It uses AI to add or delete, making it easy to find the people you need. Using natural language!
 
 -  🗨️ **Natural Language Processing:** Mosaic's LLM (Language Model) ensures seamless communication with your virtual assistant. Simply ask for what you need in plain language.
 
@@ -157,10 +160,10 @@ backend python server.py
 Mosaic works with any email account provider. Please enter your email in the login screen and grant Nylas access to your account. 
 Mosaic will then sync your email, calendar, and contacts through this Nylas API. 
 
-<p align="center">
-<div>  <img src="misc/image.png"/>
-  <span>Enter your email and grant access to Nylas API for using Mosaic</span></div>
+### Enter your email and grant access to Nylas API for using Mosaic
 
+<p align="center">
+  <img src="misc/image.png"/>
 </p>
 
 
@@ -270,4 +273,4 @@ There is a deployed version of Mosaic under the following link:
 
 http://146.190.113.226:1025/
 
-This will be available as far as the Hackaton contest has not finished.
+This will be available until the Hackaton _Nylas and AI: Email and Calendaring for the Future_ finishes.
