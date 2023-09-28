@@ -17,7 +17,6 @@
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
   - [Usage](#usage)
-  - [Contributing](#contributing)
   - [License](#license)
   - [brainstorming](#brainstorming)
   - [CREATIVE](#creative)
@@ -50,7 +49,8 @@ Mosaic offers a wide range of features to simplify your life:
 
 ## Getting Started
 
-  
+You can install Mosaic locally or use the  [deployed version](http://146.190.113.226:1025/). We recommend to install it locally to have a full experience of the product, and insights on how it works.
+
 
 ### Prerequisites
 
@@ -164,7 +164,7 @@ There is also a speech to text option, that you can use by clicking on the micro
 This will allow you to speak to Mosaic and it will process your request.
 
 
-** this option only works from local since navigator.mediaTpyes is not supported withouth https **
+⚠️ **this option only works from local since navigator.mediaTpyes is not supported withouth https**
 
 https://github.com/JoSeTe4ever/LLMozaic/assets/8459933/8526f7e1-c95a-462b-ad47-51d8020a4217
 
@@ -172,32 +172,24 @@ https://github.com/JoSeTe4ever/LLMozaic/assets/8459933/8526f7e1-c95a-462b-ad47-5
 Mosaic is designed to be user-friendly and intuitive. Once you have it up and running, interact with your virtual assistant by simply typing or speaking your requests. Mosaic will process your instructions and assist you with email, calendar, and contact management.
 
 
-**Mosaic has no memory.** 
+⚠️ **Mosaic has /no memory.** 
 
 Please be patient with Mosaic, sometimes you must repeat them the previous request to get the desired result.
-## Contributing
-
-  
-
-We welcome contributions from the open-source community. If you'd like to contribute to Mosaic's development, please follow our [contribution guidelines](CONTRIBUTING.md).
-
-  
 
 ## License
 
   
 
-Mosaic is released under the Apache License. Feel free to use, modify, and distribute this software in accordance with the terms of the license.
+Mosaic is released under the Apache License 2.0. Feel free to use, modify, and distribute this software in accordance with the terms of the license.
 
   
 
 Thank you for choosing Mosaic as your virtual assistant. We hope it revolutionizes the way you manage your email, calendar, and contacts! If you have any questions or feedback, please don't hesitate to reach out to our support team.
 
-  
 
 Happy organizing!
 
-[Visit our website](https://www.mosaicassistant.com) | [Contact Support](mailto:josete4ever@gmail.com)
+[Contact Support](mailto:josete4ever@gmail.com)
 
   
 
@@ -259,8 +251,8 @@ Happy organizing!
 
 - read my last email
 
-- respond to this email sender josete4ever@gamil.com saying that life is great
-- 
+- respond to this email sender test@gamil.com saying that life is great
+
 - When is the best time to schedule a one hour workout
 
 - Get all my events from now until next week (or next month)
