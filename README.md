@@ -158,8 +158,9 @@ Mosaic works with any email account provider. Please enter your email in the log
 Mosaic will then sync your email, calendar, and contacts through this Nylas API. 
 
 <p align="center">
-  <img src="misc/image.png"/>
-  <span>Enter your email and grant access to Nylas API for using Mosaic</span>
+<div>  <img src="misc/image.png"/>
+  <span>Enter your email and grant access to Nylas API for using Mosaic</span></div>
+
 </p>
 
 
