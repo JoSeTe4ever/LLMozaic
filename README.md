@@ -166,6 +166,16 @@ Mosaic is designed to be user-friendly and intuitive. Once you have it up and ru
 There is also a speech to text option, that you can use by clicking on the microphone icon. 
 This will allow you to speak to Mosaic and it will process your request.
 
+
+
+
+
+
+
+https://github.com/JoSeTe4ever/LLMozaic/assets/8459933/8526f7e1-c95a-462b-ad47-51d8020a4217
+
+
+
 ## Contributing
 
   
