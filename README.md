@@ -95,6 +95,16 @@ Mosaic is designed to be user-friendly and intuitive. Once you have it up and ru
 
 Feel free to explore the customization options and make Mosaic your own.
 
+
+
+
+
+
+
+https://github.com/JoSeTe4ever/LLMozaic/assets/8459933/8526f7e1-c95a-462b-ad47-51d8020a4217
+
+
+
 ## Contributing
 
 We welcome contributions from the open-source community. If you'd like to contribute to Mosaic's development, please follow our [contribution guidelines](CONTRIBUTING.md).
