@@ -157,11 +157,12 @@ backend python server.py
 Mosaic works with any email account provider. Please enter your email in the login screen and grant Nylas access to your account. 
 Mosaic will then sync your email, calendar, and contacts through this Nylas API. 
 
-![Alt text]()
-
 <p align="center">
   <img src="misc/image.png"/>
+  <span>Enter your email and grant access to Nylas API for using Mosaic</span>
 </p>
+
+
 
 There is also a speech to text option, that you can use by clicking on the microphone icon. 
 This will allow you to speak to Mosaic and it will process your request.
