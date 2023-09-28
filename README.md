@@ -22,7 +22,6 @@
   - [brainstorming](#brainstorming)
   - [CREATIVE](#creative)
   - [PROMPT EXAMPLES:](#prompt-examples)
-- [VERSIONS](#versions)
 - [deployment](#deployment)
 
   
@@ -161,10 +160,6 @@ Mosaic will then sync your email, calendar, and contacts through this Nylas API.
 ![Alt text](misc/image.png)
 
 
-
-![Alt text](image.png)
-
-
 There is also a speech to text option, that you can use by clicking on the microphone icon. 
 This will allow you to speak to Mosaic and it will process your request.
 
@@ -264,30 +259,18 @@ Happy organizing!
 
 - read my last email
 
-- respond to this email sender saying that XXX
+- respond to this email sender josete4ever@gamil.com saying that life is great
 - 
 - When is the best time to schedule a one hour workout
 
 - Get all my events from now until next week (or next month)
   
-
-# VERSIONS
-
-  
-
-Python 3.11.1 (tags/v3.11.1:a7a450f, Dec 6 2022, 19:58:39) [MSC v.1934 64 bit (AMD64)] on win32
-
-Type "help", "copyright", "credits" or "license" for more information.
-
-  
-
- node -v
-
-v18.13.0
-
-  
   
 
 # deployment
 
+There is a deployed version of Mosaic under the following link:
+
 http://146.190.113.226:1025/
+
+This will be available as far as the Hackaton contest has not finished.
