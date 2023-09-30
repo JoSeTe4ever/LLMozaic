@@ -36,14 +36,14 @@
 Mosaic is our proposal for the 2023 Hackaton  _Nylas and AI: Email and Calendaring for the Future_
 
 
-Mosaic is a ersonal AI-powered virtual assistant! it is a cutting-edge program that leverages artificial intelligence to help you efficiently manage your email, calendar, and contacts. Powered by Nylas API, Langchain, and OpenAI GPT-4 LLM (Large Language Model), Mosaic is designed to streamline your daily tasks and boost your productivity.
+Mosaic is a Personal AI-powered virtual assistant! it is a cutting-edge program that leverages artificial intelligence to help you efficiently manage your email, calendar, and contacts. Powered by Nylas API, Langchain, and OpenAI GPT-4 LLM (Large Language Model), Mosaic is designed to streamline your daily tasks and boost your productivity.
 
 Whether you're a busy professional, an entrepreneur, or anyone looking to simplify email and calendar management, Mosaic is here to make your life easier. Say goodbye to email overload and the hassle of managing appointments and contacts manually.
 
 You can manage your email, calendar, and contacts with Mosaic by simply typing or speaking your requests. Mosaic will process your instructions and assist you with email, calendar, and contact management.
 
 
-We have created a video to show you how Mosaic works. Please click on the image below to watch the video.
+We have created a video to show you how Mosaic works.
 
 [![Mosaic Video](https://img.youtube.com/vi/9Z3Z3YX6Y4c/0.jpg)](https://www.youtube.com/watch?v=9Z3Z3YX6Y4c)
 
