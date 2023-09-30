@@ -261,7 +261,7 @@ Happy organizing!
 
 - https://raw.githubusercontent.com/tjperry07/spec-testing/master/api.yaml NYLAS OPEN API DEF
 
-- https://www.geeksforgeeks.org/build-chatbot-webapp-with-langchain/ tutorial para leer. Básicamente es eso lo que queremos.
+- https://www.geeksforgeeks.org/build-chatbot-webapp-with-langchain/
 
 - https://github.com/langchain-ai/langchain/issues/4884
 
