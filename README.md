@@ -17,12 +17,11 @@
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
   - [Usage](#usage)
-  - [Contributing](#contributing)
+    - [Enter your email and grant access to Nylas API for using Mosaic](#enter-your-email-and-grant-access-to-nylas-api-for-using-mosaic)
   - [License](#license)
   - [brainstorming](#brainstorming)
   - [CREATIVE](#creative)
   - [PROMPT EXAMPLES:](#prompt-examples)
-- [VERSIONS](#versions)
 - [deployment](#deployment)
 
   
@@ -32,6 +31,8 @@
 Welcome to Mosaic, your personal AI-powered virtual assistant! Mosaic is a cutting-edge program that leverages artificial intelligence to help you efficiently manage your email, calendar, and contacts. Powered by Nylas API, Langchain, and LLM (Language Model), Mosaic is designed to streamline your daily tasks and boost your productivity.
 
 Whether you're a busy professional, an entrepreneur, or anyone looking to simplify email and calendar management, Mosaic is here to make your life easier. Say goodbye to email overload and the hassle of managing appointments and contacts manually.
+
+You can manage your email, calendar, and contacts with Mosaic by simply typing or speaking your requests. Mosaic will process your instructions and assist you with email, calendar, and contact management.
 
 ## Features
 
@@ -43,7 +44,7 @@ Mosaic offers a wide range of features to simplify your life:
 
 -  🗓️ **Calendar Assistant:** Never miss an important appointment again. Mosaic helps you schedule meetings, set reminders, and manage your calendar effortlessly.
 
-- 👥 **Contact Organization:** Keep your contacts in order with Mosaic. It uses AI to categorize and tag contacts, making it easy to find the people you need.
+- 👥 **Contact Organization:** Keep your contacts in order with Mosaic. It uses AI to add or delete, making it easy to find the people you need. Using natural language!
 
 -  🗨️ **Natural Language Processing:** Mosaic's LLM (Language Model) ensures seamless communication with your virtual assistant. Simply ask for what you need in plain language.
 
@@ -51,7 +52,8 @@ Mosaic offers a wide range of features to simplify your life:
 
 ## Getting Started
 
-  
+You can install Mosaic locally or use the  [deployed version](http://146.190.113.226:1025/). We recommend to install it locally to have a full experience of the product, and insights on how it works.
+
 
 ### Prerequisites
 
@@ -158,18 +160,19 @@ backend python server.py
 Mosaic works with any email account provider. Please enter your email in the login screen and grant Nylas access to your account. 
 Mosaic will then sync your email, calendar, and contacts through this Nylas API. 
 
-![Alt text](misc/image.png)
+### Enter your email and grant access to Nylas API for using Mosaic
 
+<p align="center">
+  <img src="misc/image.png"/>
+</p>
 
-
-![Alt text](image.png)
 
 
 There is also a speech to text option, that you can use by clicking on the microphone icon. 
 This will allow you to speak to Mosaic and it will process your request.
 
 
-** this option only works from local since navigator.mediaTpyes is not supported withouth https **
+⚠️ **this option only works from local since navigator.mediaTpyes is not supported withouth https**
 
 https://github.com/JoSeTe4ever/LLMozaic/assets/8459933/8526f7e1-c95a-462b-ad47-51d8020a4217
 
@@ -177,32 +180,24 @@ https://github.com/JoSeTe4ever/LLMozaic/assets/8459933/8526f7e1-c95a-462b-ad47-5
 Mosaic is designed to be user-friendly and intuitive. Once you have it up and running, interact with your virtual assistant by simply typing or speaking your requests. Mosaic will process your instructions and assist you with email, calendar, and contact management.
 
 
-**Mosaic has no memory.** 
+⚠️ **Mosaic has /no memory.** 
 
 Please be patient with Mosaic, sometimes you must repeat them the previous request to get the desired result.
-## Contributing
-
-  
-
-We welcome contributions from the open-source community. If you'd like to contribute to Mosaic's development, please follow our [contribution guidelines](CONTRIBUTING.md).
-
-  
 
 ## License
 
   
 
-Mosaic is released under the Apache License. Feel free to use, modify, and distribute this software in accordance with the terms of the license.
+Mosaic is released under the Apache License 2.0. Feel free to use, modify, and distribute this software in accordance with the terms of the license.
 
   
 
 Thank you for choosing Mosaic as your virtual assistant. We hope it revolutionizes the way you manage your email, calendar, and contacts! If you have any questions or feedback, please don't hesitate to reach out to our support team.
 
-  
 
 Happy organizing!
 
-[Visit our website](https://www.mosaicassistant.com) | [Contact Support](mailto:josete4ever@gmail.com)
+[Contact Support](mailto:josete4ever@gmail.com)
 
   
 
@@ -264,30 +259,18 @@ Happy organizing!
 
 - read my last email
 
-- respond to this email sender saying that XXX
-- 
+- respond to this email sender test@gamil.com saying that life is great
+
 - When is the best time to schedule a one hour workout
 
 - Get all my events from now until next week (or next month)
-  
-
-# VERSIONS
-
-  
-
-Python 3.11.1 (tags/v3.11.1:a7a450f, Dec 6 2022, 19:58:39) [MSC v.1934 64 bit (AMD64)] on win32
-
-Type "help", "copyright", "credits" or "license" for more information.
-
-  
-
- node -v
-
-v18.13.0
-
   
   
 
 # deployment
 
+There is a deployed version of Mosaic under the following link:
+
 http://146.190.113.226:1025/
+
+This will be available until the Hackaton _Nylas and AI: Email and Calendaring for the Future_ finishes.
