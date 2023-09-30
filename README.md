@@ -18,6 +18,7 @@
     - [Installation](#installation)
   - [Usage](#usage)
     - [Enter your email and grant access to Nylas API for using Mosaic](#enter-your-email-and-grant-access-to-nylas-api-for-using-mosaic)
+  - [How it works. Software Architecture.](#how-it-works-software-architecture)
   - [License](#license)
   - [brainstorming](#brainstorming)
   - [CREATIVE](#creative)
@@ -183,6 +184,39 @@ Mosaic is designed to be user-friendly and intuitive. Once you have it up and ru
 ⚠️ **Mosaic has /no memory.** 
 
 Please be patient with Mosaic, sometimes you must repeat them the previous request to get the desired result.
+
+
+## How it works. Software Architecture.
+
+
+<p align="center">
+  <img src="misc/architecture.png"/>
+</p>
+
+
+backend_node:
+
+This service is a Node.js application that uses the Nylas API to retrieve email, calendar, and contact data from your email account. It uses the
+Nylas Node SDK to communicate with the Nylas API, through a Sandbox applicationl. It is heavly based on the Nylas quickstart guide.
+
+backend:
+
+
+nginx_proxy:
+
+This service uses the official Nginx Docker image.
+It is assigned the hostname nginx_proxy.
+It maps several ports (1025, 1026, 1027, 1028) inside the container to the same ports on the host machine.
+It mounts a custom Nginx configuration file from ./nginx/nginx.conf into the container.
+Belongs to the app-network Docker network.
+Networks:
+
+There is a custom Docker network named app-network. 
+All services are connected to this network, allowing them to communicate with each other over this isolated network.
+In summary, this Docker Compose configuration defines a multi-container application consisting of a Node.js service (backend_node), a Python service (backend), a Vite/React frontend service (frontend), and an Nginx reverse proxy (nginx_proxy) for routing requests.
+
+These services work together to form a web application stack, our dear Mosaic Virtual Assistant. 
+The backend service communicates with the backend_node service, and the frontend service depends on the backend service. The Nginx proxy is used to handle incoming web traffic and route it to the appropriate services.
 
 ## License
 
