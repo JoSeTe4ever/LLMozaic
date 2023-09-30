@@ -188,6 +188,7 @@ Please be patient with Mosaic, sometimes you must repeat them the previous reque
 
 ## How it works. Software Architecture.
 
+Mosaic is a web application that is built using 4 services. These services are defined in the docker-compose.yml file, which is used by Docker Compose to start the application.
 
 <p align="center">
   <img src="misc/architecture.png"/>
@@ -200,20 +201,15 @@ This service is a Node.js application that uses the Nylas API to retrieve email,
 Nylas Node SDK to communicate with the Nylas API, through a Sandbox applicationl. It is heavly based on the Nylas quickstart guide.
 
 backend:
+This service is a Flask Server based in Python, that holds the Langchain Framework and the connection to OpenAI API. It gives the intelligence to the application, and it is the one that process the requests from the frontend, speciall the Websockets requests, since we are redirecting the stdout of the python script to the frontend using a Websocket to give better User experience.
 
+frontend:
+This service is a React application that provides the user interface for the application. It is a Vite server that gives the user an SPA using React. and it is the one that process the requests from the user, and send them to the backend service using the Websocket.
 
 nginx_proxy:
 
-This service uses the official Nginx Docker image.
-It is assigned the hostname nginx_proxy.
-It maps several ports (1025, 1026, 1027, 1028) inside the container to the same ports on the host machine.
-It mounts a custom Nginx configuration file from ./nginx/nginx.conf into the container.
-Belongs to the app-network Docker network.
-Networks:
+It maps several ports (1025, 1026, 1027, 1028) inside the container to the same ports on the host machine. It is kind of an API gateway, that redirects the requests to the proper service.
 
-There is a custom Docker network named app-network. 
-All services are connected to this network, allowing them to communicate with each other over this isolated network.
-In summary, this Docker Compose configuration defines a multi-container application consisting of a Node.js service (backend_node), a Python service (backend), a Vite/React frontend service (frontend), and an Nginx reverse proxy (nginx_proxy) for routing requests.
 
 These services work together to form a web application stack, our dear Mosaic Virtual Assistant. 
 The backend service communicates with the backend_node service, and the frontend service depends on the backend service. The Nginx proxy is used to handle incoming web traffic and route it to the appropriate services.
