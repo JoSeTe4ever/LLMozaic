@@ -19,22 +19,42 @@
   - [Usage](#usage)
     - [Enter your email and grant access to Nylas API for using Mosaic](#enter-your-email-and-grant-access-to-nylas-api-for-using-mosaic)
   - [How it works. Software Architecture.](#how-it-works-software-architecture)
+    - [backend\_node:](#backend_node)
+    - [backend:](#backend)
+    - [frontend:](#frontend)
+    - [nginx\_proxy:](#nginx_proxy)
   - [License](#license)
   - [brainstorming](#brainstorming)
   - [CREATIVE](#creative)
   - [PROMPT EXAMPLES:](#prompt-examples)
-- [deployment](#deployment)
+- [DEPLOYMENT](#deployment)
 
   
 
 ## Introduction
 
-Welcome to Mosaic, your personal AI-powered virtual assistant! Mosaic is a cutting-edge program that leverages artificial intelligence to help you efficiently manage your email, calendar, and contacts. Powered by Nylas API, Langchain, and LLM (Language Model), Mosaic is designed to streamline your daily tasks and boost your productivity.
+Mosaic is our proposal for the 2023 Hackaton  _Nylas and AI: Email and Calendaring for the Future_
+
+
+Mosaic is a ersonal AI-powered virtual assistant! it is a cutting-edge program that leverages artificial intelligence to help you efficiently manage your email, calendar, and contacts. Powered by Nylas API, Langchain, and OpenAI GPT-4 LLM (Large Language Model), Mosaic is designed to streamline your daily tasks and boost your productivity.
 
 Whether you're a busy professional, an entrepreneur, or anyone looking to simplify email and calendar management, Mosaic is here to make your life easier. Say goodbye to email overload and the hassle of managing appointments and contacts manually.
 
 You can manage your email, calendar, and contacts with Mosaic by simply typing or speaking your requests. Mosaic will process your instructions and assist you with email, calendar, and contact management.
 
+
+We have created a video to show you how Mosaic works. Please click on the image below to watch the video.
+
+[![Mosaic Video](https://img.youtube.com/vi/9Z3Z3YX6Y4c/0.jpg)](https://www.youtube.com/watch?v=9Z3Z3YX6Y4c)
+
+
+https://www.youtube.com/watch?v=9Z3Z3YX6Y4c
+
+
+> What I think is going to happen in the next era of systems [...] We will have an increasing more powerful system that you will interact it through language
+> [...] one of the things this systems can do is using tools. This tools is a big part of the big research area now 
+>
+> Demis Hassabigs - Co-Founder and CEO of DeepMind
 ## Features
 
 Mosaic offers a wide range of features to simplify your life:
@@ -53,7 +73,7 @@ Mosaic offers a wide range of features to simplify your life:
 
 ## Getting Started
 
-You can install Mosaic locally or use the  [deployed version](http://146.190.113.226:1025/). We recommend to install it locally to have a full experience of the product, and insights on how it works.
+You can install Mosaic locally or use the  [deployed version](http://146.190.113.226:1025/). We recommend to install it locally to have a full experience of the product, and insights on how it works, inspecting the logs, adding new Langchain actions/API calls ect...
 
 
 ### Prerequisites
@@ -195,18 +215,20 @@ Mosaic is a web application that is built using 4 services. These services are d
 </p>
 
 
-backend_node:
+### backend_node:
 
 This service is a Node.js application that uses the Nylas API to retrieve email, calendar, and contact data from your email account. It uses the
 Nylas Node SDK to communicate with the Nylas API, through a Sandbox applicationl. It is heavly based on the Nylas quickstart guide.
 
-backend:
+### backend:
 This service is a Flask Server based in Python, that holds the Langchain Framework and the connection to OpenAI API. It gives the intelligence to the application, and it is the one that process the requests from the frontend, speciall the Websockets requests, since we are redirecting the stdout of the python script to the frontend using a Websocket to give better User experience.
 
-frontend:
+This is the core of the AI, and it is heavly based on the Langchain tool mechanics. It allows us to create an agent that uses our defined tools to process the requests from the user.
+
+### frontend:
 This service is a React application that provides the user interface for the application. It is a Vite server that gives the user an SPA using React. and it is the one that process the requests from the user, and send them to the backend service using the Websocket.
 
-nginx_proxy:
+### nginx_proxy:
 
 It maps several ports (1025, 1026, 1027, 1028) inside the container to the same ports on the host machine. It is kind of an API gateway, that redirects the requests to the proper service.
 
@@ -297,7 +319,7 @@ Happy organizing!
   
   
 
-# deployment
+# DEPLOYMENT
 
 There is a deployed version of Mosaic under the following link:
 
