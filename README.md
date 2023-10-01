@@ -45,7 +45,7 @@ You can manage your email, calendar, and contacts with Mosaic by simply typing o
 
 We have created a video to show you how Mosaic works.
 
-[![Mosaic Video](https://img.youtube.com/vi/9Z3Z3YX6Y4c/0.jpg)](https://www.youtube.com/watch?v=9Z3Z3YX6Y4c)
+[![Mosaic Video](https://www.youtube.com/watch?v=vUeqKUegIpw)
 
 
 https://www.youtube.com/watch?v=9Z3Z3YX6Y4c
