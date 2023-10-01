@@ -45,11 +45,7 @@ You can manage your email, calendar, and contacts with Mosaic by simply typing o
 
 We have created a video to show you how Mosaic works.
 
-[![Mosaic Video](https://www.youtube.com/watch?v=vUeqKUegIpw)
-
-
-https://www.youtube.com/watch?v=9Z3Z3YX6Y4c
-
+https://www.youtube.com/watch?v=vUeqKUegIpw
 
 > What I think is going to happen in the next era of systems [...] We will have an increasing more powerful system that you will interact it through language
 > [...] one of the things this systems can do is using tools. These tools is a big part of the big research area now 
