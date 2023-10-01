@@ -52,7 +52,7 @@ https://www.youtube.com/watch?v=9Z3Z3YX6Y4c
 
 
 > What I think is going to happen in the next era of systems [...] We will have an increasing more powerful system that you will interact it through language
-> [...] one of the things this systems can do is using tools. This tools is a big part of the big research area now 
+> [...] one of the things this systems can do is using tools. These tools is a big part of the big research area now 
 >
 > Demis Hassabigs - Co-Founder and CEO of DeepMind
 ## Features
@@ -155,6 +155,7 @@ FLASK_APP=server.py
 ```
 
   
+This .env file must be copied to the backend and backend_node root folders. 
 Once these two .env files have been filled, you are ready to start Mosaic locally. You have two options
 
 1. Start Mosaic, you can use docker-compose :
@@ -193,7 +194,7 @@ There is also a speech to text option, that you can use by clicking on the micro
 This will allow you to speak to Mosaic and it will process your request.
 
 
-⚠️ **this option only works from local since navigator.mediaTpyes is not supported withouth https**
+⚠️ **this option only works from local since navigator.mediaTypes is not supported withouth https**
 
 https://github.com/JoSeTe4ever/LLMozaic/assets/8459933/8526f7e1-c95a-462b-ad47-51d8020a4217
 
@@ -201,7 +202,7 @@ https://github.com/JoSeTe4ever/LLMozaic/assets/8459933/8526f7e1-c95a-462b-ad47-5
 Mosaic is designed to be user-friendly and intuitive. Once you have it up and running, interact with your virtual assistant by simply typing or speaking your requests. Mosaic will process your instructions and assist you with email, calendar, and contact management.
 
 
-⚠️ **Mosaic has /no memory.** 
+⚠️ **Mosaic has no memory.** 
 
 Please be patient with Mosaic, sometimes you must repeat them the previous request to get the desired result.
 
@@ -221,7 +222,7 @@ This service is a Node.js application that uses the Nylas API to retrieve email,
 Nylas Node SDK to communicate with the Nylas API, through a Sandbox applicationl. It is heavly based on the Nylas quickstart guide.
 
 ### backend:
-This service is a Flask Server based in Python, that holds the Langchain Framework and the connection to OpenAI API. It gives the intelligence to the application, and it is the one that process the requests from the frontend, speciall the Websockets requests, since we are redirecting the stdout of the python script to the frontend using a Websocket to give better User experience.
+This service is a Flask Server based in Python, that holds the Langchain Framework and the connection to OpenAI API. It gives the intelligence to the application, and it is the one that process the requests from the frontend, speciall the Websockets requests, since we are redirecting the _stdout_ of the python script to the frontend using a Websocket to give better User experience.
 
 This is the core of the AI, and it is heavly based on the Langchain tool mechanics. It allows us to create an agent that uses our defined tools to process the requests from the user.
 
@@ -311,7 +312,7 @@ Happy organizing!
 
 - read my last email
 
-- respond to this email sender test@gamil.com saying that life is great
+- respond to this email sender test@gmail.com saying that life is great
 
 - When is the best time to schedule a one hour workout
 
